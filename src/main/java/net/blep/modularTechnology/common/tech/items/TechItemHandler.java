@@ -86,7 +86,6 @@ public class TechItemHandler extends ModContent
 
     public final Item uniWrench = new ItemWrench();
     public final Item dismountedMachine = new ItemDismountedTileData();
-    public final Item designator = new ItemDesignator();
 
     public TechItemHandler initItems()
     {
@@ -159,7 +158,6 @@ public class TechItemHandler extends ModContent
 
         GameRegistry.registerItem(uniWrench, "uniwrench");
         GameRegistry.registerItem(dismountedMachine, "dismountedMachine");
-        GameRegistry.registerItem(designator, "designator");
 
         return this;
     }

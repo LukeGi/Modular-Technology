@@ -2,7 +2,7 @@ package net.blep.modularTechnology.common.tech.blocks.block.machines;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.blep.modularTechnology.client.tech.ClientProxy;
+import net.blep.modularTechnology.client.core.ClientProxy;
 import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.blep.modularTechnology.common.core.blocks.block.ModBlockContainer;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
@@ -26,8 +26,9 @@ public abstract class BlockMachineBase extends ModBlockContainer
 {
     protected String[] texturesActive = new String[6];
     protected IIcon[] iconsActive = new IIcon[6];
+    protected int guiID;
 
-    protected BlockMachineBase(String name, float resistance, float hardness, String[] textures_idle, String[] textures_active)
+    protected BlockMachineBase(String name, float resistance, float hardness, int guiID, String[] textures_idle, String[] textures_active)
     {
         super(Material.iron, "machine" + MethodHelper.capitaliseCharAt(name, 0), resistance, hardness, "pickaxe", 1, textures_idle);
 
@@ -35,11 +36,13 @@ public abstract class BlockMachineBase extends ModBlockContainer
         {
             this.texturesActive[i] = i < textures_active.length && textures_active[i] != null && textures_active[i].length() > 0 ? texturesActive[i] : i < textures.length && textures[i] != null && textures[i].length() > 0 ? textures[i] : "";
         }
+
+        this.guiID = guiID;
     }
 
-    protected BlockMachineBase(String name, float resistance, float hardness)
+    protected BlockMachineBase(String name, float resistance, float hardness, int guiID)
     {
-        this(name, resistance, hardness, new String[]{name + "_bottom", name + "_top", name + "_front", name + "_back", name + "_right", name + "_left"}, new String[]{null, null, name + "_front_active", null, null, null});
+        this(name, resistance, hardness, guiID, new String[]{name + "_bottom", name + "_top", name + "_front", name + "_back", name + "_right", name + "_left"}, new String[]{null, null, name + "_front_active", null, null, null});
     }
 
     @SideOnly(Side.CLIENT)
@@ -58,19 +61,7 @@ public abstract class BlockMachineBase extends ModBlockContainer
     {
         boolean active = meta > 5 && meta < 12;
 
-        int[][] MACHINE_ICON_MATRIX = new int[][]
-                {
-                        //TODO: setup matrix for up/down orientation
-                        {2, 0, 0, 0, 0, 0},
-                        {0, 2, 0, 0, 0, 0},
-
-                        {0, 1, 2, 3, 4, 5},
-                        {0, 1, 3, 2, 5, 4},
-                        {0, 1, 5, 4, 2, 3},
-                        {0, 1, 4, 5, 3, 2},
-                };
-
-        int i = MACHINE_ICON_MATRIX[meta % 6][side];
+        int i = ClientProxy.MACHINE_ICON_MATRIX[meta % 6][side];
 
         return active ? iconsActive[i] : icons[i];
     }
@@ -79,7 +70,7 @@ public abstract class BlockMachineBase extends ModBlockContainer
     {
         if (!world.isRemote)
         {
-
+            player.openGui(ModularTechnology.instance, guiID, world, x, y, z);
         }
         return true;
     }

@@ -12,12 +12,6 @@ public class GuiCrusher extends GuiModtechBase
 {
     public GuiCrusher(Object holder, EntityPlayer user)
     {
-        super(new ContainerCrusher(holder, user));
-    }
-
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float p_146976_1_, int p_146976_2_, int p_146976_3_)
-    {
-
+        super(new ContainerCrusher(holder, user), holder, user);
     }
 }

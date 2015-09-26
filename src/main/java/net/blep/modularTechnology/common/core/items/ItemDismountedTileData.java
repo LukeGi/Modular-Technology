@@ -1,19 +1,26 @@
 package net.blep.modularTechnology.common.core.items;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.blep.modularTechnology.common.core.util.LogHelper;
+import net.blep.modularTechnology.common.core.util.MethodHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.input.Keyboard;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author TheEpicTekkit
@@ -40,7 +47,19 @@ public class ItemDismountedTileData extends ModItem
             }
         }
 
-        return "item.dismountedTile." + name + ".name";
+        return "item.dismountedTile." + name;
+    }
+
+    @Override
+    public String getItemStackDisplayName(ItemStack stack)
+    {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("block"))
+        {
+            return "Dismounted " + Block.getBlockById(stack.getTagCompound().getInteger("block")).getLocalizedName();
+        } else
+        {
+            return super.getItemStackDisplayName(stack);
+        }
     }
 
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
@@ -97,24 +116,90 @@ public class ItemDismountedTileData extends ModItem
 
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean bool)
     {
-        if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("tileNBT"))
+        try
         {
-            list.add(EnumChatFormatting.RED + "Error in stack NBT");
-        } else if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-        {
-            NBTTagCompound tag = stack.getTagCompound().getCompoundTag("tileNBT");
-
-            String[] s = tag.toString().split(",");
-
-            for (String s1 : s)
+            if (!stack.hasTagCompound() || !stack.getTagCompound().hasKey("tileNBT"))
             {
-                list.add(s1);
-            }
+                list.add(EnumChatFormatting.RED + "Error in stack NBT");
+            } else
+            {
+                List<String> data = new ArrayList();
 
-            list.add(tag.toString());
-        } else
+                if (stack.getTagCompound().hasKey("data"))
+                {
+                    NBTTagList dataSaved = stack.getTagCompound().getTagList("data", 10);
+                    for (int i = 0; i < dataSaved.tagCount(); i++)
+                    {
+                        data.add(dataSaved.getCompoundTagAt(i).getString("dataSaved:" + i));
+                    }
+                } else
+                {
+                    NBTTagList nbttl = new NBTTagList();
+
+                    for (int i = 0; i < data.size(); i++)
+                    {
+                        NBTTagCompound newTag = new NBTTagCompound();
+                        newTag.setString("dataSaved:" + i, data.get(i));
+                        nbttl.appendTag(newTag);
+                    }
+
+                    stack.getTagCompound().setTag("data", nbttl);
+                }
+                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+                {
+                    NBTTagCompound tag = stack.getTagCompound().getCompoundTag("tileNBT");
+
+                    List formatted = MethodHelper.writeNBTToList(tag);
+
+                    for (Object o : formatted)
+                    {
+                        if (o instanceof List)
+                        {
+                            Map<String, Integer> added = Maps.newHashMap();
+
+                            for (Object o1 : (List) o)
+                            {
+                                String[] components = o1.toString().split(",");
+                                String itemStats = "";
+
+                                for (String component : components)
+                                {
+                                    if (component.startsWith("id:"))
+                                    {
+                                        Item item = Item.getItemById(Integer.parseInt(component.substring(component.indexOf(":") + 1, component.length() - 1)));
+                                        itemStats += item.getItemStackDisplayName(new ItemStack(item)) + " ";
+                                    } else if (component.startsWith("Count:"))
+                                    {
+                                        itemStats += ("x" + Integer.parseInt(component.substring(component.indexOf(":") + 1, component.length() - 1)));
+                                    }
+                                }
+
+                                String key = itemStats.split("x")[0];
+                                int value = Integer.parseInt(itemStats.split("x")[1]);
+                                if (added.containsKey(key))
+                                {
+                                    added.put(key, value + added.get(key));
+                                } else
+                                {
+                                    added.put(key, value);
+                                }
+                            }
+
+                            for (String s : added.keySet()) list.add("    " + s + "x" + added.get(s));
+
+                        } else
+                        {
+                            list.add(o);
+                        }
+                    }
+                } else
+                {
+                    list.add(EnumChatFormatting.RESET + "Hold " + EnumChatFormatting.GOLD + EnumChatFormatting.UNDERLINE + "SHIFT" + EnumChatFormatting.RESET + " to show more information.");
+                }
+            }
+        } catch (Exception e)
         {
-            list.add(EnumChatFormatting.RESET + "Hold " + EnumChatFormatting.GOLD + EnumChatFormatting.UNDERLINE + "SHIFT" + EnumChatFormatting.RESET + " to show more information.");
+            MethodHelper.handleTooltipException(e, list);
         }
     }
 }

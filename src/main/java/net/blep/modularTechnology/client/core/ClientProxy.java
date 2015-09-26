@@ -1,4 +1,4 @@
-package net.blep.modularTechnology.client.tech;
+package net.blep.modularTechnology.client.core;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -8,14 +8,16 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.blep.modularTechnology.client.core.renderer.ItemRendererDismountedTile;
 import net.blep.modularTechnology.client.tech.rendering.blocks.isbrh.ColouredBlockRenderer;
+import net.blep.modularTechnology.common.core.ModContent;
 import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.core.Proxy;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 import java.util.List;
 
@@ -31,18 +33,13 @@ public class ClientProxy extends Proxy
     public static int[][] MACHINE_ICON_MATRIX = new int[][]
             {
                     //TODO: setup matrix for up/down orientation
-                    {0, 0, 0, 0, 0, 0},
-                    {0, 0, 0, 0, 0, 0},
+                    {2, 0, 0, 0, 0, 0},
+                    {0, 2, 0, 0, 0, 0},
 
-                    {0, 1, 2, 0, 0, 0},
-                    {0, 1, 0, 2, 0, 0},
-                    {0, 1, 0, 0, 2, 0},
-                    {0, 1, 0, 0, 0, 2},
-            };
-
-    public static int[] BLOCK_SIDE_TO_FD = new int[]
-            {
-                    0, 1, 2, 4, 5, 3
+                    {0, 1, 2, 3, 4, 5},
+                    {0, 1, 3, 2, 5, 4},
+                    {0, 1, 5, 4, 2, 3},
+                    {0, 1, 4, 5, 3, 2},
             };
 
     public static int renderID_ColouredBlock = RenderingRegistry.getNextAvailableRenderId();
@@ -64,6 +61,8 @@ public class ClientProxy extends Proxy
         LogHelper.info("Init on client");
 
         RenderingRegistry.registerBlockHandler(new ColouredBlockRenderer(renderID_ColouredBlock));
+
+        MinecraftForgeClient.registerItemRenderer(ModContent.getTechModItems().dismountedMachine, new ItemRendererDismountedTile());
     }
 
     @SideOnly(Side.CLIENT)

@@ -5,6 +5,8 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import net.blep.modularTechnology.common.core.gui.ModGuiHandler;
 import net.blep.modularTechnology.common.core.handler.ConfigHandler;
 
 import static net.blep.modularTechnology.common.core.ModContent.*;
@@ -27,7 +29,7 @@ public class ModularTechnology implements IInitializable
     public static final String GUI_FACTORY_CLASS = "net.blep.modularTechnology.client.core.gui.GuiFactory";
 
     @Mod.Instance(ModularTechnology.MOD_ID)
-    private static ModularTechnology instance;
+    public static ModularTechnology instance;
 
     public ModularTechnology instance()
     {
@@ -48,6 +50,7 @@ public class ModularTechnology implements IInitializable
     public void init(FMLInitializationEvent event)
     {
         getModContent().init(event);
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new ModGuiHandler());
         Proxy.proxy.init(event);
     }
 

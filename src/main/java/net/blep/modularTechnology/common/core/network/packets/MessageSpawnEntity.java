@@ -40,7 +40,7 @@ public class MessageSpawnEntity extends PacketBase<MessageSpawnEntity>
     @Override
     public void fromBytes(ByteBuf buf)
     {
-        buf.writeInt(entityID);
+        buf.writeInt(entityID + 1 - 1);
     }
 
     @Override

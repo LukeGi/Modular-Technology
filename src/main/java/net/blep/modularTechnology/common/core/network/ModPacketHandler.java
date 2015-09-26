@@ -4,10 +4,9 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.blep.modularTechnology.common.core.ModContent;
 import net.blep.modularTechnology.common.core.network.packets.MessageMoveEntity;
-import net.blep.modularTechnology.common.core.network.packets.MessageSetBlock;
 import net.blep.modularTechnology.common.core.network.packets.MessageSpawnEntity;
 
-import static cpw.mods.fml.relauncher.Side.SERVER;
+import static cpw.mods.fml.relauncher.Side.*;
 
 /**
  * @author TheEpicTekkit
@@ -24,7 +23,6 @@ public final class ModPacketHandler extends ModContent
     {
         INSTANCE.registerMessage(MessageMoveEntity.class, MessageMoveEntity.class, nextID++, SERVER);
         INSTANCE.registerMessage(MessageSpawnEntity.class, MessageSpawnEntity.class, nextID++, SERVER);
-        INSTANCE.registerMessage(MessageSetBlock.class, MessageSetBlock.class, nextID++, SERVER);
 
         return this;
     }

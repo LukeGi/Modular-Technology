@@ -1,19 +1,26 @@
 package net.blep.modularTechnology.common.core.util;
 
-import net.blep.modularTechnology.client.tech.ClientProxy;
+import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+import org.lwjgl.input.Keyboard;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author TheEpicTekkit
- * @author bluemonster122 <boo122333@gmail.com>
  */
 public class MethodHelper
 {
@@ -120,13 +127,13 @@ public class MethodHelper
 
                 if (stack.hasTagCompound())
                 {
-                    entityitem.getEntityItem().setTagCompound((NBTTagCompound)stack.getTagCompound().copy());
+                    entityitem.getEntityItem().setTagCompound((NBTTagCompound) stack.getTagCompound().copy());
                 }
 
                 float f3 = 0.05F;
-                entityitem.motionX = (double)((float)world.rand.nextGaussian() * f3);
-                entityitem.motionY = (double)((float)world.rand.nextGaussian() * f3 + 0.2F);
-                entityitem.motionZ = (double)((float)world.rand.nextGaussian() * f3);
+                entityitem.motionX = (double) ((float) world.rand.nextGaussian() * f3);
+                entityitem.motionY = (double) ((float) world.rand.nextGaussian() * f3 + 0.2F);
+                entityitem.motionZ = (double) ((float) world.rand.nextGaussian() * f3);
                 world.spawnEntityInWorld(entityitem);
             }
         }
@@ -134,20 +141,65 @@ public class MethodHelper
 
     public static void getCoordinatesAdjacentToSide(int x, int y, int z, int side)
     {
-        ForgeDirection direction = ForgeDirection.values()[ClientProxy.BLOCK_SIDE_TO_FD[side]];
+        ForgeDirection direction = ForgeDirection.values()[side];
         x += direction.offsetX;
         y += direction.offsetY;
         z += direction.offsetZ;
     }
 
-    public static void spawnEntityAtLocation(World world, EntityLivingBase entity, int x, int y, int z)
+    public static void handleTooltipException(Exception e, List list)
     {
-        entity.setPosition(x + 0.5, y + 0.5, z + 0.5);
-        world.spawnEntityInWorld(entity);
+        list.add(EnumChatFormatting.RED + "An exception was caught while creating tooltip:");
+        list.add(EnumChatFormatting.RED + e.getLocalizedMessage());
+        list.add(" ");
+        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
+        {
+            for (StackTraceElement t : e.getStackTrace())
+            {
+                list.add(EnumChatFormatting.RED + "" + t);
+            }
+        } else
+        {
+            list.add(EnumChatFormatting.RED + "Hold " + EnumChatFormatting.DARK_RED + EnumChatFormatting.UNDERLINE + "CONTROL" + EnumChatFormatting.RESET + EnumChatFormatting.RED + " to display the StackTrace");
+            list.add(EnumChatFormatting.RED + "The StackTrace may not fit on your screen; put your GUI scale to small");
+        }
     }
 
-    public static void spawnItemStack(World world, int x, int y, int z, ItemStack stack)
+    public static List writeNBTToList(NBTBase tag) throws NoSuchFieldException, IllegalAccessException
     {
-        world.spawnEntityInWorld(new EntityItem(world, x, y, z, stack));
+        List list = Lists.newArrayList();
+
+        if (tag instanceof NBTTagCompound)
+        {
+            Field f = tag.getClass().getDeclaredField("tagMap");
+            f.setAccessible(true);
+            Map tagMap = (HashMap) f.get(tag);
+
+            for (Object key : tagMap.keySet())
+            {
+                Object value = tagMap.get(key);
+
+                if (value instanceof NBTTagCompound || value instanceof NBTTagList)
+                {
+                    list.add(key + ":");
+                    list.add(writeNBTToList((NBTBase) value));
+                } else
+                {
+                    list.add(key + ": " + (value.toString()));
+                }
+            }
+        } else if (tag instanceof NBTTagList)
+        {
+            Field f = tag.getClass().getDeclaredField("tagList");
+            f.setAccessible(true);
+            List tagList = (java.util.ArrayList) f.get(tag);
+
+            for (Object o : tagList)
+            {
+                list.add(o);
+            }
+        }
+
+        return list;
     }
 }

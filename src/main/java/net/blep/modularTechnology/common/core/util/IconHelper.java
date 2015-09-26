@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
 
 /**
- * @author bluemonster122 <boo122333@gmail.com>
  * @author Vaskii
+ *         THIS CLASS WAS COPIED FROM BOTANIA - ALL CREDIT GOES TO VASKII
  */
 public final class IconHelper
 {
@@ -62,5 +62,5 @@ public final class IconHelper
     {
         return forName(ir, item.getUnlocalizedName().replaceAll("item\\.", "") + s);
     }
-    /* Thanks Vaskii this class is amazing! =D */
+
 }

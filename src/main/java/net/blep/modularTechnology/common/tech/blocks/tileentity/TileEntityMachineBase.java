@@ -1,10 +1,7 @@
 package net.blep.modularTechnology.common.tech.blocks.tileentity;
 
-import net.blep.modularTechnology.client.tech.ClientProxy;
-import net.blep.modularTechnology.common.core.blocks.tileentity.SimpleTileEntity;
 import net.blep.modularTechnology.common.core.blocks.tileentity.TileEntityContainerHolder;
 import net.blep.modularTechnology.common.core.util.ITileRotatable;
-import net.blep.modularTechnology.common.core.util.MethodHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
