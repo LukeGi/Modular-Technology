@@ -18,10 +18,12 @@ public class ModGuiHandler implements IGuiHandler
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity te = world.getTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileEntityContainerHolder)
+        if (te != null && te instanceof TileEntityContainerHolder)
         {
+            TileEntityContainerHolder tile = (TileEntityContainerHolder) te;
+
             switch (id)
             {
                 case ID_CRUSHER: return new ContainerCrusher(tile, player);
@@ -36,10 +38,12 @@ public class ModGuiHandler implements IGuiHandler
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity te = world.getTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileEntityContainerHolder)
+        if (te != null && te instanceof TileEntityContainerHolder)
         {
+            TileEntityContainerHolder tile = (TileEntityContainerHolder) te;
+
             switch (id)
             {
                 case ID_CRUSHER: return new GuiCrusher(tile, player);

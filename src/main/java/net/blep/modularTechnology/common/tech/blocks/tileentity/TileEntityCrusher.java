@@ -1,19 +1,23 @@
 package net.blep.modularTechnology.common.tech.blocks.tileentity;
 
-import net.blep.modularTechnology.common.core.blocks.tileentity.SimpleTileEntity;
-import net.blep.modularTechnology.common.core.gui.ModGuiHandler;
+import net.blep.modularTechnology.common.core.energy.EnergyNetwork;
+import net.blep.modularTechnology.common.core.energy.EnumPowerStatus;
+import net.blep.modularTechnology.common.core.energy.IEnergyReciever;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
 /**
  * @author TheEpicTekkit
  */
-public class TileEntityCrusher extends TileEntityMachineBase
+public class TileEntityCrusher extends TileEntityMachineBase implements IEnergyReciever
 {
     public ItemStack[] slots = new ItemStack[5];
     public boolean[] canShiftClick = {true, true, false, false, false};
+
+    private double energyCapacity = 20000;
+    private double energyStored = energyCapacity;
+    private double energyRecieveRate = 200;
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side)
@@ -140,5 +144,53 @@ public class TileEntityCrusher extends TileEntityMachineBase
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
         return canShiftClick[slot]; //TODO: check if stack is an ore or a battery
+    }
+
+    @Override
+    public double getEnergyCapacity()
+    {
+        return energyCapacity;
+    }
+
+    @Override
+    public double getEnergyStored()
+    {
+        return energyStored;
+    }
+
+    @Override
+    public double getEnergyRecieveRate()
+    {
+        return energyRecieveRate;
+    }
+
+    @Override
+    public double requestEnergy(double amount)
+    {
+        return 0;
+    }
+
+    @Override
+    public EnergyNetwork getEnergyNetwork()
+    {
+        return null;
+    }
+
+    @Override
+    public EnumPowerStatus getPowerStatus()
+    {
+        return null;
+    }
+
+    @Override
+    public int getMachineProgress()
+    {
+        return machineProgress;
+    }
+
+    @Override
+    public boolean getEnergyDirection()
+    {
+        return energyDirection;
     }
 }

@@ -77,4 +77,14 @@ public abstract class TileEntityMachineBase extends TileEntityContainerHolder im
     {
         return validOrientations;
     }
+
+    public int getMachineProgress()
+    {
+        return 0;
+    }
+
+    public boolean getEnergyDirection()
+    {
+        return false;
+    }
 }

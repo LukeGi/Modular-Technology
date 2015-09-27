@@ -202,4 +202,9 @@ public class MethodHelper
 
         return list;
     }
+
+    public static double getValueScaled(double value, double maxValue, double scale)
+    {
+        return value * scale / maxValue;
+    }
 }
