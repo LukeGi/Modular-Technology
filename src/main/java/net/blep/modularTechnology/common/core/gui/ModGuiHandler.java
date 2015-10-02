@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 public class ModGuiHandler implements IGuiHandler
 {
     public static final int ID_CRUSHER = 1;
+    public static final int ID_LOGIC_GATE = 2;
 
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)

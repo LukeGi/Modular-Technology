@@ -1,16 +1,21 @@
 package net.blep.modularTechnology.common.tech.blocks.tileentity;
 
-import net.blep.modularTechnology.common.core.energy.EnergyNetwork;
-import net.blep.modularTechnology.common.core.energy.EnumPowerStatus;
-import net.blep.modularTechnology.common.core.energy.IEnergyReciever;
+import com.google.common.collect.Maps;
+import javafx.util.Pair;
+import net.blep.modularTechnology.common.core.energy.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author TheEpicTekkit
  */
-public class TileEntityCrusher extends TileEntityMachineBase implements IEnergyReciever
+public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
 {
     public ItemStack[] slots = new ItemStack[5];
     public boolean[] canShiftClick = {true, true, false, false, false};
@@ -18,8 +23,31 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IEnergyR
     private double energyCapacity = 20000;
     private double energyStored = energyCapacity;
     private double energyRecieveRate = 200;
+    private int machineProgress = 0;
+    private double energyPerOperation = 100;
+    private int ticksToProcess = 60;
 
-    @Override
+    private EnumEnergyirection energyDirection = EnumEnergyirection.IN;
+
+    public void updateEntity()
+    {
+        super.updateEntity();
+
+        processInput();
+    }
+
+    public void processInput()
+    {
+
+    }
+
+//    public List<Pair<ItemStack, Integer>> simulateProcessing(ItemStack stack)
+//    {
+//        if (getEnergyStored() <= 0) return null;
+//        if (stack == null || stack.stackSize <= 0 || stack.getItem() == null) return null;
+//
+//    }
+
     public int[] getAccessibleSlotsFromSide(int side)
     {
         if (side == 1)
@@ -72,8 +100,7 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IEnergyR
                 stack = slots[slot];
                 slots[slot] = null;
                 return stack;
-            }
-            else
+            } else
             {
                 stack = slots[slot].splitStack(amount);
                 if (slots[slot].stackSize == 0)
@@ -101,7 +128,7 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IEnergyR
     @Override
     public String getInventoryName()
     {
-        return "container.crusher.name";
+        return "container.crusher";
     }
 
     @Override
@@ -125,7 +152,7 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IEnergyR
     @Override
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) != this ? false : player.getDistanceSq((double)this.xCoord + 0.5D, (double)this.yCoord + 0.5D, (double)this.zCoord + 0.5D) <= 64.0D;
+        return this.worldObj.getTileEntity(this.xCoord, this.yCoord, this.zCoord) == this && player.getDistanceSq((double) this.xCoord + 0.5D, (double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
     }
 
     @Override
@@ -189,8 +216,14 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IEnergyR
     }
 
     @Override
-    public boolean getEnergyDirection()
+    public EnumEnergyirection getEnergyDirection()
     {
         return energyDirection;
+    }
+
+    @Override
+    public double getEnergyPerOperation()
+    {
+        return energyPerOperation;
     }
 }

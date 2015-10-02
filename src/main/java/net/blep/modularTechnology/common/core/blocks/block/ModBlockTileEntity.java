@@ -10,9 +10,9 @@ import net.minecraft.world.World;
 /**
  * @author TheEpicTekkit
  */
-public abstract class ModBlockContainer extends ModBlock implements ITileEntityProvider
+public abstract class ModBlockTileEntity extends ModBlock implements ITileEntityProvider
 {
-    protected ModBlockContainer(Material material, String name, float resistance, float hardness, String toolType, int HarvestLevel, String... textures)
+    protected ModBlockTileEntity(Material material, String name, float resistance, float hardness, String toolType, int HarvestLevel, String... textures)
     {
         super(material, name, resistance, hardness, toolType, HarvestLevel, CreativeTabHandler.tabModtech, textures);
         this.isBlockContainer = true;

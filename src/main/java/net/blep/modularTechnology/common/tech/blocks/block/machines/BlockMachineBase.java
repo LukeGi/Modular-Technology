@@ -4,7 +4,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.blep.modularTechnology.client.core.ClientProxy;
 import net.blep.modularTechnology.common.core.ModularTechnology;
-import net.blep.modularTechnology.common.core.blocks.block.ModBlockContainer;
+import net.blep.modularTechnology.common.core.blocks.block.ModBlockTileEntity;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
 import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityMachineBase;
 import net.minecraft.block.material.Material;
@@ -22,7 +22,7 @@ import java.util.Random;
 /**
  * @author TheEpicTekkit
  */
-public abstract class BlockMachineBase extends ModBlockContainer
+public abstract class BlockMachineBase extends ModBlockTileEntity
 {
     protected String[] texturesActive = new String[6];
     protected IIcon[] iconsActive = new IIcon[6];
