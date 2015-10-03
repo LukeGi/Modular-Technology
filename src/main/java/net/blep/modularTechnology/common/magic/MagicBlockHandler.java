@@ -1,6 +1,8 @@
 package net.blep.modularTechnology.common.magic;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modularTechnology.common.core.ModContent;
+import net.blep.modularTechnology.common.magic.multiblocks.TE.TETreeFarm;
 import net.minecraft.block.Block;
 
 /**
@@ -13,6 +15,7 @@ public class MagicBlockHandler extends ModContent
     public MagicBlockHandler initBlocks()
     {
         treeFarm = new BlockTreeFarm().setBlockName("tree_farm");
+        GameRegistry.registerTileEntity(TETreeFarm.class, MOD_ID + "tree_farm");
         return this;
     }
 }

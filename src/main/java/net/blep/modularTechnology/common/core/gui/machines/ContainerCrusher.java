@@ -10,6 +10,6 @@ public class ContainerCrusher extends ContainerModtechBase
     {
         super(holder, user);
         int slot = 0;
-        addSlotToContainer(new Slot(holder, slot++, ))
+//        addSlotToContainer(new Slot(holder, slot++, ))
     }
 }

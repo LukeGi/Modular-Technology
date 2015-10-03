@@ -1,5 +1,6 @@
 package net.blep.modularTechnology.common.magic;
 
+import net.blep.modularTechnology.common.magic.multiblocks.TE.TETreeFarm;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

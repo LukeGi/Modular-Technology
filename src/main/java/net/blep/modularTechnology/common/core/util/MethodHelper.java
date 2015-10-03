@@ -1,9 +1,13 @@
 package net.blep.modularTechnology.common.core.util;
 
 import com.google.common.collect.Lists;
+import net.blep.modularTechnology.common.core.network.ModPacketHandler;
+import net.blep.modularTechnology.common.core.network.PacketBase;
+import net.blep.modularTechnology.common.core.network.packets.MessageSpawnEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -15,9 +19,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.input.Keyboard;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author TheEpicTekkit
@@ -201,5 +203,46 @@ public class MethodHelper
         }
 
         return list;
+    }
+
+    public static void spawnEntityAtLocation(World world, Entity entity, int x, int y, int z)
+    {
+        entity.setPosition(x + 0.5, y + 0.5, z + 0.5);
+        ModPacketHandler.INSTANCE.sendToServer(new MessageSpawnEntity(entity));
+    }
+
+    public static List<Int3> pathFindSimple(int x, int y, int z, World world, Object toFind)
+    {
+        return pathFind(new ArrayList<Int3>(), x, y, z, world, toFind);
+    }
+
+    private static List<Int3> pathFind(List<Int3> progress, int x, int y, int z, World world, Object toFind)
+    {
+        List<Int3> updated = Lists.newArrayList();
+
+        Collections.copy(updated, progress);
+
+        Int3 start = new Int3(x, y, z);
+
+        Queue q = new PriorityQueue<Int3>();
+        q.add(start);
+
+        while (!q.isEmpty())
+        {
+            Int3 element = (Int3) q.poll();
+            for (ForgeDirection fd : ForgeDirection.VALID_DIRECTIONS)
+            {
+                Int3 target = new Int3(x + fd.offsetX, y + fd.offsetY, z + fd.offsetZ);
+                if (!updated.contains(target))
+                {
+                    Block block = world.getBlock(target.getX(), target.getY(), target.getZ());
+                    if (block.equals(toFind)) updated.add(target);
+                    if (block.equals(toFind)) q.add(target);
+                }
+
+            }
+        }
+
+        return updated;
     }
 }

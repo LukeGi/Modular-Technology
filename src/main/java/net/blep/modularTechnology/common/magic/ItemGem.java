@@ -3,11 +3,14 @@ package net.blep.modularTechnology.common.magic;
 import com.google.common.collect.Lists;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.blep.modularTechnology.common.core.util.IconHelper;
+import net.blep.modularTechnology.common.core.util.MethodHelper;
+import net.blep.modularTechnology.common.magic.multiblocks.Multiblock;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -119,12 +122,9 @@ public class ItemGem extends MagicItem
                         for (String ore : allOreEntries)
                         {
                             if (!ore.startsWith("ore"))
-                            {
                                 continue;
-                            }
                             refinedOreList.add(ore);
                         }
-
                         Block ore = Block.getBlockFromItem(OreDictionary.getOres(refinedOreList.get(world.rand.nextInt(refinedOreList.size()))).get(0).getItem());
 
                         world.setBlock(x, y, z, ore);
@@ -135,12 +135,21 @@ public class ItemGem extends MagicItem
             case 2: // WIND
                 // INSERT CODE THAT DEFLECTS ARROWS HERE TODO
             case 3: // WATER
-//                int kelanisatard = world.rand.nextInt(100);
-//                if (0 <= kelanisatard && kelanisatard < 80)
-//                    world.setBlock(x, y, z, Blocks.flowing_water);
-//                if (80 <= kelanisatard && kelanisatard < 95)
-                Multiblock.createMultiblock(world, x, y, z, Multiblock.sugarfarm);
+                int kelanisatard = world.rand.nextInt(100);
+                if (0 <= kelanisatard && kelanisatard < 80)
+                    world.setBlock(x, y, z, Blocks.flowing_water);
+                if (80 <= kelanisatard && kelanisatard < 95)
+                    Multiblock.sugarfarm.create(world, x, y, z);
+                if (95 <= kelanisatard && kelanisatard < 98)
+                    //Make the player wet themselves TODO
+                    player.addChatComponentMessage(new ChatComponentText("You wet yourself"));
+                if (98 <= kelanisatard && kelanisatard < 100)
+                    //MOVE PLAYER INTO DEATHCHAMBER TODO
+                    Multiblock.deathChamber.create(world, x, y, z);
+                if (kelanisatard %3 == 0)
+                    MethodHelper.spawnEntityAtLocation(world, new EntitySquid(world), x, y, z);
                 return true;
+
             default:
                 return false;
         }

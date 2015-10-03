@@ -3,43 +3,56 @@ package net.blep.modularTechnology.common.core.util;
 /**
  * @author TheEpicTekkit
  */
-public class Int2
+public class Int2 implements Comparable<Int2>
 {
-    private int x;
-    private int y;
+    protected int[] ints = {0, 0, 0, 0};
 
     public Int2(int x, int y)
     {
-        this.x = x;
-        this.y = y;
+        ints[0] = x;
+        ints[1] = y;
     }
 
     public int getX()
     {
-        return x;
+        return ints[0];
     }
 
     public int getY()
     {
-        return y;
+        return ints[1];
     }
 
     public void setX(int x)
     {
-        this.x = x;
+        ints[0] = x;
     }
 
     public void setY(int y)
     {
-        this.y = y;
+        ints[1] = y;
     }
 
     public boolean equals(Object o)
     {
         if (!(o instanceof Int2)) return false;
         Int2 i2 = (Int2) o;
-        if (i2.getX() != getX()) return false;
-        if (i2.getY() != getY()) return false;
+        for (int i = 0; i < 4; i++)
+            if (i2.ints[i] != ints[i]) return false;
         return true;
+    }
+
+    public int hashCode()
+    {
+        int result = 31;
+        for (int i : ints)
+            if (i != 0) result ^= i;
+        return result;
+    }
+
+    @Override
+    public int compareTo(Int2 o)
+    {
+        return ((Integer)hashCode()).compareTo(o.hashCode());
     }
 }
