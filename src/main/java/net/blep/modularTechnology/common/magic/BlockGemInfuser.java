@@ -1,6 +1,6 @@
 package net.blep.modularTechnology.common.magic;
 
-import net.blep.modularTechnology.common.core.blocks.block.ModBlockContainer;
+import net.blep.modularTechnology.common.core.blocks.block.ModBlockTileEntity;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 /**
  * @author bluemonster122 <boo122333@gmail.com>
  */
-public class BlockGemInfuser extends ModBlockContainer
+public class BlockGemInfuser extends ModBlockTileEntity
 {
     protected BlockGemInfuser(Material material, String name, float resistance, float hardness, String toolType, int HarvestLevel)
     {

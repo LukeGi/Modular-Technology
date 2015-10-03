@@ -15,14 +15,17 @@ import net.minecraft.world.World;
 public class ModGuiHandler implements IGuiHandler
 {
     public static final int ID_CRUSHER = 1;
+    public static final int ID_LOGIC_GATE = 2;
 
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity te = world.getTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileEntityContainerHolder)
+        if (te != null && te instanceof TileEntityContainerHolder)
         {
+            TileEntityContainerHolder tile = (TileEntityContainerHolder) te;
+
             switch (id)
             {
                 case ID_CRUSHER: return new ContainerCrusher((IInventory)tile, player);
@@ -37,10 +40,12 @@ public class ModGuiHandler implements IGuiHandler
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z)
     {
-        TileEntity tile = world.getTileEntity(x, y, z);
+        TileEntity te = world.getTileEntity(x, y, z);
 
-        if (tile != null && tile instanceof TileEntityContainerHolder)
+        if (te != null && te instanceof TileEntityContainerHolder)
         {
+            TileEntityContainerHolder tile = (TileEntityContainerHolder) te;
+
             switch (id)
             {
                 case ID_CRUSHER: return new GuiCrusher(tile, player);

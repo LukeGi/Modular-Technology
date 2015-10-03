@@ -2,11 +2,14 @@ package net.blep.modularTechnology.common.tech.blocks;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
+import net.blep.modularTechnology.common.tech.blocks.block.BlockLogic;
 import net.blep.modularTechnology.common.tech.blocks.block.BlockMetal;
 import net.blep.modularTechnology.common.tech.blocks.block.BlockOre;
+import net.blep.modularTechnology.common.tech.blocks.block.BlockRedstoneInput;
 import net.blep.modularTechnology.common.tech.blocks.block.machines.BlockCrusher;
 import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityCrusher;
 import net.blep.modularTechnology.common.core.ModContent;
+import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityLogic;
 import net.minecraft.block.Block;
 
 /**
@@ -55,6 +58,11 @@ public class TechBlockHandler extends ModContent
     public static final Block blockCrusher = new BlockCrusher().setSubFolder("machines");
 
 
+    //----------------================ UTILITY MACHINES AND BLOCKS ================----------------\\
+    public static final Block blockLogic = new BlockLogic();
+    public static final Block blockRedstoneInput = new BlockRedstoneInput();
+
+
     public TechBlockHandler initBlocks()
     {
         //----------------================ REGISTER BLOCKS ================----------------\\
@@ -93,10 +101,13 @@ public class TechBlockHandler extends ModContent
         GameRegistry.registerBlock(blockZhyconite, "blockZhyconite");
 
         GameRegistry.registerBlock(blockCrusher, "blockCrusher");
+        GameRegistry.registerBlock(blockLogic, "blockLogic");
+        GameRegistry.registerBlock(blockRedstoneInput, "blockRedstoneInput");
 
         //----------------================ REGISTER TILEENTITIES ================----------------\\
         GameRegistry.registerTileEntity(TileEntityCrusher.class, RESOURCE_PREFIX + "tileCrusher");
-
+        GameRegistry.registerTileEntity(TileEntityLogic.class, RESOURCE_PREFIX + "tileLogic");
+        GameRegistry.registerTileEntity(TileEntityRedstoneInput.class, RESOURCE_PREFIX + "tileRSInput");
         return this;
     }
 }

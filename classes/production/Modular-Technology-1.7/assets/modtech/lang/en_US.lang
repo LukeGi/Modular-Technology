@@ -1,0 +1,90 @@
+
+# Creative Tabs
+itemGroup.modtech:tabModtech=Modtech Main
+itemGroup.modtech:tabMetals=Modtech Metals
+itemGroup.modtech:tabMachines=Modtech Machines
+itemGroup.modtech:tabMagic=Modtech Magic
+
+# Metal Blocks
+tile.modtech:metalBlockAluminium.name=Block of Aluminium
+tile.modtech:metalBlockChromium.name=Block of Chromium
+tile.modtech:metalBlockCopper.name=Block of Copper
+tile.modtech:metalBlockLead.name=Block of Lead
+tile.modtech:metalBlockMagnesium.name=Block of Magnesium
+tile.modtech:metalBlockManganese.name=Block of Manganese
+tile.modtech:metalBlockPlatinum.name=Block of Platinum
+tile.modtech:metalBlockSilver.name=Block of Silver
+tile.modtech:metalBlockTin.name=Block of Tin
+tile.modtech:metalBlockYttrium.name=Block of Yttrium
+tile.modtech:metalBlockZinc.name=Block of Zinc
+tile.modtech:metalBlockZirconium.name=Block of Zirconium
+tile.modtech:metalBlockBronze.name=Block of Bronze
+tile.modtech:metalBlockMolybdenum.name=Block of Molybdenum
+tile.modtech:metalBlockSteel.name=Block of Steel
+tile.modtech:metalBlockZhyconite=Block of Zhyconite
+
+# Ores
+tile.modtech:oreAluminium.name=Aluminium Ore
+tile.modtech:oreChromium.name=Chromium Ore
+tile.modtech:oreCopper.name=Copper Ore
+tile.modtech:oreLead.name=Lead Ore
+tile.modtech:oreMagnesium.name=Magnesium Ore
+tile.modtech:oreManganese.name=Manganese Ore
+tile.modtech:orePlatinum.name=Platinum Ore
+tile.modtech:oreSilver.name=Silver Ore
+tile.modtech:oreTin.name=Tin Ore
+tile.modtech:oreYttrium.name=Yttrium Ore
+tile.modtech:oreZinc.name=Zinc Ore
+tile.modtech:oreZirconium.name=Zirconium Ore
+
+# Ingots
+item.modtech:ingotChromium.name=Chromium Ingot
+item.modtech:ingotLead.name=Lead Ingot
+item.modtech:ingotManganese.name=Manganese Ingot
+item.modtech:ingotSilver.name=Silver Ingot
+item.modtech:ingotYttrium.name=Yttrium Ingot
+item.modtech:ingotZircronium.name=Zirconium Ingot
+item.modtech:ingotMolybdenum.name=Molybdenum Ingot
+item.modtech:ingotZhyconite=Zhyconite Ingot
+# Nuggets
+item.modtech:nuggetAluminium.name=Aluminium Nugget
+item.modtech:nuggetChromium.name=Chromium Nugget
+item.modtech:nuggetCopper.name=Copper Nugget
+item.modtech:nuggetLead.name=Lead Nugget
+item.modtech:nuggetMagnesium.name=Magnesium Nugget
+item.modtech:nuggetManganese.name=Manganese Nugget
+item.modtech:nuggetPlatinum.name=Platinum Nugget
+item.modtech:nuggetSilver.name=Silver Nugget
+item.modtech:nuggetTin.name=Tin Nugget
+item.modtech:nuggetYttrium.name=Yttrium Nugget
+item.modtech:nuggetZinc.name=Zinc Nugget
+item.modtech:nuggetZirconium.name=Zirconium Nugget
+
+item.modtech:nuggetBronze.name=Bronze Nugget
+item.modtech:nuggetMolybdenum.name=Molybdenum Nugget
+item.modtech:nuggetSteel.name=Steel Nugget
+item.modtech:nuggetZhyconite=Zhyconite Nugget
+item.modtech:ingotPlatinum.name=Platinum Ingot
+item.modtech:ingotZinc.name=Zinc Ingot
+item.modtech:ingotSteel.name=Steel Ingot
+item.modtech:ingotCopper.name=Copper Ingot
+item.modtech:ingotTin.name=Tin Ingot
+
+item.modtech:ingotBronze.name=Bronze Ingot
+item.modtech:ingotMagnesium.name=Magnesium Ingot
+item.modtech:ingotAluminium.name=Aluminium Ingot
+
+
+
+
+################ MAGIC ################
+item.modtech:raw_gem.name=Raw Gem;
+item.modtech:polished_gem.name=Polished Gem;
+
+item.modtech:Gems0.name=Fire Gem
+item.modtech:Gems1.name=Earth Gem
+item.modtech:Gems2.name=Wind Gem
+item.modtech:Gems3.name=Water Gem
+item.modtech:Gems4.name=Light Gem
+item.modtech:Gems5.name=Dark Gem
+item.modtech:Gems6.name=Serenity Gem
