@@ -1,7 +1,7 @@
 package net.blep.modularTechnology.common.tech.blocks.tileentity;
 
 import net.blep.modularTechnology.common.core.blocks.tileentity.SimpleTileEntity;
-import net.minecraft.tileentity.TileEntity;
+import net.blep.modularTechnology.common.core.util.Int3;
 
 /**
  * @author Kelan

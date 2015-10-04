@@ -10,6 +10,7 @@ import net.blep.modularTechnology.common.tech.blocks.block.machines.BlockCrusher
 import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityCrusher;
 import net.blep.modularTechnology.common.core.ModContent;
 import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityLogic;
+import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityRedstoneInput;
 import net.minecraft.block.Block;
 
 /**
@@ -59,8 +60,8 @@ public class TechBlockHandler extends ModContent
 
 
     //----------------================ UTILITY MACHINES AND BLOCKS ================----------------\\
-    public static final Block blockLogic = new BlockLogic();
-    public static final Block blockRedstoneInput = new BlockRedstoneInput();
+//    public static final Block blockLogic = new BlockLogic();
+//    public static final Block blockRedstoneInput = new BlockRedstoneInput();
 
 
     public TechBlockHandler initBlocks()
@@ -101,13 +102,13 @@ public class TechBlockHandler extends ModContent
         GameRegistry.registerBlock(blockZhyconite, "blockZhyconite");
 
         GameRegistry.registerBlock(blockCrusher, "blockCrusher");
-        GameRegistry.registerBlock(blockLogic, "blockLogic");
-        GameRegistry.registerBlock(blockRedstoneInput, "blockRedstoneInput");
+//        GameRegistry.registerBlock(blockLogic, "blockLogic");
+//        GameRegistry.registerBlock(blockRedstoneInput, "blockRedstoneInput");
 
         //----------------================ REGISTER TILEENTITIES ================----------------\\
         GameRegistry.registerTileEntity(TileEntityCrusher.class, RESOURCE_PREFIX + "tileCrusher");
-        GameRegistry.registerTileEntity(TileEntityLogic.class, RESOURCE_PREFIX + "tileLogic");
-        GameRegistry.registerTileEntity(TileEntityRedstoneInput.class, RESOURCE_PREFIX + "tileRSInput");
+//        GameRegistry.registerTileEntity(TileEntityLogic.class, RESOURCE_PREFIX + "tileLogic");
+//        GameRegistry.registerTileEntity(TileEntityRedstoneInput.class, RESOURCE_PREFIX + "tileRSInput");
         return this;
     }
 }

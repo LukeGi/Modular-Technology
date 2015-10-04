@@ -12,7 +12,7 @@ import net.minecraft.world.World;
  */
 public class BlockLogic extends BlockMachineBase
 {
-    protected BlockLogic()
+    public BlockLogic()
     {
         super("logicGate", 2.0F, 1.2F, ModGuiHandler.ID_LOGIC_GATE);
     }

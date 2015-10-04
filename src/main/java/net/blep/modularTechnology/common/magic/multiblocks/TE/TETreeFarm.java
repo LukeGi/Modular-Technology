@@ -33,7 +33,7 @@ import java.util.Queue;
  */
 public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDesignatorReceiver
 {
-    private int x, y, z;
+    private int x, y, z, nx = 5;
     private int xS = 0, zS = 0;
     private int radius = 10;
     private IInventory output;
@@ -64,17 +64,19 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
     public void updateEntity()
     {
         super.updateEntity();
-
         if (worldObj.getWorldTime() % 64 == 0) output = (IInventory) worldObj.getTileEntity(x, y, z);
-        if (isFormed && output != null)
+        if (isFormed && output != null && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
         {
-            cutTree();
+            if (worldObj.getWorldTime() % 4 == 0)
+                cutTree();
             if (worldObj.getWorldTime() % 8 == 0)
                 for (int i = 0; i < radius / 10; i++)
                     ScanTrees();
             if (worldObj.getWorldTime() % 16 == 0)
                 scanWorld();
-            plantSaplings();
+            if (worldObj.getWorldTime() % 32 == 0)
+                for (int i = 0; i < radius / nx; i++)
+                    plantSaplings();
         }
     }
 
@@ -192,12 +194,11 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
 
     public void cutTree()
     {
-        int nx = 5;
         do
         {
             ++nx;
-            if (output == null) return;
-            if (cl.isEmpty()) return;
+            if (output == null) break;
+            if (cl.isEmpty()) break;
             int fs = worldObj.rand.nextInt(cl.size()) / 2;
             Int3 pos = cl.get(fs);
             cl.remove(fs);
@@ -208,6 +209,7 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
 
             for (ItemStack stack : drops) putBlockInOutputInventory(stack, 0);
         } while (cl.size() > Math.pow(2, nx));
+        nx = 5;
     }
 
     private void putBlockInOutputInventory(ItemStack stack, int attempts)
