@@ -1,7 +1,7 @@
 package net.blep.modularTechnology.common.tech.blocks.tileentity;
 
 import net.blep.modularTechnology.common.core.blocks.tileentity.TileEntityContainerHolder;
-import net.blep.modularTechnology.common.core.energy.EnumEnergyirection;
+import net.blep.modularTechnology.common.core.energy.EnumEnergyDirection;
 import net.blep.modularTechnology.common.core.util.ITileRotatable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
@@ -84,8 +84,8 @@ public abstract class TileEntityMachineBase extends TileEntityContainerHolder im
         return 0;
     }
 
-    public EnumEnergyirection getEnergyDirection()
+    public EnumEnergyDirection getEnergyDirection()
     {
-        return EnumEnergyirection.IN;
+        return EnumEnergyDirection.IN;
     }
 }

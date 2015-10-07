@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import net.blep.modularTechnology.common.core.network.ModPacketHandler;
 import net.blep.modularTechnology.common.core.network.packets.MessageSetBlock;
 import net.blep.modularTechnology.common.core.util.Int3;
+import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.magic.ItemDesignator;
 import net.blep.modularTechnology.common.magic.MagicBlockHandler;
 import net.blep.modularTechnology.common.magic.multiblocks.Multiblock;
+import net.blep.modularTechnology.common.magic.multiblocks.MultiblockBlockCoordPair;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.BlockRotatedPillar;
@@ -22,6 +24,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
+import org.apache.commons.logging.impl.Log4JLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,48 +38,30 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
 {
     private int x, y, z, nx = 5;
     private int xS = 0, zS = 0;
-    private int radius = 10;
+    private int radius = 2;
     private IInventory output;
-    private List<Int3> cl = new ArrayList<Int3>();
+    private List<Int3> cl = Lists.newArrayList();
 
     private int[][] aboveMultiBlocks = {{-1, 1, 0}, {-1, 1, 1}, {-1, 1, -1}, {0, 1, 0}, {0, 1, 1}, {0, 1, -1}, {1, 1, 0}, {1, 1, 1}, {1, 1, -1}};
 
-    private Multiblock treefarm = new Multiblock(new Block[]
-            {
-                    MagicBlockHandler.treeFarm,
-                    Blocks.lapis_block,
-                    Blocks.iron_block
-            }, new int[][][]
-            {
-                    {
-                            {0, 0, 0}
-                    },
-                    {
-                            {1, 0, 0}, {-1, 0, 0}, {0, 0, 1}, {0, 0, -1}
-                    },
-                    {
-                            {1, 0, 1}, {1, 0, -1}, {-1, 0, 1}, {-1, 0, -1}
-                    }
-            }
-    );
+    private Multiblock treefarm = new Multiblock(new MultiblockBlockCoordPair[]{new MultiblockBlockCoordPair(MagicBlockHandler.treeFarm, Int3.ni3a(0, 0, 0)), new MultiblockBlockCoordPair(Blocks.lapis_block, Int3.ni3a(1, 0, 0, -1, 0, 0, 0, 0, 1, 0, 0, -1)), new MultiblockBlockCoordPair(Blocks.iron_block, Int3.ni3a(1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1))});
 
     @Override
     public void updateEntity()
     {
         super.updateEntity();
-        if (worldObj.getWorldTime() % 64 == 0) output = (IInventory) worldObj.getTileEntity(x, y, z);
+        if (worldObj.getTotalWorldTime() % 64 == 0) output = (IInventory) worldObj.getTileEntity(x, y, z);
         if (isFormed && output != null && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
         {
-            if (worldObj.getWorldTime() % 4 == 0)
+            if (worldObj.getTotalWorldTime() % 4 == 0)
                 cutTree();
-            if (worldObj.getWorldTime() % 8 == 0)
-                for (int i = 0; i < radius / 10; i++)
+            if (worldObj.getTotalWorldTime() % 4 == 1)
+                for (int i = 0; i < radius; i++)
                     ScanTrees();
-            if (worldObj.getWorldTime() % 16 == 0)
+            if (worldObj.getTotalWorldTime() % 4 == 2)
                 scanWorld();
-            if (worldObj.getWorldTime() % 32 == 0)
-                for (int i = 0; i < radius / nx; i++)
-                    plantSaplings();
+            if (worldObj.getTotalWorldTime() % 4 == 3)
+                plantSaplings();
         }
     }
 
@@ -159,9 +144,8 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
                 zS = -radius;
             }
         }
-//        LogHelper.info(String.format("Scanning at: x: %s, y: %s, z: %s.", xCoord + xS, yCoord + 1, zCoord + zS));
-        Block block = worldObj.getBlock(xCoord + xS, yCoord + 1, zCoord + zS);
-        if (canCut(block))
+        LogHelper.info(String.format("Scanning at: x: %s, y: %s, z: %s.", xCoord + xS, yCoord + 1, zCoord + zS));
+        if (canCut(worldObj.getBlock(xCoord + xS, yCoord + 1, zCoord + zS)))
             cl = pathFind(cl, xCoord + xS, yCoord + 1, zCoord + zS);
     }
 
@@ -199,10 +183,12 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
             ++nx;
             if (output == null) break;
             if (cl.isEmpty()) break;
+            LogHelper.info("cutting tree");
             int fs = worldObj.rand.nextInt(cl.size()) / 2;
             Int3 pos = cl.get(fs);
             cl.remove(fs);
             Block currentBlock = worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ());
+            if (currentBlock.getMaterial().equals(Material.air)) break;
             List<ItemStack> drops = currentBlock.getDrops(worldObj, pos.getX(), pos.getY(), pos.getZ(), worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()), 1);
             ModPacketHandler.INSTANCE.sendToServer(new MessageSetBlock(Blocks.air, pos.getX(), pos.getY(), pos.getZ()));
             worldObj.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, currentBlock.stepSound.getBreakSound(), (currentBlock.stepSound.getVolume() + 1.0F) / 2.0F, currentBlock.stepSound.getPitch() * 0.8F);

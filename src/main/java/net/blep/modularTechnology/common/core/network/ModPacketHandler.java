@@ -6,6 +6,7 @@ import net.blep.modularTechnology.common.core.ModContent;
 import net.blep.modularTechnology.common.core.network.packets.MessageMoveEntity;
 import net.blep.modularTechnology.common.core.network.packets.MessageSetBlock;
 import net.blep.modularTechnology.common.core.network.packets.MessageSpawnEntity;
+import net.blep.modularTechnology.common.core.network.packets.MessageTeleportEntity;
 
 import static cpw.mods.fml.relauncher.Side.*;
 
@@ -25,6 +26,7 @@ public final class ModPacketHandler extends ModContent
         INSTANCE.registerMessage(MessageMoveEntity.class, MessageMoveEntity.class, nextID++, SERVER);
         INSTANCE.registerMessage(MessageSpawnEntity.class, MessageSpawnEntity.class, nextID++, SERVER);
         INSTANCE.registerMessage(MessageSetBlock.class, MessageSetBlock.class, nextID++, SERVER);
+        INSTANCE.registerMessage(MessageTeleportEntity.class, MessageTeleportEntity.class, nextID++, SERVER);
 
         return this;
     }

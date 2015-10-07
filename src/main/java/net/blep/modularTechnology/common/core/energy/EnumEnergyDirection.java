@@ -3,7 +3,7 @@ package net.blep.modularTechnology.common.core.energy;
 /**
  * @author Kelan
  */
-public enum EnumEnergyirection
+public enum EnumEnergyDirection
 {
     IN, OUT;
 }

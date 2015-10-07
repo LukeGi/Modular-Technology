@@ -1,16 +1,9 @@
 package net.blep.modularTechnology.common.tech.blocks.tileentity;
 
-import com.google.common.collect.Maps;
-import javafx.util.Pair;
 import net.blep.modularTechnology.common.core.energy.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author TheEpicTekkit
@@ -27,7 +20,7 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
     private double energyPerOperation = 100;
     private int ticksToProcess = 60;
 
-    private EnumEnergyirection energyDirection = EnumEnergyirection.IN;
+    private EnumEnergyDirection energyDirection = EnumEnergyDirection.IN;
 
     public void updateEntity()
     {
@@ -216,7 +209,7 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
     }
 
     @Override
-    public EnumEnergyirection getEnergyDirection()
+    public EnumEnergyDirection getEnergyDirection()
     {
         return energyDirection;
     }
