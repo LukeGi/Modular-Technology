@@ -2,12 +2,10 @@ package net.blep.modularTechnology.common.core.handler;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import net.blep.modularTechnology.common.core.ModularTechnology;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.minecraftforge.common.config.Configuration;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author bluemonster122 <boo122333@gmail.com>

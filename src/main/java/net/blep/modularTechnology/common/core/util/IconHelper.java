@@ -1,6 +1,6 @@
 package net.blep.modularTechnology.common.core.util;
 
-import net.blep.modularTechnology.common.core.ModularTechnology;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;

@@ -1,7 +1,7 @@
 package net.blep.modularTechnology.common.tech.tabs;
 
 import net.blep.modularTechnology.common.core.ModContent;
-import net.blep.modularTechnology.common.core.ModularTechnology;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;

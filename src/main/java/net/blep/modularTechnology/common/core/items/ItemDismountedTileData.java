@@ -1,9 +1,7 @@
 package net.blep.modularTechnology.common.core.items;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.blep.modularTechnology.common.core.ModularTechnology;
-import net.blep.modularTechnology.common.core.util.LogHelper;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -13,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;

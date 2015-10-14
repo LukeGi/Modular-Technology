@@ -3,7 +3,7 @@ package net.blep.modularTechnology.common.tech.blocks.block.machines;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.blep.modularTechnology.client.core.ClientProxy;
-import net.blep.modularTechnology.common.core.ModularTechnology;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.blep.modularTechnology.common.core.blocks.block.ModBlockTileEntity;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
 import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityMachineBase;

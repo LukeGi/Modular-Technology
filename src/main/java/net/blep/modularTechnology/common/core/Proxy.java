@@ -17,7 +17,7 @@ import java.util.List;
 public abstract class Proxy implements IInitializable
 {
 
-    @SidedProxy(clientSide = "net.blep.modularTechnology.client.core.ClientProxy", serverSide = "net.blep.modularTechnology.common.tech.ServerProxy")
+    @SidedProxy(clientSide = "net.blep.modularTechnology.client.core.ClientProxy", serverSide = "net.blep.modularTechnology.core.tech.ServerProxy")
     public static Proxy proxy;
 
     public abstract void preInit(FMLPreInitializationEvent event);

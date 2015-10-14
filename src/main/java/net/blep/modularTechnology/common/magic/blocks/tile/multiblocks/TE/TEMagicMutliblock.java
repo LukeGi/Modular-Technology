@@ -1,7 +1,6 @@
 package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.TE;
 
-import net.blep.modularTechnology.common.core.ModularTechnology;
-import net.blep.modularTechnology.common.core.util.LogHelper;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.blep.modularTechnology.common.magic.blocks.tile.TileMagic;
 import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
 import net.minecraft.nbt.NBTTagCompound;

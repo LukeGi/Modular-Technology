@@ -1,4 +1,4 @@
-package net.blep.modularTechnology.common.core;
+package com.blep.modularTechnology.core.common;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -6,6 +6,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import net.blep.modularTechnology.common.core.IInitializable;
+import net.blep.modularTechnology.common.core.Proxy;
 import net.blep.modularTechnology.common.core.gui.ModGuiHandler;
 import net.blep.modularTechnology.common.core.handler.ConfigHandler;
 import net.blep.modularTechnology.common.core.util.LogHelper;

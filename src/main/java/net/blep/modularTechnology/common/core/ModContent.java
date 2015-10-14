@@ -1,12 +1,11 @@
 package net.blep.modularTechnology.common.core;
 
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import com.google.common.collect.Lists;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.blep.modularTechnology.common.core.network.ModPacketHandler;
-import net.blep.modularTechnology.common.magic.blocks.MagicBlockHandler;
-import net.blep.modularTechnology.common.magic.items.MagicItemHandler;
 import net.blep.modularTechnology.common.tech.blocks.TechBlockHandler;
 import net.blep.modularTechnology.common.tech.items.TechItemHandler;
 import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
@@ -66,8 +65,8 @@ public class ModContent extends ModularTechnology
     {
         MOD_TABS = new CreativeTabHandler();
 
-        TECH_MOD_ITEMS = new TechItemHandler().initItems();
-        TECH_MOD_BLOCKS = new TechBlockHandler().initBlocks();
+//        TECH_MOD_ITEMS = new TechItemHandler().initItems();
+//        TECH_MOD_BLOCKS = new TechBlockHandler().initBlocks();
     }
 
     public void init(FMLInitializationEvent event)

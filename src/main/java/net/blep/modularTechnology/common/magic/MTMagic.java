@@ -7,7 +7,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.blep.modularTechnology.common.core.IInitializable;
-import net.blep.modularTechnology.common.core.ModularTechnology;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.magic.blocks.MagicBlockHandler;
 import net.blep.modularTechnology.common.magic.items.MagicItemHandler;
@@ -31,7 +31,7 @@ public class MTMagic extends ModularTechnology implements IInitializable
     @Mod.Instance(MTMagic.MODID)
     public static MTMagic instance;
 
-    @SidedProxy(clientSide = "net.blep.modularTechnology.common.magic.ClientProxy", serverSide = "net.blep.modularTechnology.common.magic.CommonProxy")
+    @SidedProxy(clientSide = "net.blep.modularTechnology.core.magic.ClientProxy", serverSide = "net.blep.modularTechnology.core.magic.CommonProxy")
     public static CommonProxy proxy;
 
     public static CreativeTabs MagicTab = new CreativeTabs(MODID)

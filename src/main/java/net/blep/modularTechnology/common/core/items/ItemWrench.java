@@ -1,18 +1,12 @@
 package net.blep.modularTechnology.common.core.items;
 
-import cpw.mods.fml.common.registry.GameData;
 import net.blep.modularTechnology.common.core.ModContent;
-import net.blep.modularTechnology.common.core.ModularTechnology;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.ITileRotatable;
-import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
-import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityMachineBase;
-import net.blep.modularTechnology.common.tech.items.TechItemHandler;
 import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

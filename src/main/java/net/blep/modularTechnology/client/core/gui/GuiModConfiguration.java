@@ -1,7 +1,7 @@
 package net.blep.modularTechnology.client.core.gui;
 
 import cpw.mods.fml.client.config.GuiConfig;
-import net.blep.modularTechnology.common.core.ModularTechnology;
+import com.blep.modularTechnology.core.common.ModularTechnology;
 import net.blep.modularTechnology.common.core.handler.ConfigHandler;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;
