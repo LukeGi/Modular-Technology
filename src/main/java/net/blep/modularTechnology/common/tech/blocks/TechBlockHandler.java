@@ -1,15 +1,10 @@
 package net.blep.modularTechnology.common.tech.blocks;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
-import net.blep.modularTechnology.common.tech.blocks.block.BlockLogic;
-import net.blep.modularTechnology.common.tech.blocks.block.BlockMetal;
-import net.blep.modularTechnology.common.tech.blocks.block.BlockOre;
-import net.blep.modularTechnology.common.tech.blocks.block.BlockRedstoneInput;
-import net.blep.modularTechnology.common.tech.blocks.block.machines.BlockCrusher;
-import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityCrusher;
+import com.blep.modularTechnology.tech.common.blocks.block.BlockMetal;
+import com.blep.modularTechnology.tech.common.blocks.block.BlockOre;
+import com.blep.modularTechnology.tech.common.blocks.block.machines.BlockCrusher;
 import net.blep.modularTechnology.common.core.ModContent;
-import net.blep.modularTechnology.common.tech.blocks.tileentity.TileEntityLogic;
 import net.minecraft.block.Block;
 
 /**

@@ -5,7 +5,7 @@ import com.google.common.collect.Lists;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import net.blep.modularTechnology.common.core.network.ModPacketHandler;
+import com.blep.modularTechnology.core.common.network.ModPacketHandler;
 import net.blep.modularTechnology.common.tech.blocks.TechBlockHandler;
 import net.blep.modularTechnology.common.tech.items.TechItemHandler;
 import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;

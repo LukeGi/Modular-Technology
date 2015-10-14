@@ -1,6 +1,6 @@
 package net.blep.modularTechnology.common.magic.blocks;
 
-import net.blep.modularTechnology.common.core.blocks.block.ModBlockTileEntity;
+import com.blep.modularTechnology.core.common.blocks.block.ModBlockTileEntity;
 import net.blep.modularTechnology.common.magic.blocks.tile.TEGemInfuser;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;

@@ -1,5 +1,6 @@
 package net.blep.modularTechnology.common.magic.items;
 
+import com.blep.modularTechnology.core.common.items.ModItem;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,7 @@ import java.util.List;
 /**
  * @author bluemonster122 <boo122333@gmail.com>
  */
-public class ItemDesignator extends MagicItem
+public class ItemDesignator extends ModItem
 {
     protected ItemDesignator()
     {

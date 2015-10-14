@@ -1,8 +1,9 @@
 package net.blep.modularTechnology.common.magic.items;
 
-import net.blep.modularTechnology.common.core.network.ModPacketHandler;
-import net.blep.modularTechnology.common.core.network.packets.MessageSetBlock;
-import net.blep.modularTechnology.common.core.util.Int3;
+import com.blep.modularTechnology.core.common.items.ModItem;
+import com.blep.modularTechnology.core.common.network.ModPacketHandler;
+import com.blep.modularTechnology.core.common.network.packets.MessageSetBlock;
+import com.blep.modularTechnology.core.common.util.Int3;
 import net.blep.modularTechnology.common.magic.MTMagic;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRotatedPillar;
@@ -19,7 +20,7 @@ import java.util.PriorityQueue;
 /**
  * @author bluemonster122 <boo122333@gmail.com>
  */
-public class ItemChainsaw extends MagicItem
+public class ItemChainsaw extends ModItem
 {
 
     public ItemChainsaw()

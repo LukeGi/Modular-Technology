@@ -1,15 +1,13 @@
 package net.blep.modularTechnology.common.tech.items;
 
-import  cpw.mods.fml.common.registry.GameRegistry;
-import net.blep.modularTechnology.common.core.items.ItemDismountedTileData;
-import net.blep.modularTechnology.common.core.items.ItemWrench;
-import net.blep.modularTechnology.common.core.items.ModItem;
+import com.blep.modularTechnology.core.common.items.ItemDismountedTileData;
+import com.blep.modularTechnology.core.common.items.ItemWrench;
 import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
 import net.blep.modularTechnology.common.core.ModContent;
-import net.blep.modularTechnology.common.tech.items.item.ItemFineOre;
-import net.blep.modularTechnology.common.tech.items.item.ItemIngot;
-import net.blep.modularTechnology.common.tech.items.item.ItemLumpOre;
-import net.blep.modularTechnology.common.tech.items.item.ItemNugget;
+import com.blep.modularTechnology.tech.common.items.ItemFineOre;
+import com.blep.modularTechnology.tech.common.items.ItemIngot;
+import com.blep.modularTechnology.tech.common.items.ItemLumpOre;
+import com.blep.modularTechnology.tech.common.items.ItemNugget;
 import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
 import net.minecraft.item.Item;
 

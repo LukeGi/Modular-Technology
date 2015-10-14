@@ -1,10 +1,11 @@
 package net.blep.modularTechnology.common.magic.items;
 
+import com.blep.modularTechnology.core.common.items.ModItem;
 import com.google.common.collect.Lists;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.blep.modularTechnology.common.core.util.IconHelper;
-import net.blep.modularTechnology.common.core.util.Int3;
-import net.blep.modularTechnology.common.core.util.MethodHelper;
+import com.blep.modularTechnology.core.common.util.IconHelper;
+import com.blep.modularTechnology.core.common.util.Int3;
+import com.blep.modularTechnology.core.common.util.MethodHelper;
 import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
 import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.MultiblockBlockCoordPair;
 import net.minecraft.block.Block;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * @author bluemonster122 <boo122333@gmail.com>
  */
-public class ItemGem extends MagicItem
+public class ItemGem extends ModItem
 {
     IIcon[] icons;
     public static Multiblock deathChamber = new Multiblock(new MultiblockBlockCoordPair[]{new MultiblockBlockCoordPair(Blocks.obsidian, Int3.ni3a(-1, 0, 1, 0, 0, 1, 1, 0, 1, -1, 0, 0, 0, 0, 0, 1, 0, 0, -1, 0, -1, 0, 0, -1, 1, 0, -1, -1, 1, 1, 0, 1, 1, 1, 1, 1, -1, 1, 0, 1, 1, 0, -1, 1, -1, 0, 1, -1, 1, 1, -1, -1, 2, 1, 1, 2, 1, -1, 2, -1, 1, 2, -1, -1, 3, 1, 0, 3, 1, 1, 3, 1, -1, 3, 0, 0, 3, 0, 1, 3, 0, -1, 3, -1, 0, 3, -1, 1, 3, -1)), new MultiblockBlockCoordPair(Blocks.flowing_water, Int3.ni3a(0, 1, 0, 0, 2, 0)), new MultiblockBlockCoordPair(Blocks.glass, Int3.ni3a(0, 2, 1, 0, 2, -1, 1, 2, 0, -1, 2, 0))});
