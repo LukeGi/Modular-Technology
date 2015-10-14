@@ -1,8 +1,9 @@
-package net.blep.modularTechnology.common.magic.multiblocks.TE;
+package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.TE;
 
+import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.LogHelper;
-import net.blep.modularTechnology.common.magic.TileMagic;
-import net.blep.modularTechnology.common.magic.multiblocks.Multiblock;
+import net.blep.modularTechnology.common.magic.blocks.tile.TileMagic;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
 import net.minecraft.nbt.NBTTagCompound;
 
 /**
@@ -17,7 +18,7 @@ public abstract class TEMagicMutliblock extends TileMagic
     {
         if (worldObj.getWorldTime() % 5 == 0)
             isFormed = getMultiblock().check(worldObj, xCoord, yCoord, zCoord);
-        if (!isFormed && worldObj.getWorldTime() % 10 == 0) LogHelper.info("not formed");
+        if (!isFormed && worldObj.getWorldTime() % 10 == 0) ModularTechnology.LOGGER.info("not formed");
     }
 
     protected abstract Multiblock getMultiblock();

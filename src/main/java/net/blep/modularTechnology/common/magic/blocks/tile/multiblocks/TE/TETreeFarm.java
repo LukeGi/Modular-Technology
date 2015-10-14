@@ -1,14 +1,13 @@
-package net.blep.modularTechnology.common.magic.multiblocks.TE;
+package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.TE;
 
 import com.google.common.collect.Lists;
 import net.blep.modularTechnology.common.core.network.ModPacketHandler;
 import net.blep.modularTechnology.common.core.network.packets.MessageSetBlock;
 import net.blep.modularTechnology.common.core.util.Int3;
-import net.blep.modularTechnology.common.core.util.LogHelper;
-import net.blep.modularTechnology.common.magic.ItemDesignator;
-import net.blep.modularTechnology.common.magic.MagicBlockHandler;
-import net.blep.modularTechnology.common.magic.multiblocks.Multiblock;
-import net.blep.modularTechnology.common.magic.multiblocks.MultiblockBlockCoordPair;
+import net.blep.modularTechnology.common.magic.blocks.MagicBlockHandler;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.MultiblockBlockCoordPair;
+import net.blep.modularTechnology.common.magic.items.ItemDesignator;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.BlockRotatedPillar;
@@ -24,12 +23,8 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.AxisAlignedBB;
-import org.apache.commons.logging.impl.Log4JLogger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @author bluemonster122 <boo122333@gmail.com> TODONE
@@ -40,7 +35,7 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
     private int xS = 0, zS = 0;
     private int radius = 2;
     private IInventory output;
-    private List<Int3> cl = Lists.newArrayList();
+    private PriorityQueue<Int3> cuttingList = new PriorityQueue<Int3>();
 
     private int[][] aboveMultiBlocks = {{-1, 1, 0}, {-1, 1, 1}, {-1, 1, -1}, {0, 1, 0}, {0, 1, 1}, {0, 1, -1}, {1, 1, 0}, {1, 1, 1}, {1, 1, -1}};
 
@@ -50,18 +45,21 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
     public void updateEntity()
     {
         super.updateEntity();
-        if (worldObj.getTotalWorldTime() % 64 == 0) output = (IInventory) worldObj.getTileEntity(x, y, z);
-        if (isFormed && output != null && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
+        if (!worldObj.isRemote)
         {
-            if (worldObj.getTotalWorldTime() % 4 == 0)
-                cutTree();
-            if (worldObj.getTotalWorldTime() % 4 == 1)
-                for (int i = 0; i < radius; i++)
-                    ScanTrees();
-            if (worldObj.getTotalWorldTime() % 4 == 2)
-                scanWorld();
-            if (worldObj.getTotalWorldTime() % 4 == 3)
-                plantSaplings();
+            if (worldObj.getTotalWorldTime() % 64 == 0) output = (IInventory) worldObj.getTileEntity(x, y, z);
+            if (isFormed && output != null && !worldObj.isBlockIndirectlyGettingPowered(xCoord, yCoord, zCoord))
+            {
+                if (worldObj.getTotalWorldTime() % 32 == 0)
+                    cutTree();
+                if (worldObj.getTotalWorldTime() % 32 == 29)
+                    for (int i = 0; i < radius; i++)
+                        ScanTrees(0);
+                if (worldObj.getTotalWorldTime() % 32 == 30)
+                    scanWorld();
+                if (worldObj.getTotalWorldTime() % 32 == 31)
+                    plantSaplings();
+            }
         }
     }
 
@@ -83,13 +81,13 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
 
     private void scanWorld()
     {
-        for (ItemStack stack : getSaplingItemEntities())
+        for (ItemStack stack : getEntitiesSpawnedByFarm())
             putBlockInOutputInventory(stack, 0);
     }
 
-    public List<ItemStack> getSaplingItemEntities()
+    public List<ItemStack> getEntitiesSpawnedByFarm()
     {
-        AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord - radius - 10, yCoord - radius - 10, zCoord - radius - 10, xCoord + radius + 10, yCoord + radius + 10, zCoord + radius + 10);
+        AxisAlignedBB aabb = AxisAlignedBB.getBoundingBox(xCoord - radius - 10, yCoord, zCoord - radius - 10, xCoord + radius + 10, yCoord + 10, zCoord + radius + 10);
 
         List result = worldObj.getEntitiesWithinAABB(EntityItem.class, aabb);
         List<ItemStack> stacks = Lists.newArrayList();
@@ -98,7 +96,7 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
             if (!(o instanceof EntityItem)) continue;
 
             EntityItem ei = (EntityItem) o;
-            if (ei.delayBeforeCanPickup <= 2)
+            if (ei.delayBeforeCanPickup > 1000000 || ei.delayBeforeCanPickup <= 2)
             {
                 Item item = ei.getEntityItem().getItem();
                 int meta = ei.getEntityItem().getItemDamage();
@@ -132,7 +130,7 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
             }
     }
 
-    private void ScanTrees()
+    private void ScanTrees(int counter)
     {
         xS++;
         if (xS > radius + 1)
@@ -144,16 +142,22 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
                 zS = -radius;
             }
         }
-        LogHelper.info(String.format("Scanning at: x: %s, y: %s, z: %s.", xCoord + xS, yCoord + 1, zCoord + zS));
-        if (canCut(worldObj.getBlock(xCoord + xS, yCoord + 1, zCoord + zS)))
-            cl = pathFind(cl, xCoord + xS, yCoord + 1, zCoord + zS);
+        if (isWood(worldObj.getBlock(xCoord + xS, yCoord + 1, zCoord + zS)))
+        {
+            pathFind(xCoord + xS, yCoord + 1, zCoord + zS);
+            return;
+        }
+        if (counter < radius)
+            ScanTrees(++counter);
     }
 
-    private List<Int3> pathFind(List<Int3> visitied, int x, int y, int z)
+    private void pathFind(int x, int y, int z)
     {
         Queue<Int3> q = new PriorityQueue<Int3>();
         Int3 start = new Int3(x, y, z);
         q.add(start);
+
+        ArrayList<Int3> visited = new ArrayList<Int3>();
 
         while (!q.isEmpty())
         {
@@ -164,38 +168,50 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
                     {
                         Int3 target = new Int3(element.getX() + i, element.getY() + j, element.getZ() + k);
                         Block block = worldObj.getBlock(target.getX(), target.getY(), target.getZ());
-                        if (canCut(block))
-                            if (!visitied.contains(target))
+                        if (isWood(block) || isLeaf(block))
+                            if (!cuttingList.contains(target) && !visited.contains(target))
                             {
-                                visitied.add(target);
+                                visited.add(target);
                                 q.add(target);
+                                cuttingList.add(target);
                             }
                     }
         }
+    }
 
-        return visitied;
+    private boolean isLeaf(Block block)
+    {
+        return block.getMaterial().equals(Material.leaves) && block instanceof BlockLeavesBase;
+    }
+
+    private boolean isWood(Block block)
+    {
+        return block.getMaterial().equals(Material.wood) && block instanceof BlockRotatedPillar;
     }
 
     public void cutTree()
     {
-        do
+        if (output == null) return;
+        if (cuttingList.isEmpty()) return;
+        Int3 pos = cuttingList.poll();
+        Block currentBlock = worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ());
+        boolean yon = currentBlock.isLeaves(worldObj, pos.getX(), pos.getY(), pos.getZ());
+        if (currentBlock.getMaterial().equals(Material.air))
         {
-            ++nx;
-            if (output == null) break;
-            if (cl.isEmpty()) break;
-            LogHelper.info("cutting tree");
-            int fs = worldObj.rand.nextInt(cl.size()) / 2;
-            Int3 pos = cl.get(fs);
-            cl.remove(fs);
-            Block currentBlock = worldObj.getBlock(pos.getX(), pos.getY(), pos.getZ());
-            if (currentBlock.getMaterial().equals(Material.air)) break;
-            List<ItemStack> drops = currentBlock.getDrops(worldObj, pos.getX(), pos.getY(), pos.getZ(), worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()), 1);
-            ModPacketHandler.INSTANCE.sendToServer(new MessageSetBlock(Blocks.air, pos.getX(), pos.getY(), pos.getZ()));
-            worldObj.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, currentBlock.stepSound.getBreakSound(), (currentBlock.stepSound.getVolume() + 1.0F) / 2.0F, currentBlock.stepSound.getPitch() * 0.8F);
+            cutTree();
+            return;
+        }
+        List<ItemStack> drops = currentBlock.getDrops(worldObj, pos.getX(), pos.getY(), pos.getZ(), worldObj.getBlockMetadata(pos.getX(), pos.getY(), pos.getZ()), 1);
+        ModPacketHandler.INSTANCE.sendToServer(new MessageSetBlock(Blocks.air, pos.getX(), pos.getY(), pos.getZ()));
+        worldObj.playSoundEffect(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, currentBlock.stepSound.getBreakSound(), (currentBlock.stepSound.getVolume() + 1.0F) / 2.0F, currentBlock.stepSound.getPitch() * 0.8F);
 
-            for (ItemStack stack : drops) putBlockInOutputInventory(stack, 0);
-        } while (cl.size() > Math.pow(2, nx));
-        nx = 5;
+        for (ItemStack stack : drops)
+        {
+            EntityItem e = new EntityItem(worldObj, xCoord + 0.5, yCoord + 1, zCoord + 0.5, stack);
+            e.delayBeforeCanPickup = 1080654;
+            worldObj.spawnEntityInWorld(e);
+        }
+        if (yon) cutTree();
     }
 
     private void putBlockInOutputInventory(ItemStack stack, int attempts)
@@ -207,17 +223,8 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
         {
             attempts++;
             putBlockInOutputInventory(leftovers, attempts);
-        } else
-            return;//worldObj.spawnEntityInWorld(new EntityItem(worldObj, x + 0.5, y + 0.5, z + 0.5, stack));
-    }
-
-    public boolean canCut(Block block)
-    {
-        boolean flag = true;
-        if (block == null) return false;
-        if (!(block.getMaterial() == Material.wood || block.getMaterial() == Material.leaves)) flag = false;
-        if (!(block instanceof BlockRotatedPillar || block instanceof BlockLeavesBase)) flag = false;
-        return flag;
+        } else if (!worldObj.isRemote)
+            worldObj.spawnEntityInWorld(new EntityItem(worldObj, x + 0.5, y + 0.5, z + 0.5, stack));
     }
 
     @Override
@@ -235,9 +242,7 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
         this.z = z;
 
         if (te instanceof IInventory)
-        {
             this.output = (IInventory) te;
-        }
     }
 
     @Override
@@ -245,7 +250,7 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
     {
         super.writeCustomNBT(nbt);
         NBTTagList TagList = new NBTTagList();
-        for (Int3 v : cl)
+        for (Int3 v = cuttingList.peek(); v != null && !cuttingList.isEmpty(); cuttingList.poll())
         {
             NBTTagCompound tag1 = new NBTTagCompound();
             tag1.setInteger("x", v.getX());
@@ -269,7 +274,7 @@ public class TETreeFarm extends TEMagicMutliblock implements ItemDesignator.IDes
         for (int i = 0; i < tagList.tagCount(); i++)
         {
             NBTTagCompound tag1 = tagList.getCompoundTagAt(i);
-            cl.add(new Int3(tag1.getInteger("x"), tag1.getInteger("y"), tag1.getInteger("z")));
+            cuttingList.add(new Int3(tag1.getInteger("x"), tag1.getInteger("y"), tag1.getInteger("z")));
         }
         x = nbt.getInteger("ox");
         y = nbt.getInteger("oy");

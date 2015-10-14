@@ -1,15 +1,12 @@
-package net.blep.modularTechnology.common.magic;
+package net.blep.modularTechnology.common.magic.items;
 
 import com.google.common.collect.Lists;
 import com.mojang.realmsclient.gui.ChatFormatting;
-import net.blep.modularTechnology.common.core.network.ModPacketHandler;
-import net.blep.modularTechnology.common.core.network.packets.MessageMoveEntity;
-import net.blep.modularTechnology.common.core.network.packets.MessageTeleportEntity;
 import net.blep.modularTechnology.common.core.util.IconHelper;
 import net.blep.modularTechnology.common.core.util.Int3;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
-import net.blep.modularTechnology.common.magic.multiblocks.Multiblock;
-import net.blep.modularTechnology.common.magic.multiblocks.MultiblockBlockCoordPair;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.MultiblockBlockCoordPair;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

@@ -1,4 +1,4 @@
-package net.blep.modularTechnology.common.magic.multiblocks;
+package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks;
 
 import net.minecraft.world.World;
 

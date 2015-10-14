@@ -1,4 +1,4 @@
-package net.blep.modularTechnology.common.magic;
+package net.blep.modularTechnology.common.magic.items;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

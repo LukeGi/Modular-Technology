@@ -8,6 +8,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import net.blep.modularTechnology.common.core.gui.ModGuiHandler;
 import net.blep.modularTechnology.common.core.handler.ConfigHandler;
+import net.blep.modularTechnology.common.core.util.LogHelper;
 
 import static net.blep.modularTechnology.common.core.ModContent.*;
 
@@ -30,6 +31,8 @@ public class ModularTechnology implements IInitializable
 
     @Mod.Instance(ModularTechnology.MOD_ID)
     public static ModularTechnology instance;
+
+    public static LogHelper LOGGER = new LogHelper(MOD_ID);
 
     public ModularTechnology instance()
     {

@@ -1,8 +1,7 @@
-package net.blep.modularTechnology.common.magic.multiblocks;
+package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks;
 
 import com.google.common.collect.Lists;
 import net.blep.modularTechnology.common.core.util.Int3;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 
 import java.util.Collections;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * @author bluemonster122 <boo122333@gmail.com>
  */
-public class Multiblock implements ICreateable, ICheckable
+public class Multiblock implements ICreateable, ICheckable, IRotatable<Multiblock>
 {
     private List<MultiblockBlockCoordPair> multiblock = Lists.newArrayList();
 
@@ -62,11 +61,11 @@ public class Multiblock implements ICreateable, ICheckable
      * @param rotFac 0 if no rotation, 1 if 90 rotation, 2 if 180 rotation, 3 if 270 rotation... all clockwise
      * @return rotated Multiblock
      */
-    public static Multiblock rotateMultiblock(int rotFac, Multiblock multiblock)
+    public Multiblock rotate(int rotFac)
     {
-        if (rotFac <= 0) return multiblock;
-        MultiblockBlockCoordPair[] newPairs = new MultiblockBlockCoordPair[multiblock.multiblock.size()];
-        List<MultiblockBlockCoordPair> multiblock1 = multiblock.multiblock;
+        if (rotFac <= 0) return this;
+        MultiblockBlockCoordPair[] newPairs = new MultiblockBlockCoordPair[multiblock.size()];
+        List<MultiblockBlockCoordPair> multiblock1 = multiblock;
         for (int i = 0; i < multiblock1.size(); i++)
         {
             MultiblockBlockCoordPair pair = multiblock1.get(i);
@@ -77,7 +76,7 @@ public class Multiblock implements ICreateable, ICheckable
             Int3[] returnposes = (Int3[]) newposes.toArray();
             newPairs[i] = new MultiblockBlockCoordPair(pair.getBlock(), returnposes);
         }
-        return rotateMultiblock(rotFac - 1, new Multiblock(newPairs));
+        return new Multiblock(newPairs).rotate(rotFac - 1);
     }
 }
 

@@ -1,7 +1,6 @@
 package net.blep.modularTechnology.common.core.util;
 
 
-import net.blep.modularTechnology.common.core.ModularTechnology;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,31 +9,33 @@ import org.apache.logging.log4j.Logger;
  */
 public class LogHelper
 {
+    private static String MODID;
 
-    public static final Logger LOGGER = LogManager.getLogger(ModularTechnology.MOD_ID);
+    public final Logger LOGGER = LogManager.getLogger(MODID);
 
-    public static void warn(String msg)
+    public void warn(String msg)
     {
         LOGGER.warn(msg);
     }
 
-    public static void error(String msg)
+    public void error(String msg)
     {
         LOGGER.error(msg);
     }
 
-    public static void info(String msg)
+    public void info(String msg)
     {
         LOGGER.info(msg);
     }
 
-    public static void debug(String msg)
+    public void debug(String msg)
     {
         LOGGER.debug(msg);
     }
 
-    private LogHelper()
+    public LogHelper(String mod)
     {
+        MODID = mod;
     }
 
 }

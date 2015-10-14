@@ -6,6 +6,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.core.Proxy;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -32,19 +33,19 @@ public class ServerProxy extends Proxy
     @SideOnly(Side.SERVER)
     public void preInit(FMLPreInitializationEvent event)
     {
-        LogHelper.info("Pre-preInit on server");
+        ModularTechnology.LOGGER.info("Pre-preInit on server");
     }
 
     @SideOnly(Side.SERVER)
     public void init(FMLInitializationEvent event)
     {
-        LogHelper.info("Init on server");
+        ModularTechnology.LOGGER.info("Init on server");
     }
 
     @SideOnly(Side.SERVER)
     public void postInit(FMLPostInitializationEvent event)
     {
-        LogHelper.info("Post-preInit on server");
+        ModularTechnology.LOGGER.info("Post-preInit on server");
     }
 
     @Override

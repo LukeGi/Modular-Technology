@@ -1,9 +1,10 @@
-package net.blep.modularTechnology.common.magic.multiblocks;
+package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks;
 
 import com.google.common.collect.Lists;
 import net.blep.modularTechnology.common.core.util.Int3;
 import net.minecraft.block.Block;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,8 +19,7 @@ public class MultiblockBlockCoordPair
     {
         this.block = block;
         poses = Lists.newArrayList();
-        for (Int3 pos : inposes)
-            poses.add(pos);
+        Collections.addAll(poses, inposes);
     }
 
     public Block getBlock()

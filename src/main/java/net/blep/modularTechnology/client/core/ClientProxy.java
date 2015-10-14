@@ -11,6 +11,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.blep.modularTechnology.client.core.renderer.ItemRendererDismountedTile;
 import net.blep.modularTechnology.client.tech.rendering.blocks.isbrh.ColouredBlockRenderer;
 import net.blep.modularTechnology.common.core.ModContent;
+import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.core.Proxy;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -52,13 +53,13 @@ public class ClientProxy extends Proxy
     @SideOnly(Side.CLIENT)
     public void preInit(FMLPreInitializationEvent event)
     {
-        LogHelper.info("Pre-preInit on client");
+        ModularTechnology.LOGGER.info("Pre-preInit on client");
     }
 
     @SideOnly(Side.CLIENT)
     public void init(FMLInitializationEvent event)
     {
-        LogHelper.info("Init on client");
+        ModularTechnology.LOGGER.info("Init on client");
 
         RenderingRegistry.registerBlockHandler(new ColouredBlockRenderer(renderID_ColouredBlock));
 
@@ -68,7 +69,7 @@ public class ClientProxy extends Proxy
     @SideOnly(Side.CLIENT)
     public void postInit(FMLPostInitializationEvent event)
     {
-        LogHelper.info("Post-preInit on client");
+        ModularTechnology.LOGGER.info("Post-preInit on client");
     }
 
     @Override

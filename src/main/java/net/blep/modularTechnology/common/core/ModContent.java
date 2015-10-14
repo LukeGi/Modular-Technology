@@ -5,8 +5,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.blep.modularTechnology.common.core.network.ModPacketHandler;
-import net.blep.modularTechnology.common.magic.MagicBlockHandler;
-import net.blep.modularTechnology.common.magic.MagicItemHandler;
+import net.blep.modularTechnology.common.magic.blocks.MagicBlockHandler;
+import net.blep.modularTechnology.common.magic.items.MagicItemHandler;
 import net.blep.modularTechnology.common.tech.blocks.TechBlockHandler;
 import net.blep.modularTechnology.common.tech.items.TechItemHandler;
 import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
@@ -22,9 +22,7 @@ public class ModContent extends ModularTechnology
     private static final ModContent MOD_CONTENT = new ModContent();
     private ModPacketHandler MOD_PACKET_HANDLER = ModPacketHandler.getSingleton();
     private TechBlockHandler TECH_MOD_BLOCKS;
-    private MagicBlockHandler MAGIC_MOD_BLOCKS;
     private TechItemHandler TECH_MOD_ITEMS;
-    private MagicItemHandler MAGIC_MOD_ITEMS;
     private CreativeTabHandler MOD_TABS;
 
     public static final List<Block> WRENCH_BLACKLIST = Lists.newArrayList();
@@ -51,18 +49,6 @@ public class ModContent extends ModularTechnology
         return getModContent().TECH_MOD_ITEMS;
     }
 
-    public static MagicBlockHandler getMagicModBlocks()
-    {
-        //returns an instance of MagicBlockHandler
-        return getModContent().MAGIC_MOD_BLOCKS;
-    }
-
-    public static MagicItemHandler getMagicModItems()
-    {
-        //returns an instance of MagicItemHandler
-        return getModContent().MAGIC_MOD_ITEMS;
-    }
-
     public static CreativeTabHandler getModTabs()
     {
         //returns an instance of CreativeTabHandler
@@ -82,8 +68,6 @@ public class ModContent extends ModularTechnology
 
         TECH_MOD_ITEMS = new TechItemHandler().initItems();
         TECH_MOD_BLOCKS = new TechBlockHandler().initBlocks();
-        MAGIC_MOD_ITEMS = new MagicItemHandler().initItems();
-        MAGIC_MOD_BLOCKS = new MagicBlockHandler().initBlocks();
     }
 
     public void init(FMLInitializationEvent event)
