@@ -5,6 +5,7 @@ import net.blep.modularTechnology.client.core.gui.machines.GuiCrusher;
 import net.blep.modularTechnology.common.core.blocks.tileentity.TileEntityContainerHolder;
 import net.blep.modularTechnology.common.core.gui.machines.ContainerCrusher;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -27,7 +28,7 @@ public class ModGuiHandler implements IGuiHandler
 
             switch (id)
             {
-                case ID_CRUSHER: return new ContainerCrusher(tile, player);
+                case ID_CRUSHER: return new ContainerCrusher((IInventory)tile, player);
 
                 default: return null;
             }

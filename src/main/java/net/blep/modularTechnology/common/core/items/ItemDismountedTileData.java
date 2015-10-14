@@ -2,6 +2,7 @@ package net.blep.modularTechnology.common.core.items;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
 import net.minecraft.block.Block;
@@ -106,7 +107,7 @@ public class ItemDismountedTileData extends ModItem
                 }
             } catch (Exception e)
             {
-                LogHelper.error("An error has occured while placing a saved tile data:");
+                ModularTechnology.LOGGER.error("An error has occured while placing a saved tile data:");
                 e.printStackTrace();
             }
         }

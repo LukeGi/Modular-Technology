@@ -1,13 +1,18 @@
-package net.blep.modularTechnology.common.magic;
+package net.blep.modularTechnology.common.magic.items;
 
 import com.google.common.collect.Lists;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.blep.modularTechnology.common.core.util.IconHelper;
+import net.blep.modularTechnology.common.core.util.Int3;
+import net.blep.modularTechnology.common.core.util.MethodHelper;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.MultiblockBlockCoordPair;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -26,6 +31,8 @@ import java.util.List;
 public class ItemGem extends MagicItem
 {
     IIcon[] icons;
+    public static Multiblock deathChamber = new Multiblock(new MultiblockBlockCoordPair[]{new MultiblockBlockCoordPair(Blocks.obsidian, Int3.ni3a(-1, 0, 1, 0, 0, 1, 1, 0, 1, -1, 0, 0, 0, 0, 0, 1, 0, 0, -1, 0, -1, 0, 0, -1, 1, 0, -1, -1, 1, 1, 0, 1, 1, 1, 1, 1, -1, 1, 0, 1, 1, 0, -1, 1, -1, 0, 1, -1, 1, 1, -1, -1, 2, 1, 1, 2, 1, -1, 2, -1, 1, 2, -1, -1, 3, 1, 0, 3, 1, 1, 3, 1, -1, 3, 0, 0, 3, 0, 1, 3, 0, -1, 3, -1, 0, 3, -1, 1, 3, -1)), new MultiblockBlockCoordPair(Blocks.flowing_water, Int3.ni3a(0, 1, 0, 0, 2, 0)), new MultiblockBlockCoordPair(Blocks.glass, Int3.ni3a(0, 2, 1, 0, 2, -1, 1, 2, 0, -1, 2, 0))});
+    public static Multiblock sugarfarm = new Multiblock(new MultiblockBlockCoordPair[]{new MultiblockBlockCoordPair(Blocks.flowing_water, Int3.ni3a(0, 0, 0, 1, 0, 2, 2, 0, -1, -1, 0, -2, -2, 0, 1)), new MultiblockBlockCoordPair(Blocks.sand, Int3.ni3a(1, 0, 0, 0, 0, 1, -1, 0, 0, 0, 0, -1, 2, 0, 2, 1, 0, 3, 0, 0, 2, 1, 0, 1, 3, 0, -1, 2, 0, 0, 1, 0, -1, 2, 0, -2, 0, 0, -2, -1, 0, -1, -2, 0, -2, -1, 0, -3, -1, 0, 1, -2, 0, 2, -3, 0, 1, -2, 0, 0)), new MultiblockBlockCoordPair(Blocks.reeds, Int3.ni3a(1, 1, 0, 0, 1, 1, -1, 1, 0, 0, 1, -1, 2, 1, 2, 1, 1, 3, 0, 1, 2, 1, 1, 1, 3, 1, -1, 2, 1, 0, 1, 1, -1, 2, 1, -2, 0, 1, -2, -1, 1, -1, -2, 1, -2, -1, 1, -3, -1, 1, 1, -2, 1, 2, -3, 1, 1, -2, 1, 0))});
 
     public ItemGem()
     {
@@ -119,12 +126,9 @@ public class ItemGem extends MagicItem
                         for (String ore : allOreEntries)
                         {
                             if (!ore.startsWith("ore"))
-                            {
                                 continue;
-                            }
                             refinedOreList.add(ore);
                         }
-
                         Block ore = Block.getBlockFromItem(OreDictionary.getOres(refinedOreList.get(world.rand.nextInt(refinedOreList.size()))).get(0).getItem());
 
                         world.setBlock(x, y, z, ore);
@@ -135,20 +139,24 @@ public class ItemGem extends MagicItem
             case 2: // WIND
                 // INSERT CODE THAT DEFLECTS ARROWS HERE TODO
             case 3: // WATER
-//                int kelanisatard = world.rand.nextInt(100);
-//                if (0 <= kelanisatard && kelanisatard < 80)
-//                    world.setBlock(x, y, z, Blocks.flowing_water);
-//                if (80 <= kelanisatard && kelanisatard < 95)
-                Multiblock.createMultiblock(world, x, y, z, Multiblock.sugarfarm);
+                int kelanisatard = world.rand.nextInt(100);
+                if (0 <= kelanisatard && kelanisatard < 80)
+                    world.setBlock(x, y, z, Blocks.flowing_water);
+                if (80 <= kelanisatard && kelanisatard < 95)
+                    sugarfarm.create(world, x, y, z);
+                if (95 <= kelanisatard && kelanisatard < 98)
+                    //Make the player wet themselves TODO
+                    player.addChatComponentMessage(new ChatComponentText("You wet yourself"));
+                if (98 <= kelanisatard && kelanisatard < 100)
+                    //MOVE PLAYER INTO DEATHCHAMBER TODO
+                    deathChamber.create(world, x, y, z);
+                if (kelanisatard % 3 == 0)
+                    MethodHelper.spawnEntityAtLocation(world, new EntitySquid(world), x, y, z);
                 return true;
+
             default:
                 return false;
         }
-    }
-
-    private void createFarm(World world, int x, int y, int z, int radius)
-    {
-
     }
 
     @Override

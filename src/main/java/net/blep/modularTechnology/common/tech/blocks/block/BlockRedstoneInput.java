@@ -12,7 +12,7 @@ import net.minecraft.world.World;
  */
 public class BlockRedstoneInput extends ModBlockTileEntity
 {
-    protected BlockRedstoneInput(Material material, String name, float resistance, float hardness, String toolType, int HarvestLevel, String... textures)
+    public BlockRedstoneInput(Material material, String name, float resistance, float hardness, String toolType, int HarvestLevel, String... textures)
     {
         super(material, name, resistance, hardness, toolType, HarvestLevel, textures);
     }

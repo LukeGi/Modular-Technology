@@ -1,4 +1,4 @@
-package net.blep.modularTechnology.common.magic;
+package net.blep.modularTechnology.common.magic.blocks.tile;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

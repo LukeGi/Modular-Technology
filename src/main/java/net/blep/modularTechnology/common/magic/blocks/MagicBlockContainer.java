@@ -1,10 +1,8 @@
-package net.blep.modularTechnology.common.magic;
+package net.blep.modularTechnology.common.magic.blocks;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.blep.modularTechnology.common.core.util.IconHelper;
-import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -20,15 +18,13 @@ public abstract class MagicBlockContainer<T extends TileEntity> extends BlockCon
     protected MagicBlockContainer(Material m)
     {
         super(m);
-        if (showInCreativeTab())
-            setCreativeTab(CreativeTabHandler.tabMagic);
     }
 
     @Override
     public Block setBlockName(String bn)
     {
         if (shouldRegisterInNameSet())
-            GameRegistry.registerBlock(this, bn);
+            MagicBlockHandler.registerMagicBlock(this, bn);
         return super.setBlockName(bn);
     }
 

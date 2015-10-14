@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -240,4 +241,11 @@ public class MethodHelper
     {
         return a == b || (a != null && b != null && a.getItem() == b.getItem() && a.getItemDamage() == b.getItemDamage() && Objects.equal(a.stackTagCompound, b.stackTagCompound));
     }
+
+    public static void spawnEntityAtLocation(World world, Entity entity, int x, int y, int z)
+    {
+        entity.setPosition(x, y, z);
+        world.spawnEntityInWorld(entity);
+    }
+}
 }

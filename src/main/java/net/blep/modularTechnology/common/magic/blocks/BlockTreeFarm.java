@@ -1,5 +1,8 @@
-package net.blep.modularTechnology.common.magic;
+package net.blep.modularTechnology.common.magic.blocks;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.blep.modularTechnology.common.magic.MTMagic;
+import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.TE.TETreeFarm;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -12,6 +15,8 @@ public class BlockTreeFarm extends MagicBlockContainer
     public BlockTreeFarm()
     {
         super(Material.iron);
+        setBlockName("tree_farm");
+        GameRegistry.registerTileEntity(TETreeFarm.class, MTMagic.MODID + "tree_farm");
     }
 
     @Override

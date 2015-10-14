@@ -2,6 +2,7 @@ package net.blep.modularTechnology.common.core.items;
 
 import cpw.mods.fml.common.registry.GameData;
 import net.blep.modularTechnology.common.core.ModContent;
+import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.blep.modularTechnology.common.core.util.ITileRotatable;
 import net.blep.modularTechnology.common.core.util.LogHelper;
 import net.blep.modularTechnology.common.core.util.MethodHelper;
@@ -50,7 +51,7 @@ public class ItemWrench extends ModItem
                     return false;
             } catch (Exception e)
             {
-                LogHelper.error("An error occurred while checking the blacklist.");
+                ModularTechnology.LOGGER.error("An error occurred while checking the blacklist.");
                 e.printStackTrace();
             }
 
