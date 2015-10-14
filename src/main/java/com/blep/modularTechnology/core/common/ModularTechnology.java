@@ -63,7 +63,6 @@ public class ModularTechnology implements IInitializable
     public void postInit(FMLPostInitializationEvent event)
     {
         getModContent().postInit(event);
-//        LogHelper.logRegisteredObjects();
         Proxy.proxy.postInit(event);
     }
 }
