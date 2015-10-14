@@ -3,8 +3,14 @@ package net.blep.modularTechnology.common.tech.items;
 import  cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modularTechnology.common.core.items.ItemDismountedTileData;
 import net.blep.modularTechnology.common.core.items.ItemWrench;
+import net.blep.modularTechnology.common.core.items.ModItem;
 import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
 import net.blep.modularTechnology.common.core.ModContent;
+import net.blep.modularTechnology.common.tech.items.item.ItemFineOre;
+import net.blep.modularTechnology.common.tech.items.item.ItemIngot;
+import net.blep.modularTechnology.common.tech.items.item.ItemLumpOre;
+import net.blep.modularTechnology.common.tech.items.item.ItemNugget;
+import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
 import net.minecraft.item.Item;
 
 /**
@@ -83,82 +89,9 @@ public class TechItemHandler extends ModContent
     public final Item dustYttrium = new ItemFineOre(EnumMetalMaterial.YTTRIUM);
     public final Item dustZinc = new ItemFineOre(EnumMetalMaterial.ZINC);
     public final Item dustZirconium = new ItemFineOre(EnumMetalMaterial.ZIRCONIUM);
+    public final Item dustStone = ModItem.newModItem("dustStone", CreativeTabHandler.tabMetals);
+
 
     public final Item uniWrench = new ItemWrench();
     public final Item dismountedMachine = new ItemDismountedTileData();
-
-    public TechItemHandler initItems()
-    {
-        //----------------================ REGISTER ITEMS ================----------------\\
-        GameRegistry.registerItem(ingotAluminium, "ingotAluminium");
-        GameRegistry.registerItem(ingotChromium, "ingotChromium");
-        GameRegistry.registerItem(ingotCopper, "ingotCopper");
-        GameRegistry.registerItem(ingotLead, "ingotLead");
-        GameRegistry.registerItem(ingotMagnesium, "ingotMagnesium");
-        GameRegistry.registerItem(ingotManganese, "ingotManganese");
-        GameRegistry.registerItem(ingotPlatinum, "ingotPlatinum");
-        GameRegistry.registerItem(ingotSilver, "ingotSilver");
-        GameRegistry.registerItem(ingotTin, "ingotTin");
-        GameRegistry.registerItem(ingotTitanium, "ingotTitanium");
-        GameRegistry.registerItem(ingotYttrium, "ingotYttrium");
-        GameRegistry.registerItem(ingotZinc, "ingotZinc");
-        GameRegistry.registerItem(ingotZirconium, "ingotZirconium");
-
-        GameRegistry.registerItem(ingotBronze, "ingotBronze");
-        GameRegistry.registerItem(ingotMolybdenum, "ingotMolybdenum");
-        GameRegistry.registerItem(ingotSteel, "ingotSteel");
-        GameRegistry.registerItem(ingotZhyconite, "ingotZhyconite");
-
-        GameRegistry.registerItem(nuggetAluminium, "nuggetAluminium");
-        GameRegistry.registerItem(nuggetChromium, "nuggetChromium");
-        GameRegistry.registerItem(nuggetCopper, "nuggetCopper");
-        GameRegistry.registerItem(nuggetLead, "nuggetLead");
-        GameRegistry.registerItem(nuggetMagnesium, "nuggetMagnesium");
-        GameRegistry.registerItem(nuggetManganese, "nuggetManganese");
-        GameRegistry.registerItem(nuggetPlatinum, "nuggetPlatinum");
-        GameRegistry.registerItem(nuggetSilver, "nuggetSilver");
-        GameRegistry.registerItem(nuggetTin, "nuggetTin");
-        GameRegistry.registerItem(nuggetTitanium, "nuggetTitanium");
-        GameRegistry.registerItem(nuggetYttrium, "nuggetYttrium");
-        GameRegistry.registerItem(nuggetZinc, "nuggetZinc");
-        GameRegistry.registerItem(nuggetZirconium, "nuggetZirconium");
-
-        GameRegistry.registerItem(nuggetBronze, "nuggetBronze");
-        GameRegistry.registerItem(nuggetMolybdenum, "nuggetMolybdenum");
-        GameRegistry.registerItem(nuggetSteel, "nuggetSteel");
-        GameRegistry.registerItem(nuggetZhyconite, "nuggetZhyconite");
-
-        GameRegistry.registerItem(lumpAluminium, "lumpAluminium");
-        GameRegistry.registerItem(lumpChromium, "lumpChromium");
-        GameRegistry.registerItem(lumpCopper, "lumpCopper");
-        GameRegistry.registerItem(lumpLead, "lumpLead");
-        GameRegistry.registerItem(lumpMagnesium, "lumpMagnesium");
-        GameRegistry.registerItem(lumpManganese, "lumpManganese");
-        GameRegistry.registerItem(lumpPlatinum, "lumpPlatinum");
-        GameRegistry.registerItem(lumpSilver, "lumpSilver");
-        GameRegistry.registerItem(lumpTin, "lumpTin");
-        GameRegistry.registerItem(lumpTitanium, "lumpTitanium");
-        GameRegistry.registerItem(lumpYttrium, "lumpYttrium");
-        GameRegistry.registerItem(lumpZinc, "lumpZinc");
-        GameRegistry.registerItem(lumpZirconium, "lumpZirconium");
-
-        GameRegistry.registerItem(dustAluminium, "dustAluminium");
-        GameRegistry.registerItem(dustChromium, "dustChromium");
-        GameRegistry.registerItem(dustCopper, "dustCopper");
-        GameRegistry.registerItem(dustLead, "dustLead");
-        GameRegistry.registerItem(dustMagnesium, "dustMagnesium");
-        GameRegistry.registerItem(dustManganese, "dustManganese");
-        GameRegistry.registerItem(dustPlatinum, "dustPlatinum");
-        GameRegistry.registerItem(dustSilver, "dustSilver");
-        GameRegistry.registerItem(dustTin, "dustTin");
-        GameRegistry.registerItem(dustTitanium, "dustTitanium");
-        GameRegistry.registerItem(dustYttrium, "dustYttrium");
-        GameRegistry.registerItem(dustZinc, "dustZinc");
-        GameRegistry.registerItem(dustZirconium, "dustZirconium");
-
-        GameRegistry.registerItem(uniWrench, "uniwrench");
-        GameRegistry.registerItem(dismountedMachine, "dismountedMachine");
-
-        return this;
-    }
 }

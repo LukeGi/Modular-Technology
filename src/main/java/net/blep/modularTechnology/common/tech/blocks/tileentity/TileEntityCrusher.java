@@ -1,16 +1,16 @@
 package net.blep.modularTechnology.common.tech.blocks.tileentity;
 
-import com.google.common.collect.Maps;
 import javafx.util.Pair;
-import net.blep.modularTechnology.common.core.energy.*;
+import net.blep.modularTechnology.common.core.energy.EnergyNetwork;
+import net.blep.modularTechnology.common.core.energy.EnumEnergyirection;
+import net.blep.modularTechnology.common.core.energy.EnumPowerStatus;
+import net.blep.modularTechnology.common.core.energy.IMachine;
+import net.blep.modularTechnology.common.tech.recipe.RecipesCrusher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.StatCollector;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author TheEpicTekkit
@@ -23,9 +23,11 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
     private double energyCapacity = 20000;
     private double energyStored = energyCapacity;
     private double energyRecieveRate = 200;
+    private double previousEnergy = energyStored;
+    private double energyChange = 0;
     private int machineProgress = 0;
-    private double energyPerOperation = 100;
     private int ticksToProcess = 60;
+    private double energyPerOperation = ticksToProcess * 2.0D;
 
     private EnumEnergyirection energyDirection = EnumEnergyirection.IN;
 
@@ -38,22 +40,85 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
 
     public void processInput()
     {
+        energyChange = energyStored - previousEnergy;
+        previousEnergy = energyStored;
+        if (canProcessInput())
+        {
+            if (energyStored >= energyPerOperation && machineProgress < ticksToProcess)
+            {
+                machineProgress++;
+                energyStored -= (energyPerOperation / (double) ticksToProcess);
+            } else
+            {
+                machineProgress = 0;
+                List<Pair<ItemStack, Float>> outputs = RecipesCrusher.getResultsFor(slots[0]);
 
+                if (slots[0].stackSize-- <= 0) slots[0] = null;
+
+                ItemStack out = null;
+                ItemStack byp1 = null;
+                ItemStack byp2 = null;
+
+                if (outputs.size() >= 1) out = outputs.get(0).getKey();
+                if (outputs.size() >= 2) byp1 = outputs.get(1).getKey();
+                if (outputs.size() >= 3) byp2 = outputs.get(2).getKey();
+
+                if (out != null && out.stackSize > 0 && worldObj.rand.nextFloat() <= outputs.get(0).getValue())
+                {
+                    System.out.println(out.stackSize + " items output");
+                    if (getStackInSlot(2) == null || getStackInSlot(2).stackSize <= 0) slots[2] = out.copy();
+                    else if (getStackInSlot(2).getItem() == out.getItem()) slots[2].stackSize += out.stackSize;
+                }
+
+                if (byp1 != null && byp1.stackSize > 0 && worldObj.rand.nextFloat() <= outputs.get(1).getValue())
+                {
+                    if (getStackInSlot(3) == null || getStackInSlot(3).stackSize <= 0) slots[3] = byp1.copy();
+                    else if (getStackInSlot(3).getItem() == byp1.getItem()) slots[3].stackSize += byp1.stackSize;
+                }
+
+                if (byp2 != null && byp2.stackSize > 0 && worldObj.rand.nextFloat() <= outputs.get(2).getValue())
+                {
+                    if (getStackInSlot(4) == null || getStackInSlot(4).stackSize <= 0) slots[4] = byp2.copy();
+                    else if (getStackInSlot(4).getItem() == byp2.getItem()) slots[4].stackSize += byp2.stackSize;
+                }
+            }
+        } else
+            machineProgress = 0;
     }
 
-//    public List<Pair<ItemStack, Integer>> simulateProcessing(ItemStack stack)
-//    {
-//        if (getEnergyStored() <= 0) return null;
-//        if (stack == null || stack.stackSize <= 0 || stack.getItem() == null) return null;
-//
-//    }
+    public boolean canProcessInput()
+    {
+        if (getEnergyStored() < getEnergyPerOperation()) return false;
+        if (getStackInSlot(0) == null || getStackInSlot(0).stackSize <= 0) return false;
+        ItemStack input = getStackInSlot(0);
+
+        List<Pair<ItemStack, Float>> outputs = RecipesCrusher.getResultsFor(input);
+
+        if (outputs == null || outputs.size() <= 0) return false;
+
+        if (outputs.size() >= 1 && (getStackInSlot(2) == null || (getStackInSlot(2).isItemEqual(outputs.get(0).getKey()) && getStackInSlot(2).stackSize + outputs.get(0).getKey().stackSize < getStackInSlot(2).getMaxStackSize() && getStackInSlot(2).stackSize + outputs.get(0).getKey().stackSize <= getInventoryStackLimit())))
+        {
+            if (outputs.size() >= 2 && (getStackInSlot(3) == null || (getStackInSlot(3).isItemEqual(outputs.get(1).getKey()) && getStackInSlot(3).stackSize + outputs.get(1).getKey().stackSize < getStackInSlot(3).getMaxStackSize() && getStackInSlot(3).stackSize + outputs.get(1).getKey().stackSize <= getInventoryStackLimit())))
+            {
+                if (outputs.size() >= 3 && (getStackInSlot(4) == null || (getStackInSlot(4).isItemEqual(outputs.get(2).getKey()) && getStackInSlot(4).stackSize + outputs.get(2).getKey().stackSize < getStackInSlot(4).getMaxStackSize() && getStackInSlot(4).stackSize + outputs.get(2).getKey().stackSize <= getInventoryStackLimit())))
+                {
+                    return true;
+                }
+                return true;
+            }
+            return true;
+        }
+        return false;
+    }
 
     public int[] getAccessibleSlotsFromSide(int side)
     {
         if (side == 1)
-            return new int[]{0, 1};
+            return new int[]{0};
         else if (side == 0)
             return new int[]{2, 3, 4};
+        else if (side == 4 || side == 5)
+            return new int[]{1};
         else
             return new int[]{0};
     }
@@ -61,19 +126,15 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
     @Override
     public boolean canInsertItem(int slot, ItemStack stack, int side)
     {
-        if (side != 0)
-            if (slot == 0 || slot == 1)
-                //TODO: add recipe check
-                return true;
+        if (slot == 0)
+            return RecipesCrusher.hasRecipeFor(stack);
         return false;
     }
 
     @Override
     public boolean canExtractItem(int slot, ItemStack item, int side)
     {
-        if (side != 0)
-            return false;
-        else if (slot == 2 || slot == 3 || slot == 4)
+        if (slot == 2 || slot == 3 || slot == 4)
             return true;
         return false;
     }
@@ -123,6 +184,11 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
     public void setInventorySlotContents(int slot, ItemStack stack)
     {
         slots[slot] = stack;
+
+        if (stack != null && stack.stackSize > this.getInventoryStackLimit())
+        {
+            stack.stackSize = this.getInventoryStackLimit();
+        }
     }
 
     @Override
@@ -170,7 +236,10 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return canShiftClick[slot]; //TODO: check if stack is an ore or a battery
+        if (slot == 0)
+            return RecipesCrusher.hasRecipeFor(stack);
+        else
+            return canShiftClick[slot]; //TODO: check if stack is an ore or a battery
     }
 
     @Override
@@ -206,7 +275,9 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
     @Override
     public EnumPowerStatus getPowerStatus()
     {
-        return null;
+        if (energyChange < 0) return EnumPowerStatus.LOSS;
+        else if (energyChange > 0) return EnumPowerStatus.GAIN;
+        else return EnumPowerStatus.NEUTRAL;
     }
 
     @Override
@@ -215,15 +286,27 @@ public class TileEntityCrusher extends TileEntityMachineBase implements IMachine
         return machineProgress;
     }
 
+    public int getTicksToProcess()
+    {
+        return ticksToProcess;
+    }
+
     @Override
     public EnumEnergyirection getEnergyDirection()
     {
-        return energyDirection;
+        if (getPowerStatus().equals(EnumPowerStatus.LOSS)) return EnumEnergyirection.OUT;
+        else if (getPowerStatus().equals(EnumPowerStatus.GAIN)) return EnumEnergyirection.IN;
+        return EnumEnergyirection.INVALID;
     }
 
     @Override
     public double getEnergyPerOperation()
     {
         return energyPerOperation;
+    }
+
+    public double getEnergyChange()
+    {
+        return energyChange;
     }
 }

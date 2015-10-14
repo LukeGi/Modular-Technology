@@ -3,12 +3,14 @@ package net.blep.modularTechnology.common.tech.blocks.block;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.blep.modularTechnology.client.core.ClientProxy;
-import net.blep.modularTechnology.common.core.blocks.block.ModBlock;
-import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
 import net.blep.modularTechnology.common.core.ModularTechnology;
+import net.blep.modularTechnology.common.core.blocks.block.ModBlock;
+import net.blep.modularTechnology.common.core.util.IRegisterable;
+import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * @author bluemonster122 <boo122333@gmail.com>

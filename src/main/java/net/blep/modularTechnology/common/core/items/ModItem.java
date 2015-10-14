@@ -33,4 +33,16 @@ public abstract class ModItem extends Item
     {
         return ModContent.getModTabs();
     }
+
+    public static ModItem newModItem(String name, CreativeTabs tab)
+    {
+        return new ModItem(name, tab)
+        {
+            @Override
+            public String getName()
+            {
+                return name;
+            }
+        };
+    }
 }

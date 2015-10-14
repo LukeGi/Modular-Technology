@@ -3,12 +3,13 @@ package net.blep.modularTechnology.common.tech.blocks.block;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.blep.modularTechnology.client.core.ClientProxy;
+import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.blep.modularTechnology.common.core.blocks.block.ModBlock;
 import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
-import net.blep.modularTechnology.common.core.ModularTechnology;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.oredict.OreDictionary;
 
 /**
  * @author bluemonster122 <boo122333@gmail.com>
@@ -22,6 +23,8 @@ public class BlockMetal extends ModBlock
         super(Material.rock, "metalBlock" + material.getName(), "metalBlockBase", material.getBlockResistance(), material.getBlockHardness(), "pickaxe", material.getMiningLevel(), getModTabs().tabMetals);
         this.material = material;
         setGetIcon(false);
+        for (String s : material.getOreDictNames())
+            OreDictionary.registerOre("block" + s, this);
     }
 
     @SideOnly(Side.CLIENT)

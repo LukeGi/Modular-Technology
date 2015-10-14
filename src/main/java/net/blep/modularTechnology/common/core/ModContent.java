@@ -5,10 +5,12 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.blep.modularTechnology.common.core.network.ModPacketHandler;
+import net.blep.modularTechnology.common.core.oredict.OreDict;
 import net.blep.modularTechnology.common.magic.MagicBlockHandler;
 import net.blep.modularTechnology.common.magic.MagicItemHandler;
 import net.blep.modularTechnology.common.tech.blocks.TechBlockHandler;
 import net.blep.modularTechnology.common.tech.items.TechItemHandler;
+import net.blep.modularTechnology.common.tech.recipe.RecipesCrusher;
 import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
 import net.minecraft.block.Block;
 
@@ -79,9 +81,6 @@ public class ModContent extends ModularTechnology
     public void preInit(FMLPreInitializationEvent event)
     {
         MOD_TABS = new CreativeTabHandler();
-
-        TECH_MOD_ITEMS = new TechItemHandler().initItems();
-        TECH_MOD_BLOCKS = new TechBlockHandler().initBlocks();
         MAGIC_MOD_ITEMS = new MagicItemHandler().initItems();
         MAGIC_MOD_BLOCKS = new MagicBlockHandler().initBlocks();
     }
@@ -89,10 +88,11 @@ public class ModContent extends ModularTechnology
     public void init(FMLInitializationEvent event)
     {
         MOD_PACKET_HANDLER.initPackets();
+        OreDict.init();
     }
 
     public void postInit(FMLPostInitializationEvent event)
     {
-
+        RecipesCrusher.init();
     }
 }

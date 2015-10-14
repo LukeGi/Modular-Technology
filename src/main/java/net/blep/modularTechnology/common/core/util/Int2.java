@@ -5,41 +5,40 @@ package net.blep.modularTechnology.common.core.util;
  */
 public class Int2
 {
-    private int x;
-    private int y;
+    protected int[] values = {0, 0, 0, 0};
 
     public Int2(int x, int y)
     {
-        this.x = x;
-        this.y = y;
+        values[0] = x;
+        values[1] = y;
     }
 
     public int getX()
     {
-        return x;
+        return values[0];
     }
 
     public int getY()
     {
-        return y;
+        return values[1];
     }
 
     public void setX(int x)
     {
-        this.x = x;
+        values[0] = x;
     }
 
     public void setY(int y)
     {
-        this.y = y;
+        values[1] = y;
     }
 
     public boolean equals(Object o)
     {
         if (!(o instanceof Int2)) return false;
         Int2 i2 = (Int2) o;
-        if (i2.getX() != getX()) return false;
-        if (i2.getY() != getY()) return false;
+        for (int i = 0; i < i2.values.length; i++)
+            if (i2.values[i] != values[i]) return false;
         return true;
     }
 }

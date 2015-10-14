@@ -1,8 +1,10 @@
 package net.blep.modularTechnology.common.core.blocks.block;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.blep.modularTechnology.common.core.ModularTechnology;
+import net.blep.modularTechnology.common.core.util.IRegisterable;
 import net.blep.modularTechnology.common.tech.tabs.CreativeTabHandler;
 import net.blep.modularTechnology.common.core.ModContent;
 import net.minecraft.block.Block;
@@ -15,7 +17,7 @@ import net.minecraft.util.IIcon;
 /**
  * @author bluemonster122 <boo122333@gmail.com>
  */
-public abstract class ModBlock extends Block
+public abstract class ModBlock extends Block implements IRegisterable
 {
     protected final String name;
     protected String harvestTool;
@@ -145,5 +147,10 @@ public abstract class ModBlock extends Block
     public static CreativeTabHandler getModTabs()
     {
         return ModContent.getModTabs();
+    }
+
+    public void register()
+    {
+        GameRegistry.registerBlock(this, getUnlocalizedName());
     }
 }

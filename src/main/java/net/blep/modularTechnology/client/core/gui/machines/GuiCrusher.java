@@ -11,6 +11,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.EnumChatFormatting;
 
+import java.text.DecimalFormat;
+
 /**
  * @author TheEpicTekkit
  */
@@ -38,14 +40,21 @@ public class GuiCrusher extends GuiModtechBase
 
         mc.getTextureManager().bindTexture(texture);
         drawTexturedModalRect(162, 88, 175, (8 * powerStatus) % 24, 8, 8);
-        drawTexturedModalRect(43, 17, 175, 24, (int) MethodHelper.getValueScaled(machineProgress, 100, 34), 18);
+        drawTexturedModalRect(43, 17, 175, 24, (int) MethodHelper.getValueScaled(machineProgress, te.getTicksToProcess(), 34), 18);
         drawTexturedModalRect(25, 89, 175, energyDirection.equals(EnumEnergyirection.IN) ? 42 : 48, 11, 6);
 
         mc.getTextureManager().bindTexture(overlay);
         drawTexturedModalRect(38, 84, 0, 36, (int) MethodHelper.getValueScaled(energyStored, maxEnergy, 100), 16);
 
-        addTooltipToArea(162, 88, 170, 96, x, y, true, EnumChatFormatting.GREEN + "Power status", EnumChatFormatting.GRAY + (powerStatus == 0 ? "Loss" : powerStatus == 1 ? "Gain" : powerStatus == 2 ? "Stable" : EnumChatFormatting.RED + "Undefined"));
-        addTooltipToArea(38, 84, 138, 100, x, y, false, EnumChatFormatting.BLUE + "Energy stored", energyStored + " / " + maxEnergy + " RF");
-        addTooltipToArea(44, 18, 76, 34, x, y, false, machineProgress + "%");
+        DecimalFormat df = new DecimalFormat("000");
+        DecimalFormat df1 = new DecimalFormat("#,###");
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        String energyChange = (te.getEnergyChange() > 0 ? "+" : "") + df2.format(te.getEnergyChange()) + " RF/t";
+
+        addTooltipToArea(162, 88, 170, 96, x, y, true, EnumChatFormatting.GOLD + "Power status", (powerStatus == 0 ? EnumChatFormatting.RED + "Loss" : powerStatus == 1 ? EnumChatFormatting.GREEN + "Gain" : powerStatus == 2 ? EnumChatFormatting.BLUE + "Stable" : EnumChatFormatting.DARK_RED + "Undefined") + ": " + energyChange);
+        addTooltipToArea(38, 84, 138, 100, x, y, false, EnumChatFormatting.GOLD + "Energy stored", EnumChatFormatting.BLUE + df1.format(energyStored) + " / " + df1.format(maxEnergy) + " RF");
+        float val = (((float) machineProgress / (float) te.getTicksToProcess()) * 100);
+
+        addTooltipToArea(44, 18, 76, 34, x, y, false, EnumChatFormatting.GOLD + "Progress", EnumChatFormatting.BLUE + df.format(val) + "%");
     }
 }

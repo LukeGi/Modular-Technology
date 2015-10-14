@@ -1,5 +1,6 @@
 package net.blep.modularTechnology.common.core.util;
 
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -139,6 +140,33 @@ public class MethodHelper
         }
     }
 
+    public static String formatNumber(double number)
+    {
+        String num = "" + number;
+        String result = "";
+
+        if (num.length() >= 4)
+        {
+            int end = 0;
+            if (num.contains(".")) end = num.indexOf(".");
+            else end = num.length();
+
+            int last = end;
+            for (int i = end - 3; i > 0; i -= 3)
+            {
+                String s = num.substring(i >= 0 ? i : 0, last) + ",";
+                result = s + result;
+                last = i;
+            }
+
+            if (result.contains(",.")) result.replace(",.", ".");
+            if (result.endsWith(".")) result = result.substring(0, result.length() - 1);
+        } else
+            result = num;
+
+        return result;
+    }
+
     public static void getCoordinatesAdjacentToSide(int x, int y, int z, int side)
     {
         ForgeDirection direction = ForgeDirection.values()[side];
@@ -206,5 +234,10 @@ public class MethodHelper
     public static double getValueScaled(double value, double maxValue, double scale)
     {
         return value * scale / maxValue;
+    }
+
+    public static boolean areItemStacksEqual(ItemStack a, ItemStack b)
+    {
+        return a == b || (a != null && b != null && a.getItem() == b.getItem() && a.getItemDamage() == b.getItemDamage() && Objects.equal(a.stackTagCompound, b.stackTagCompound));
     }
 }

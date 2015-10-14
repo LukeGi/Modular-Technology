@@ -5,5 +5,5 @@ package net.blep.modularTechnology.common.core.energy;
  */
 public enum EnumEnergyirection
 {
-    IN, OUT;
+    IN, OUT, INVALID;
 }

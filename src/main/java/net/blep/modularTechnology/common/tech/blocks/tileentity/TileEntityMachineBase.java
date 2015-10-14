@@ -84,6 +84,11 @@ public abstract class TileEntityMachineBase extends TileEntityContainerHolder im
         return 0;
     }
 
+    public int getTicksToProcess()
+    {
+        return 0;
+    }
+
     public EnumEnergyirection getEnergyDirection()
     {
         return EnumEnergyirection.IN;

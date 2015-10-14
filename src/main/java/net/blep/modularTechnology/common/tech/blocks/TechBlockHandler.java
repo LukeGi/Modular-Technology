@@ -59,55 +59,6 @@ public class TechBlockHandler extends ModContent
 
 
     //----------------================ UTILITY MACHINES AND BLOCKS ================----------------\\
-    public static final Block blockLogic = new BlockLogic();
-    public static final Block blockRedstoneInput = new BlockRedstoneInput();
-
-
-    public TechBlockHandler initBlocks()
-    {
-        //----------------================ REGISTER BLOCKS ================----------------\\
-        GameRegistry.registerBlock(oreAluminium, "oreAluminium");
-        GameRegistry.registerBlock(oreChromium, "oreChromium");
-        GameRegistry.registerBlock(oreCopper, "oreCopper");
-        GameRegistry.registerBlock(oreLead, "oreLead");
-        GameRegistry.registerBlock(oreMagnesium, "oreMagnesium");
-        GameRegistry.registerBlock(oreManganese, "oreManganese");
-        GameRegistry.registerBlock(oreMolybdenum, "oreMolybdenum");
-        GameRegistry.registerBlock(orePlatinum, "orePlatinum");
-        GameRegistry.registerBlock(oreSilver, "oreSilver");
-        GameRegistry.registerBlock(oreTin, "oreTin");
-        GameRegistry.registerBlock(oreTitanium, "oreTitanium");
-        GameRegistry.registerBlock(oreYttrium, "oreYttrium");
-        GameRegistry.registerBlock(oreZinc, "oreZinc");
-        GameRegistry.registerBlock(oreZirconium, "oreZirconium");
-
-        GameRegistry.registerBlock(blockAluminium, "blockAluminium");
-        GameRegistry.registerBlock(blockChromium, "blockChromium");
-        GameRegistry.registerBlock(blockCopper, "blockCopper");
-        GameRegistry.registerBlock(blockLead, "blockLead");
-        GameRegistry.registerBlock(blockMagnesium, "blockMagnesium");
-        GameRegistry.registerBlock(blockManganese, "blockManganese");
-        GameRegistry.registerBlock(blockPlatinum, "blockPlatinum");
-        GameRegistry.registerBlock(blockSilver, "blockSilver");
-        GameRegistry.registerBlock(blockTin, "blockTin");
-        GameRegistry.registerBlock(blockTitanium, "blockTitanium");
-        GameRegistry.registerBlock(blockYttrium, "blockYttrium");
-        GameRegistry.registerBlock(blockZinc, "blockZinc");
-        GameRegistry.registerBlock(blockZirconium, "blockZirconium");
-
-        GameRegistry.registerBlock(blockBronze, "blockBronze");
-        GameRegistry.registerBlock(blockMolybdenum, "blockMolybdenum");
-        GameRegistry.registerBlock(blockSteel, "blockSteel");
-        GameRegistry.registerBlock(blockZhyconite, "blockZhyconite");
-
-        GameRegistry.registerBlock(blockCrusher, "blockCrusher");
-        GameRegistry.registerBlock(blockLogic, "blockLogic");
-        GameRegistry.registerBlock(blockRedstoneInput, "blockRedstoneInput");
-
-        //----------------================ REGISTER TILEENTITIES ================----------------\\
-        GameRegistry.registerTileEntity(TileEntityCrusher.class, RESOURCE_PREFIX + "tileCrusher");
-        GameRegistry.registerTileEntity(TileEntityLogic.class, RESOURCE_PREFIX + "tileLogic");
-        GameRegistry.registerTileEntity(TileEntityRedstoneInput.class, RESOURCE_PREFIX + "tileRSInput");
-        return this;
-    }
+//    public static final Block blockLogic = new BlockLogic();
+//    public static final Block blockRedstoneInput = new BlockRedstoneInput();
 }
