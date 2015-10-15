@@ -1,9 +1,9 @@
 package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.TE;
 
 import com.google.common.collect.Lists;
-import net.blep.modularTechnology.common.core.network.ModPacketHandler;
-import net.blep.modularTechnology.common.core.network.packets.MessageSetBlock;
-import net.blep.modularTechnology.common.core.util.Int3;
+import com.blep.modularTechnology.core.common.network.ModPacketHandler;
+import com.blep.modularTechnology.core.common.network.packets.MessageSetBlock;
+import com.blep.modularTechnology.core.common.util.Int3;
 import net.blep.modularTechnology.common.magic.blocks.MagicBlockHandler;
 import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
 import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.MultiblockBlockCoordPair;

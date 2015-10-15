@@ -2,7 +2,7 @@ package net.blep.modularTechnology.common.magic.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.blep.modularTechnology.common.core.util.IconHelper;
+import com.blep.modularTechnology.core.common.util.IconHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;

@@ -6,11 +6,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
-import net.blep.modularTechnology.common.core.IInitializable;
-import net.blep.modularTechnology.common.core.Proxy;
-import net.blep.modularTechnology.common.core.gui.ModGuiHandler;
-import net.blep.modularTechnology.common.core.handler.ConfigHandler;
-import net.blep.modularTechnology.common.core.util.LogHelper;
+import com.blep.modularTechnology.core.common.inventory.ModGuiHandler;
+import com.blep.modularTechnology.core.common.util.LogHelper;
 
 import static net.blep.modularTechnology.common.core.ModContent.*;
 
@@ -29,7 +26,7 @@ public class ModularTechnology implements IInitializable
     public static final String DEPENDENCIES = "required-after:FML@[7.10.0.1205,7.11);required-after:Forge@[10.13.0.1205,10.14);";
     public static final String RESOURCE_PREFIX = MOD_ID + ":";
 
-    public static final String GUI_FACTORY_CLASS = "net.blep.modularTechnology.client.core.gui.GuiFactory";
+    public static final String GUI_FACTORY_CLASS = "com.blep.modularTechnology.core.client.inventory.GuiFactory";
 
     @Mod.Instance(ModularTechnology.MOD_ID)
     public static ModularTechnology instance;
@@ -48,7 +45,7 @@ public class ModularTechnology implements IInitializable
         FMLCommonHandler.instance().bus().register(new ConfigHandler());
 
         getModContent().preInit(event);
-        Proxy.proxy.preInit(event);
+        AbstractCommonProxy.proxy.preInit(event);
     }
 
     @Mod.EventHandler
@@ -56,13 +53,14 @@ public class ModularTechnology implements IInitializable
     {
         getModContent().init(event);
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new ModGuiHandler());
-        Proxy.proxy.init(event);
+        AbstractCommonProxy.proxy.init(event);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         getModContent().postInit(event);
-        Proxy.proxy.postInit(event);
+//        LogHelper.logRegisteredObjects();
+        AbstractCommonProxy.proxy.postInit(event);
     }
 }

@@ -1,6 +1,6 @@
 package net.blep.modularTechnology.common.tech;
 
-import net.blep.modularTechnology.common.core.util.Names;
+import com.blep.modularTechnology.core.common.util.Names;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.util.EnumHelper;
 import org.lwjgl.util.vector.Vector3f;

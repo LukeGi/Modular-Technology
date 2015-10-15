@@ -1,9 +1,9 @@
 package net.blep.modularTechnology.common.magic.items;
 
 
+import com.blep.modularTechnology.core.common.items.ModItem;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modularTechnology.common.magic.MTMagic;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 /**
@@ -19,14 +19,14 @@ public class MagicItemHandler extends MTMagic
 
     public static void initItems()
     {
-        raw_gem = new MagicItem("raw_gem");
-        polished_gem = new MagicItem("polished_gem");
+        raw_gem = new ModItem("raw_gem");
+        polished_gem = new ModItem("polished_gem");
         gems = new ItemGem();
         designator = new ItemDesignator();
         chainsaw = new ItemChainsaw();
     }
 
-    public static void registerMagicItem(MagicItem item, String name)
+    public static void registerMagicItem(ModItem item, String name)
     {
         GameRegistry.registerItem(item, name);
         item.setCreativeTab(MagicTab);
