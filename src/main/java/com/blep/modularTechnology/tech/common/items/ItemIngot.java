@@ -1,5 +1,6 @@
 package com.blep.modularTechnology.tech.common.items;
 
+import com.blep.modularTechnology.core.common.items.ModItem;
 import net.blep.modularTechnology.common.tech.EnumMetalMaterial;
 import net.minecraftforge.oredict.OreDictionary;
 
@@ -10,13 +11,13 @@ import net.minecraftforge.oredict.OreDictionary;
  */
 public class ItemIngot extends ModItem
 {
-    public final EnumMetalMaterial material;
-
-    public ItemIngot(EnumMetalMaterial material)
-    {
-        super("ingot" + material.getName(), getModTabs().tabMetals);
-        this.material = material;
-        for (String s : material.getOreDictNames())
-            OreDictionary.registerOre("ingot" + s, this);
-    }
+//    public final EnumMetalMaterial material;
+//
+//    public ItemIngot(EnumMetalMaterial material)
+//    {
+//        super("ingot" + material.getName(), getModTabs().tabMetals);
+//        this.material = material;
+//        for (String s : material.getOreDictNames())
+//            OreDictionary.registerOre("ingot" + s, this);
+//    }
 }

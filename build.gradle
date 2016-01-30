@@ -22,7 +22,7 @@ group= "net.blep.modtech" // http://maven.apache.org/guides/mini/guide-naming-co
 archivesBaseName = "modtech"
 
 minecraft {
-    version = "1.7.10-10.13.4.1448-1.7.10"
+    version = "1.7.10-10.13.4.1558-1.7.10"
     runDir = "eclipse"
 }
 

@@ -9,21 +9,21 @@ import net.minecraft.block.Block;
  */
 public class MagicBlockHandler extends MTMagic
 {
-    public static Block treeFarm;
-
-    public static void initBlocks()
-    {
-        treeFarm = new BlockTreeFarm();
-    }
-
-    public static void registerMagicBlock(MagicBlock block, String name)
-    {
-        GameRegistry.registerBlock(block, name);
-        block.setCreativeTab(MagicTab);
-    }
-    public static void registerMagicBlock(MagicBlockContainer block, String name)
-    {
-        GameRegistry.registerBlock(block, name);
-        block.setCreativeTab(MagicTab);
-    }
+//    public static Block treeFarm;
+//
+//    public static void initBlocks()
+//    {
+//        treeFarm = new BlockTreeFarm();
+//    }
+//
+//    public static void registerMagicBlock(MagicBlock block, String name)
+//    {
+//        GameRegistry.registerBlock(block, name);
+//        block.setCreativeTab(MagicTab);
+//    }
+//    public static void registerMagicBlock(MagicBlockContainer block, String name)
+//    {
+//        GameRegistry.registerBlock(block, name);
+//        block.setCreativeTab(MagicTab);
+//    }
 }

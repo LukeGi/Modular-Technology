@@ -247,4 +247,4 @@ public class MethodHelper
         world.spawnEntityInWorld(entity);
     }
 }
-}
+

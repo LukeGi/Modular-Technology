@@ -15,24 +15,24 @@ import static cpw.mods.fml.relauncher.Side.*;
  */
 public final class ModPacketHandler extends ModContent
 {
-    private static final ModPacketHandler singleton = new ModPacketHandler();
-    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
-    private static int nextID = 0;
-
-    private ModPacketHandler() {}
-
-    public ModPacketHandler initPackets()
-    {
-        INSTANCE.registerMessage(MessageMoveEntity.class, MessageMoveEntity.class, nextID++, SERVER);
-        INSTANCE.registerMessage(MessageSpawnEntity.class, MessageSpawnEntity.class, nextID++, SERVER);
-        INSTANCE.registerMessage(MessageSetBlock.class, MessageSetBlock.class, nextID++, SERVER);
-        INSTANCE.registerMessage(MessageTeleportEntity.class, MessageTeleportEntity.class, nextID++, SERVER);
-
-        return this;
-    }
-
-    public static ModPacketHandler getSingleton()
-    {
-        return singleton;
-    }
+//    private static final ModPacketHandler singleton = new ModPacketHandler();
+//    public static final SimpleNetworkWrapper INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(MOD_ID);
+//    private static int nextID = 0;
+//
+//    private ModPacketHandler() {}
+//
+//    public ModPacketHandler initPackets()
+//    {
+//        INSTANCE.registerMessage(MessageMoveEntity.class, MessageMoveEntity.class, nextID++, SERVER);
+//        INSTANCE.registerMessage(MessageSpawnEntity.class, MessageSpawnEntity.class, nextID++, SERVER);
+//        INSTANCE.registerMessage(MessageSetBlock.class, MessageSetBlock.class, nextID++, SERVER);
+//        INSTANCE.registerMessage(MessageTeleportEntity.class, MessageTeleportEntity.class, nextID++, SERVER);
+//
+//        return this;
+//    }
+//
+//    public static ModPacketHandler getSingleton()
+//    {
+//        return singleton;
+//    }
 }

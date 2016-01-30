@@ -24,60 +24,60 @@ import java.util.List;
  */
 public class ClientProxy extends CommonProxy
 {
-    /**
-     * A rotation matrix for machine textures.
-     * Because machines are rotated by changing the metadata, it goes [meta][side]
-     */
-    public static int[][] MACHINE_ICON_MATRIX = new int[][]
-            {
-                    //TODO: setup matrix for up/down orientation
-                    {2, 0, 0, 0, 0, 0},
-                    {0, 2, 0, 0, 0, 0},
-
-                    {0, 1, 2, 3, 4, 5},
-                    {0, 1, 3, 2, 5, 4},
-                    {0, 1, 5, 4, 2, 3},
-                    {0, 1, 4, 5, 3, 2},
-            };
-
-    public static int renderID_ColouredBlock = RenderingRegistry.getNextAvailableRenderId();
-
-    public void preInit(FMLPreInitializationEvent event)
-    {
-        ModularTechnology.LOGGER.info("Pre-preInit on client");
-    }
-
-    public void init(FMLInitializationEvent event)
-    {
-        ModularTechnology.LOGGER.info("Init on client");
-
-        RenderingRegistry.registerBlockHandler(new ColouredBlockRenderer(renderID_ColouredBlock));
-
-        MinecraftForgeClient.registerItemRenderer(ModContent.getTechModItems().dismountedMachine, new ItemRendererDismountedTile());
-    }
-
-    public void postInit(FMLPostInitializationEvent event)
-    {
-        ModularTechnology.LOGGER.info("Post-preInit on client");
-    }
-
-    public List<EntityPlayer> getPlayers()
-    {
-        throw new RuntimeException("Unable to access server-side variables from the client");
-    }
-
-    public EntityPlayer getPlayer()
-    {
-        return FMLClientHandler.instance().getClient().thePlayer;
-    }
-
-    public World getWorld()
-    {
-        return FMLClientHandler.instance().getClient().theWorld;
-    }
-
-    public void registerTESR(Class<? extends TileEntity> tile, TileEntitySpecialRenderer renderer)
-    {
-        ClientRegistry.bindTileEntitySpecialRenderer(tile, renderer);
-    }
+//    /**
+//     * A rotation matrix for machine textures.
+//     * Because machines are rotated by changing the metadata, it goes [meta][side]
+//     */
+//    public static int[][] MACHINE_ICON_MATRIX = new int[][]
+//            {
+//                    //TODO: setup matrix for up/down orientation
+//                    {2, 0, 0, 0, 0, 0},
+//                    {0, 2, 0, 0, 0, 0},
+//
+//                    {0, 1, 2, 3, 4, 5},
+//                    {0, 1, 3, 2, 5, 4},
+//                    {0, 1, 5, 4, 2, 3},
+//                    {0, 1, 4, 5, 3, 2},
+//            };
+//
+//    public static int renderID_ColouredBlock = RenderingRegistry.getNextAvailableRenderId();
+//
+//    public void preInit(FMLPreInitializationEvent event)
+//    {
+//        ModularTechnology.LOGGER.info("Pre-preInit on client");
+//    }
+//
+//    public void init(FMLInitializationEvent event)
+//    {
+//        ModularTechnology.LOGGER.info("Init on client");
+//
+//        RenderingRegistry.registerBlockHandler(new ColouredBlockRenderer(renderID_ColouredBlock));
+//
+//        MinecraftForgeClient.registerItemRenderer(ModContent.getTechModItems().dismountedMachine, new ItemRendererDismountedTile());
+//    }
+//
+//    public void postInit(FMLPostInitializationEvent event)
+//    {
+//        ModularTechnology.LOGGER.info("Post-preInit on client");
+//    }
+//
+//    public List<EntityPlayer> getPlayers()
+//    {
+//        throw new RuntimeException("Unable to access server-side variables from the client");
+//    }
+//
+//    public EntityPlayer getPlayer()
+//    {
+//        return FMLClientHandler.instance().getClient().thePlayer;
+//    }
+//
+//    public World getWorld()
+//    {
+//        return FMLClientHandler.instance().getClient().theWorld;
+//    }
+//
+//    public void registerTESR(Class<? extends TileEntity> tile, TileEntitySpecialRenderer renderer)
+//    {
+//        ClientRegistry.bindTileEntitySpecialRenderer(tile, renderer);
+//    }
 }

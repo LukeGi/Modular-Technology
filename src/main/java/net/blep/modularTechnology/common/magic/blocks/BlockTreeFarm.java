@@ -12,16 +12,16 @@ import net.minecraft.world.World;
  */
 public class BlockTreeFarm extends MagicBlockContainer
 {
-    public BlockTreeFarm()
-    {
-        super(Material.iron);
-        setBlockName("tree_farm");
-        GameRegistry.registerTileEntity(TETreeFarm.class, MTMagic.MODID + "tree_farm");
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
-        return new TETreeFarm();
-    }
+//    public BlockTreeFarm()
+//    {
+//        super(Material.iron);
+//        setBlockName("tree_farm");
+//        GameRegistry.registerTileEntity(TETreeFarm.class, MTMagic.MODID + "tree_farm");
+//    }
+//
+//    @Override
+//    public TileEntity createNewTileEntity(World world, int meta)
+//    {
+//        return new TETreeFarm();
+//    }
 }

@@ -1,11 +1,7 @@
 package com.blep.modularTechnology.core.common.item;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.blep.modularTechnology.common.core.util.IconHelper;
 import net.blep.modularTechnology.common.magic.MTMagic;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -38,10 +34,10 @@ public class ModItem extends Item
         return super.getUnlocalizedNameInefficiently(stack).replaceAll("item\\.", "item." + MTMagic.MODID + ":");
     }
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        itemIcon = IconHelper.forItem(iconRegister, this);
-    }
+//    @Override
+//    @SideOnly(Side.CLIENT)
+//    public void registerIcons(IIconRegister iconRegister)
+//    {
+//        itemIcon = IconHelper.forItem(iconRegister, this);
+//    }
 }

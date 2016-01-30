@@ -9,8 +9,8 @@ import static net.minecraftforge.oredict.OreDictionary.*;
  */
 public class OreDict extends ModContent
 {
-    public static void init()
-    {
-        registerOre("dustStone", getTechModItems().dustStone);
-    }
+//    public static void init()
+//    {
+//        registerOre("dustStone", getTechModItems().dustStone);
+//    }
 }
