@@ -1,5 +1,6 @@
 package modulartechnology.proxy;
 
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import modulartechnology.item.ItemBase;
 import modulartechnology.networking.ModularTechnologyPacketHandler;
@@ -17,7 +18,7 @@ public abstract class CommonProxy implements IProxy {
 
     @Override
     public void registerItems() {
-        GameRegistry.registerItem(new ItemBase().setUnlocalizedName("item"), "item");
+        GameRegistry.registerItem(new ItemBase("item"), "item");
     }
 
     @Override
