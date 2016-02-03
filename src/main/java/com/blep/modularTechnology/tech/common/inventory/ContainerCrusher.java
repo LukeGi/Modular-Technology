@@ -1,7 +1,7 @@
 package com.blep.modularTechnology.tech.common.inventory;
 
-import com.blep.modularTechnology.core.common.inventory.ContainerModtechBase;
-import com.blep.modularTechnology.core.common.inventory.SlotOutput;
+import modulartechnology.inventory.ContainerModtechBase;
+import modulartechnology.inventory.SlotOutput;
 import com.blep.modularTechnology.core.common.util.ShiftClickTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

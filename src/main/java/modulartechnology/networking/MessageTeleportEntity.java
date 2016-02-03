@@ -1,7 +1,6 @@
 package modulartechnology.networking;
 
 import io.netty.buffer.ByteBuf;
-import com.blep.modularTechnology.core.common.network.PacketBase;
 import net.minecraft.entity.Entity;
 
 /**

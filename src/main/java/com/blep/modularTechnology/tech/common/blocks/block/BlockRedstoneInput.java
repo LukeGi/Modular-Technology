@@ -1,11 +1,5 @@
 package com.blep.modularTechnology.tech.common.blocks.block;
 
-import com.blep.modularTechnology.core.common.blocks.block.ModBlockTileEntity;
-import com.blep.modularTechnology.tech.common.blocks.tileentity.TileEntityRedstoneInput;
-import net.minecraft.block.material.Material;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-
 /**
  * @author Kelan
  */

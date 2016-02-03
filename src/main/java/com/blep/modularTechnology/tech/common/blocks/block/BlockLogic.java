@@ -1,12 +1,5 @@
 package com.blep.modularTechnology.tech.common.blocks.block;
 
-import com.blep.modularTechnology.core.common.inventory.ModGuiHandler;
-import com.blep.modularTechnology.core.common.blocks.block.BlockMachineBase;
-import com.blep.modularTechnology.tech.common.blocks.tileentity.TileEntityLogic;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
-
 /**
  * @author Kelan
  */

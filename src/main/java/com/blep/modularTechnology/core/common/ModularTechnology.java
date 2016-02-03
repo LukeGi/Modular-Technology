@@ -6,7 +6,7 @@ package com.blep.modularTechnology.core.common;
 //import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 //import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 //import cpw.mods.fml.common.network.NetworkRegistry;
-//import com.blep.modularTechnology.core.common.inventory.ModGuiHandler;
+//import modulartechnology.inventory.ModGuiHandler;
 //import com.blep.modularTechnology.core.common.util.LogHelper;
 //import modulartechnology.reference.ModInfo;
 //

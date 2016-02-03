@@ -1,4 +1,5 @@
-package net.blep.modularTechnology.common.tech.recipe;
+package modulartechnology.recipe;
+
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -12,16 +13,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * @author TheEpicTekkit
  */
 public class RecipesCrusher
 {
-//    private static Map<ItemStack, List<Pair<ItemStack, Float>>> recipeList = Maps.newHashMap();
-//
-//    public static void init()
-//    {
+    private static Map<ItemStack, List<Pair<ItemStack, Float>>> recipeList = Maps.newHashMap();
+
+    public static void init()
+    {
 //        addRecipe(new String[]{"oreBauxite", "oreAluminium", "oreAluminum"}, new ItemStack(getTechModItems().lumpAluminium, 2), new ItemStack(getTechModItems().dustAluminium), 0.21F, new ItemStack(getTechModItems().dustStone), 0.04F);
 //        addRecipe(new String[]{"oreChromium", "oreChrome"}, new ItemStack(getTechModItems().lumpChromium, 2), new ItemStack(getTechModItems().dustChromium), 0.16F, new ItemStack(getTechModItems().dustStone), 0.04F);
 //        addRecipe(new String[]{"oreCopper"}, new ItemStack(getTechModItems().lumpCopper, 2), new ItemStack(getTechModItems().dustCopper), 0.17F, new ItemStack(getTechModItems().dustStone), 0.04F);
@@ -49,51 +49,51 @@ public class RecipesCrusher
 //        addRecipe(new String[]{"ingotYttrium"}, new ItemStack(getTechModItems().dustYttrium, 2), null, 0.0F, null, 0.0F);
 //        addRecipe(new String[]{"ingotZinc"}, new ItemStack(getTechModItems().dustZinc, 2), null, 0.0F, null, 0.0F);
 //        addRecipe(new String[]{"ingotZirconium"}, new ItemStack(getTechModItems().dustZirconium, 2), null, 0.0F, null, 0.0F);
-//    }
-//
-//    public static void addRecipe(String[] oreDictNames, ItemStack out, ItemStack byp1, float chance1, ItemStack byp2, float chance2)
-//    {
-//        for (String oreDict : oreDictNames)
-//        {
-//            List<ItemStack> inputs = OreDictionary.getOres(oreDict);
-//
-//            for (ItemStack i : inputs)
-//            {
-//                addRecipe(i.copy(), out != null ? out.copy() : null, byp1 != null ? byp1.copy() : null, chance1, byp2 != null ? byp2.copy() : null, chance2);
-//            }
-//        }
-//    }
-//
-//    public static void addRecipe(ItemStack input, ItemStack out, ItemStack byp1, float chance1, ItemStack byp2, float chance2)
-//    {
-//        List<Pair<ItemStack, Float>> outputs = Lists.newArrayList();
-//
-//        outputs.add(new Pair<ItemStack, Float>(out, 1.0F));
-//        if (byp1 != null)
-//        {
-//            outputs.add(new Pair<ItemStack, Float>(byp1, chance1));
-//        }
-//        if (byp2 != null)
-//        {
-//            outputs.add(new Pair<ItemStack, Float>(byp2, chance2));
-//        }
-//
-//        recipeList.put(input, Collections.unmodifiableList(outputs));
-//    }
-//
-//    public static List<Pair<ItemStack, Float>> getResultsFor(ItemStack input)
-//    {
-//        if (input != null && hasRecipeFor(input))
-//        {
-//            return new ArrayList<Pair<ItemStack, Float>>(recipeList.get(Item.getIdFromItem(input.getItem())));
-//        }
-//        return null;
-//
-//    }
-//
-//    public static boolean hasRecipeFor(ItemStack input)
-//    {
-//        if (input == null) return false;
-//        return recipeList.containsKey(input);
-//    }
+    }
+
+    public static void addRecipe(String[] oreDictNames, ItemStack out, ItemStack byp1, float chance1, ItemStack byp2, float chance2)
+    {
+        for (String oreDict : oreDictNames)
+        {
+            List<ItemStack> inputs = OreDictionary.getOres(oreDict);
+
+            for (ItemStack i : inputs)
+            {
+                addRecipe(i.copy(), out != null ? out.copy() : null, byp1 != null ? byp1.copy() : null, chance1, byp2 != null ? byp2.copy() : null, chance2);
+            }
+        }
+    }
+
+    public static void addRecipe(ItemStack input, ItemStack out, ItemStack byp1, float chance1, ItemStack byp2, float chance2)
+    {
+        List<Pair<ItemStack, Float>> outputs = Lists.newArrayList();
+
+        outputs.add(new Pair<ItemStack, Float>(out, 1.0F));
+        if (byp1 != null)
+        {
+            outputs.add(new Pair<ItemStack, Float>(byp1, chance1));
+        }
+        if (byp2 != null)
+        {
+            outputs.add(new Pair<ItemStack, Float>(byp2, chance2));
+        }
+
+        recipeList.put(input, Collections.unmodifiableList(outputs));
+    }
+
+    public static List<Pair<ItemStack, Float>> getResultsFor(ItemStack input)
+    {
+        if (input != null && hasRecipeFor(input))
+        {
+            return new ArrayList<Pair<ItemStack, Float>>(recipeList.get(Item.getIdFromItem(input.getItem())));
+        }
+        return null;
+
+    }
+
+    public static boolean hasRecipeFor(ItemStack input)
+    {
+        if (input == null) return false;
+        return recipeList.containsKey(input);
+    }
 }
