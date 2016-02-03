@@ -1,24 +1,46 @@
 package modulartechnology.item;
 
-import cpw.mods.fml.relauncher.Side;
-import modulartechnology.networking.ModularTechnologyPacketHandler;
-import modulartechnology.networking.MyMessage;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+
+import java.util.List;
 
 public class ItemBase extends Item {
+    private final String fullName;
 
-    @Override
-    public boolean onItemUse(ItemStack p_77648_1_, EntityPlayer p_77648_2_, World p_77648_3_, int p_77648_4_, int p_77648_5_, int p_77648_6_, int p_77648_7_, float p_77648_8_, float p_77648_9_, float p_77648_10_) {
-        return super.onItemUse(p_77648_1_, p_77648_2_, p_77648_3_, p_77648_4_, p_77648_5_, p_77648_6_, p_77648_7_, p_77648_8_, p_77648_9_, p_77648_10_);
+    public ItemBase(String name) {
+        this.fullName = name;
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack p_77659_1_, World p_77659_2_, EntityPlayer p_77659_3_) {
-        if(p_77659_2_.isRemote)
-            ModularTechnologyPacketHandler.INSTANCE.sendToServer(new MyMessage((int)p_77659_3_.getPosition(0).yCoord));
-        return super.onItemRightClick(p_77659_1_, p_77659_2_, p_77659_3_);
+    public String toString() {
+        return this.fullName;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public final void addInformation(final ItemStack stack, final EntityPlayer player, final List lines, final boolean displayMoreInfo) {
+        this.addCheckedInformation(stack, player, lines, displayMoreInfo);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public final void getSubItems(final Item sameItem, final CreativeTabs creativeTab, final List itemStacks) {
+        this.getCheckedSubItems(sameItem, creativeTab, itemStacks);
+    }
+
+    @Override
+    public boolean isBookEnchantable(final ItemStack itemstack1, final ItemStack itemstack2) {
+        return false;
+    }
+
+    protected void addCheckedInformation(final ItemStack stack, final EntityPlayer player, final List<String> lines, final boolean displayMoreInfo) {
+        super.addInformation(stack, player, lines, displayMoreInfo);
+    }
+
+    protected void getCheckedSubItems(final Item sameItem, final CreativeTabs creativeTab, final List<ItemStack> itemStacks) {
+        super.getSubItems(sameItem, creativeTab, itemStacks);
     }
 }

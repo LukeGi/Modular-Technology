@@ -16,5 +16,5 @@ public class ModInfo {
     public static final String RESOURCE_PREFIX = MOD_ID + ":";
     public static final String CLIENT_PROXY_CLASS = MOD_ID + ".proxy.ClientProxy";
     public static final String SERVER_PROXY_CLASS = MOD_ID + ".proxy.ServerProxy";
-    public static final String GUI_FACTORY_CLASS = "modularTechnology.client.gui.GuiFactory";
+    public static final String GUI_FACTORY_CLASS = MOD_ID + ".client.gui.inventory.GuiFactory";
 }

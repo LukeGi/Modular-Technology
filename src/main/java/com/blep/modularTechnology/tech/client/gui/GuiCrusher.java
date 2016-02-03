@@ -2,16 +2,7 @@ package com.blep.modularTechnology.tech.client.gui;
 
 
 
-import com.blep.modularTechnology.core.common.energy.EnumEnergyDirection;
-import com.blep.modularTechnology.core.common.util.MethodHelper;
-import com.blep.modularTechnology.core.client.inventory.GuiModtechBase;
-import com.blep.modularTechnology.tech.common.inventory.ContainerCrusher;
-import com.blep.modularTechnology.tech.common.blocks.tileentity.TileEntityCrusher;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.util.EnumChatFormatting;
-
-import java.text.DecimalFormat;
+import modulartechnology.client.gui.inventory.GuiModtechBase;
 
 /**
  * @author TheEpicTekkit
