@@ -1,31 +1,5 @@
 package net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.TE;
 
-import com.google.common.collect.Lists;
-import com.blep.modularTechnology.core.common.network.ModPacketHandler;
-import com.blep.modularTechnology.core.common.network.packets.MessageSetBlock;
-import com.blep.modularTechnology.core.common.util.Int3;
-import net.blep.modularTechnology.common.magic.blocks.MagicBlockHandler;
-import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.Multiblock;
-import net.blep.modularTechnology.common.magic.blocks.tile.multiblocks.MultiblockBlockCoordPair;
-import net.blep.modularTechnology.common.magic.items.ItemDesignator;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeavesBase;
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityHopper;
-import net.minecraft.util.AxisAlignedBB;
-
-import java.util.*;
-
 /**
  * @author bluemonster122 <boo122333@gmail.com> TODONE
  */

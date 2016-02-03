@@ -1,21 +1,6 @@
 package net.blep.modularTechnology.common.magic.items;
 
 import com.blep.modularTechnology.core.common.items.ModItem;
-import com.blep.modularTechnology.core.common.network.ModPacketHandler;
-import com.blep.modularTechnology.core.common.network.packets.MessageSetBlock;
-import com.blep.modularTechnology.core.common.util.Int3;
-import net.blep.modularTechnology.common.magic.MTMagic;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-
-import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 /**
  * @author bluemonster122 <boo122333@gmail.com>

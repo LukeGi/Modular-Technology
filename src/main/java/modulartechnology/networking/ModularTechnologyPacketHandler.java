@@ -10,6 +10,10 @@ public class ModularTechnologyPacketHandler {
     public static int id = 0;
 
     public static void registerMessages(){
-        INSTANCE.registerMessage(MyMessage.MyMessageHandler.class, MyMessage.class, id++, Side.SERVER);
+        // Fix that the packets dont have a proper handler TODO
+//        INSTANCE.registerMessage(MessageMoveEntity.class, MessageMoveEntity.class, id++, Side.SERVER);
+//        INSTANCE.registerMessage(MessageSpawnEntity.class, MessageSpawnEntity.class, id++, Side.SERVER);
+//        INSTANCE.registerMessage(MessageSetBlock.class, MessageSetBlock.class, id++, Side.SERVER);
+//        INSTANCE.registerMessage(MessageTeleportEntity.class, MessageTeleportEntity.class, id++, Side.SERVER);
     }
 }

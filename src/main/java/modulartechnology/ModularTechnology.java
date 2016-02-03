@@ -24,7 +24,7 @@ public class ModularTechnology {
     public void preInit(FMLPreInitializationEvent event) {
         // Deal with Configs
         ConfigHandler.init(event.getSuggestedConfigurationFile());
-        
+
         // Deal with Items
         proxy.registerItems();
     }
