@@ -2,10 +2,10 @@ package modulartechnology.client.gui;
 
 
 
-import com.blep.modularTechnology.core.common.energy.EnumEnergyDirection;
-import com.blep.modularTechnology.core.common.util.MethodHelper;
+import modulartechnology.energy.EnumEnergyDirection;
+import modulartechnology.util.MethodHelper;
 import modulartechnology.tileentity.TileEntityCrusher;
-import com.blep.modularTechnology.tech.common.inventory.ContainerCrusher;
+import modulartechnology.inventory.ContainerCrusher;
 import com.ibm.icu.text.DecimalFormat;
 import modulartechnology.client.gui.inventory.GuiModtechBase;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,7 +1,7 @@
 package modulartechnology.inventory;
 
-import com.blep.modularTechnology.core.common.util.MethodHelper;
-import com.blep.modularTechnology.core.common.util.ShiftClickTarget;
+import modulartechnology.util.MethodHelper;
+import modulartechnology.util.ShiftClickTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

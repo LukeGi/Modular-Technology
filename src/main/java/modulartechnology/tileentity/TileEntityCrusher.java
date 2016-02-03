@@ -1,10 +1,9 @@
 package modulartechnology.tileentity;
 
-import com.blep.modularTechnology.core.common.blocks.tileentity.TileEntityMachineBase;
-import com.blep.modularTechnology.core.common.energy.EnergyNetwork;
-import com.blep.modularTechnology.core.common.energy.EnumEnergyDirection;
-import com.blep.modularTechnology.core.common.energy.EnumPowerStatus;
-import com.blep.modularTechnology.core.common.energy.IMachine;
+import modulartechnology.energy.EnergyNetwork;
+import modulartechnology.energy.EnumEnergyDirection;
+import modulartechnology.energy.EnumPowerStatus;
+import modulartechnology.energy.IMachine;
 import javafx.util.Pair;
 import modulartechnology.recipe.RecipesCrusher;
 import net.minecraft.entity.player.EntityPlayer;

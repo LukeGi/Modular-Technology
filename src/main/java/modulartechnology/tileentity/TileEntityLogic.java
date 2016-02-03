@@ -1,6 +1,5 @@
 package modulartechnology.tileentity;
 
-import com.blep.modularTechnology.core.common.blocks.tileentity.TileEntityContainerHolder;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 

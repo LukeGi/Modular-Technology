@@ -2,7 +2,6 @@ package modulartechnology.config;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import com.blep.modularTechnology.core.common.ModularTechnology;
 import modulartechnology.reference.ModInfo;
 import net.minecraftforge.common.config.Configuration;
 

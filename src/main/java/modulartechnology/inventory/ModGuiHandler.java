@@ -1,8 +1,7 @@
 package modulartechnology.inventory;
 
-import com.blep.modularTechnology.core.common.blocks.tileentity.TileEntityContainerHolder;
+import modulartechnology.tileentity.TileEntityContainerHolder;
 import modulartechnology.client.gui.GuiCrusher;
-import com.blep.modularTechnology.tech.common.inventory.ContainerCrusher;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

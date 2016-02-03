@@ -1,8 +1,7 @@
 package modulartechnology.tileentity;
 
-import com.blep.modularTechnology.core.common.blocks.tileentity.SimpleTileEntity;
-import com.blep.modularTechnology.core.common.util.IRedstoneReciever;
-import com.blep.modularTechnology.core.common.util.Int3;
+import modulartechnology.util.IRedstoneReciever;
+import modulartechnology.util.Int3;
 import net.minecraft.tileentity.TileEntity;
 
 /**
