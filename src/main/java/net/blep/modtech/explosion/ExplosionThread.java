@@ -17,7 +17,7 @@ public class ExplosionThread extends Thread
     protected int y;
     protected int z;
 
-    protected HashSet<Vector3f> result = new HashSet<>();
+    protected HashSet<Vector3f> result = new HashSet<Vector3f>();
 
     public ExplosionThread(ExplosionModtech explosion, int x, int y, int z, float radius, float energy)
     {
