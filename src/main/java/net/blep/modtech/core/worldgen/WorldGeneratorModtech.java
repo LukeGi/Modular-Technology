@@ -41,7 +41,7 @@ public class WorldGeneratorModtech implements IWorldGenerator
 
     private void generateOres(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
         for (int i = 0; i < EnumOreGenProperties.values().length; i++) {
-            addOreSpawn(BlockHandler.BLOCK_METAL_ORE, i, world, random, chunkX, chunkZ, 16, 16, 2 + random.nextInt(4), 15, EnumOreGenProperties.values()[i].getMinHeight(), EnumOreGenProperties.values()[i].getMaxHeight());
+            EnumOreGenProperties.values()[i].generate(BlockHandler.BLOCK_METAL_ORE, i, world, random, chunkX, chunkZ);
         }
     }
 
@@ -53,16 +53,6 @@ public class WorldGeneratorModtech implements IWorldGenerator
     private void generateNether(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
     {
 
-    }
-
-    private void addOreSpawn(Block block, int meta, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chanceToSpawn, int minY, int maxY)
-    {
-        for (int i = 0; i < chanceToSpawn; i++) {
-            int posX= blockXPos + random.nextInt(maxX);
-            int posY= minY + random.nextInt(maxY - minY);
-            int posZ= blockZPos + random.nextInt(maxZ);
-            (new WorldGenMinable(block, meta, maxVeinSize, Blocks.stone)).generate(world, random, posX, posY, posZ);
-        }
     }
 
 }
