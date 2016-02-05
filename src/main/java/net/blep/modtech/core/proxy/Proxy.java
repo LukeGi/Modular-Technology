@@ -5,9 +5,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.blep.modtech.client.rendering.RenderingHandler;
+import net.blep.modtech.core.reference.ModInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -17,8 +17,13 @@ import net.minecraft.world.World;
  */
 public abstract class Proxy
 {
-    @SidedProxy(clientSide = "net.blep.modtech.core.proxy.ClientProxy", serverSide = "net.blep.modtech.core.proxy.ServerProxy")
+    @SidedProxy(clientSide = ModInfo.CLIENT_PROXY_CLASS, serverSide = ModInfo.SERVER_PROXY_CLASS)
     public static Proxy PROXY;
+
+    public static final Proxy get()
+    {
+        return PROXY;
+    }
 
     public abstract RenderingHandler getRenderers();
 
@@ -37,9 +42,4 @@ public abstract class Proxy
     public abstract void init(FMLInitializationEvent event);
 
     public abstract void postInit(FMLPostInitializationEvent event);
-
-    public static final Proxy get()
-    {
-        return PROXY;
-    }
 }

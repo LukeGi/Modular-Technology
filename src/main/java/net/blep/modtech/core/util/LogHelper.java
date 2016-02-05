@@ -1,7 +1,7 @@
 package net.blep.modtech.core.util;
 
 import cpw.mods.fml.common.FMLLog;
-import net.blep.modtech.core.ModTech;
+import net.blep.modtech.core.reference.ModInfo;
 import org.apache.logging.log4j.Level;
 
 /**
@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Level;
 public class LogHelper {
     public static void log(Level loglevel, Object object)
     {
-        FMLLog.log(ModTech.MOD_NAME, loglevel, String.valueOf(object));
+        FMLLog.log(ModInfo.MOD_NAME, loglevel, String.valueOf(object));
     }
 
     public static void all (Object object) { log(Level.ALL, object); }

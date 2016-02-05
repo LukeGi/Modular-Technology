@@ -1,31 +1,22 @@
 package net.blep.modtech.core;
 
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modtech.blocks.BlockHandler;
 import net.blep.modtech.core.proxy.Proxy;
+import net.blep.modtech.core.reference.ModInfo;
 import net.blep.modtech.core.worldgen.WorldGeneratorModtech;
 import net.blep.modtech.items.ItemHandler;
 
 /**
  * Created by Kelan on 24/01/2016.
  */
-@Mod(modid = ModTech.MOD_ID, name = ModTech.MOD_NAME, version = ModTech.MOD_VERSION)
+@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, dependencies = ModInfo.DEPENDENCIES)
 public final class ModTech
 {
-    private static final int version = 1;
-    private static final int subVersion = 0;
-    private static final int releaseVersion = 0;
-    private static final String state = "alpha";
-
-    public static final String MOD_ID = "modtech";
-    public static final String MOD_NAME = "Modular Technology";
-    public static final String MOD_VERSION = version + "." + subVersion + " rv" + releaseVersion + " " + state;
-
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {

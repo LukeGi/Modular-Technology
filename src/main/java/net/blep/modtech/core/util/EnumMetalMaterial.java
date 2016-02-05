@@ -28,6 +28,8 @@ public enum EnumMetalMaterial
     ZHYCONITE(102, 0.7f, 3, new Vector3f(0.619607843F, 0.834509804F, 0.902745098F), 3536, 153, "Zhyconite");
 
 
+    public static final EnumMetalMaterial[] ORES = new EnumMetalMaterial[] {COPPER, TIN, LEAD, SILVER, PLATINUM, CHROMIUM, ZINC, MAGNESIUM, MANGANESE, YTTRIUM, ZIRCONIUM, ALUMINIUM, MOLYBDENUM, TITANIUM};
+    public static final EnumMetalMaterial[] ALLOYS = new EnumMetalMaterial[] {STEEL, BRONZE, ZHYCONITE};
     private final String name;
     private final String[] oreDictNames;
     private final float smeltingXP;
@@ -39,9 +41,6 @@ public enum EnumMetalMaterial
     private final Item.ToolMaterial toolMaterial;
     private final Vector3f colour;
     private boolean isAlloy;
-
-    public static final EnumMetalMaterial[] ORES = new EnumMetalMaterial[] {COPPER, TIN, LEAD, SILVER, PLATINUM, CHROMIUM, ZINC, MAGNESIUM, MANGANESE, YTTRIUM, ZIRCONIUM, ALUMINIUM, MOLYBDENUM, TITANIUM};
-    public static final EnumMetalMaterial[] ALLOYS = new EnumMetalMaterial[] {STEEL, BRONZE, ZHYCONITE};
 
     EnumMetalMaterial(int name, float smeltingXP, int miningLevel, Vector3f colour, int strength, int enchantability, String... oreDictNames)
     {
