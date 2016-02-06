@@ -5,6 +5,8 @@ import net.blep.modtech.blocks.block.BlockBigFurnace;
 import net.blep.modtech.blocks.block.BlockMetal;
 import net.blep.modtech.blocks.block.BlockNuke;
 import net.blep.modtech.blocks.block.BlockOre;
+import net.blep.modtech.blocks.tileentity.TileEntityBigFurnace;
+import net.blep.modtech.core.reference.ModInfo;
 import net.blep.modtech.core.util.BlockTexture;
 import net.blep.modtech.items.itemblock.ItemBlockMetalBlock;
 import net.blep.modtech.items.itemblock.ItemBlockOre;
@@ -27,5 +29,7 @@ public class BlockHandler
         GameRegistry.registerBlock(BLOCK_NUKE, "nuke");
         GameRegistry.registerBlock(BLOCK_METAL_ORE, ItemBlockMetalBlock.class, "blockOre");
         GameRegistry.registerBlock(BLOCK_METAL_BLOCK, ItemBlockMetalBlock.class, "blockMetal");
+
+        GameRegistry.registerTileEntity(TileEntityBigFurnace.class, ModInfo.MOD_ID + "BigFurnace");
     }
 }

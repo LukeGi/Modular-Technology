@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 /**
  * Created by Kelan on 24/01/2016.
@@ -41,5 +42,9 @@ public abstract class ModBlock extends Block
     {
         this.textureConfiguration = texture;
         return this;
+    }
+
+    public void makeFront(int side, World world, int x, int y, int z) {
+        this.textureConfiguration.setFront(side, world, x, y, z);
     }
 }

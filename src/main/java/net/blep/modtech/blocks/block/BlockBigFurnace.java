@@ -3,6 +3,7 @@ package net.blep.modtech.blocks.block;
 import net.blep.modtech.core.util.BlockProperties;
 import net.blep.modtech.blocks.ModTileBlock;
 import net.blep.modtech.blocks.tileentity.TileEntityBigFurnace;
+import net.blep.modtech.api.IWrenchable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,7 @@ import net.minecraft.world.World;
 /**
  * Created by Kelan on 24/01/2016.
  */
-public class BlockBigFurnace extends ModTileBlock
+public class BlockBigFurnace extends ModTileBlock implements IWrenchable
 {
     public BlockBigFurnace()
     {
@@ -25,7 +26,7 @@ public class BlockBigFurnace extends ModTileBlock
         return new TileEntityBigFurnace();
     }
 
-    @Override
+    @Override// when hitX > something: rotate a certain way nononono blue make it face up do it
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (!world.isRemote)
