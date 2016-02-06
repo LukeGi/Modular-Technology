@@ -15,36 +15,36 @@ import java.util.Random;
  */
 public enum EnumOreGenProperties
 {
-    COPPER(12, 35, 75, 2, 4, null, new int[]{0}),
-    TIN(13, 30, 65, 2, 4, null, new int[]{0}),
-    LEAD(8, 10, 35, 2, 4, null, new int[]{0}),
-    SILVER(8, 5, 45, 2, 4, null, new int[]{0}),
-    PLATINUM(2, 5, 22, 2, 4, null, new int[]{0}),
-    CHROMIUM(4, 10, 20, 2, 4, null, new int[]{0}),
-    ZINC(10, 5, 64, 2, 4, null, new int[]{0}),
-    MAGNESIUM(9, 5, 80, 2, 4, null, new int[]{0}),
-    MANGANESE(9, 40, 60, 2, 4, null, new int[]{0}),
-    YTTRIUM(10, 5, 35, 2, 4, null, new int[]{0}),
-    ZIRCONIUM(9, 20, 35, 2, 4, null, new int[]{0}),
-    ALUMINIUM(11, 15, 40, 2, 4, null, new int[]{0}),
-    MOLYBDENUM(9, 14, 45, 2, 4, null, new int[]{0}),
-    TITANIUM(4, 5, 35, 2, 4, null, new int[]{0});
+    COPPER(0.40F, 35, 75, 16, 1.0F, null, new int[]{0}),
+    TIN(0.45F, 30, 65, 16, 1.0F, null, new int[]{0}),
+    LEAD(0.20F, 10, 35, 16, 1.0F, null, new int[]{0}),
+    SILVER(0.12F, 5, 45, 16, 1.0F, null, new int[]{0}),
+    PLATINUM(0.08F, 5, 22, 16, 1.0F, null, new int[]{0}),
+    CHROMIUM(0.09F, 10, 20, 16, 1.0F, null, new int[]{0}),
+    ZINC(0.70F, 5, 64, 16, 1.0F, null, new int[]{0}),
+    MAGNESIUM(0.52F, 5, 80, 16, 1.0F, null, new int[]{0}),
+    MANGANESE(0.32F, 40, 60, 16, 1.0F, null, new int[]{0}),
+    YTTRIUM(0.36F, 5, 35, 16, 1.0F, null, new int[]{0}),
+    ZIRCONIUM(0.32F, 20, 35, 16, 1.0F, null, new int[]{0}),
+    ALUMINIUM(0.58F, 15, 40, 16, 1.0F, null, new int[]{0}),
+    MOLYBDENUM(0.26F, 14, 45, 16, 1.0F, null, new int[]{0}),
+    TITANIUM(0.10F, 5, 35, 16, 1.0F, null, new int[]{0});
 
     private float chancePerChunk;
     private int minHeight;
     private int maxHeight;
     private int veinSize;
-    private int weight;
+    private float weight;
     private Block spawnAround;
     private String[] biomes;
     private int[] dimensions;
 
-    EnumOreGenProperties(float chancePerChunk, int minHeight, int maxHeight, int veinSize, int weight, String[] biomes, int[] dimensions)
+    EnumOreGenProperties(float chancePerChunk, int minHeight, int maxHeight, int veinSize, float weight, String[] biomes, int[] dimensions)
     {
         this(chancePerChunk, minHeight, maxHeight, veinSize, weight, Blocks.stone, biomes, dimensions);
     }
 
-    EnumOreGenProperties(float chancePerChunk, int minHeight, int maxHeight, int veinSize, int weight, Block spawnAround, String[] biomes, int[] dimensions)
+    EnumOreGenProperties(float chancePerChunk, int minHeight, int maxHeight, int veinSize, float weight, Block spawnAround, String[] biomes, int[] dimensions)
     {
         this.chancePerChunk = chancePerChunk;
         this.minHeight = minHeight;
@@ -76,7 +76,7 @@ public enum EnumOreGenProperties
         return veinSize;
     }
 
-    public int getWeight()
+    public float getWeight()
     {
         return weight;
     }
@@ -91,19 +91,18 @@ public enum EnumOreGenProperties
         return dimensions;
     }
 
-    public void generate(Block block, int meta, World world, Random random, int blockXPos, int blockZPos)
-    {
-        int maxVeinSize = this.veinSize + random.nextInt(this.weight);
-        for (int i = 0; i < this.chancePerChunk; i++) {
-            int posX= blockXPos + random.nextInt(16);
-            int posY= this.minHeight + random.nextInt(this.maxHeight - this.minHeight);
-            int posZ= blockZPos + random.nextInt(16);
-            (new WorldGenMinable(block, meta, maxVeinSize, Blocks.stone)).generate(world, random, posX, posY, posZ);
-            LogHelper.info(String.format("Spawned a(n) %s ore patch at x: %s, y: %s, z: %s", name().toLowerCase(), posX, posY, posZ));
-        }
-    }
-
-    @Deprecated
+//    public void generate(Block block, int meta, World world, Random random, int blockXPos, int blockZPos)
+//    {
+//        int maxVeinSize = this.veinSize + random.nextInt(this.weight);
+//        for (int i = 0; i < this.chancePerChunk; i++) {
+//            int posX= blockXPos + random.nextInt(16);
+//            int posY= this.minHeight + random.nextInt(this.maxHeight - this.minHeight);
+//            int posZ= blockZPos + random.nextInt(16);
+//            (new WorldGenMinable(block, meta, maxVeinSize, Blocks.stone)).generate(world, random, posX, posY, posZ);
+//            LogHelper.info(String.format("Spawned a(n) %s ore patch at x: %s, y: %s, z: %s", name().toLowerCase(), posX, posY, posZ));
+//        }
+//    }
+    //  /cofh clearblocks <YourIGN> 100 200 100 stone dirt water lava gravel sand
     public boolean generate(World world, Random random, int chunkX, int chunkZ)
     {
         if (random.nextFloat() <= chancePerChunk && random.nextFloat() <= weight)
@@ -114,20 +113,20 @@ public enum EnumOreGenProperties
 
             float f = random.nextFloat() * (float) Math.PI;
             double d0 = (double) ((float) (x + 8) + MathHelper.sin(f) * (float) this.veinSize / 8.0F);
-            double d1 = (double) ((float) (x + 8) - MathHelper.sin(f) * (float) this.veinSize / 8.0F);
+            double d1 = (double) ((float) (x + 8) - MathHelper.cos(f) * (float) this.veinSize / 8.0F);
             double d2 = (double) ((float) (z + 8) + MathHelper.cos(f) * (float) this.veinSize / 8.0F);
-            double d3 = (double) ((float) (z + 8) - MathHelper.cos(f) * (float) this.veinSize / 8.0F);
+            double d3 = (double) ((float) (z + 8) - MathHelper.sin(f) * (float) this.veinSize / 8.0F);
             double d4 = (double) (y + random.nextInt(3) - 2);
             double d5 = (double) (y + random.nextInt(3) - 2);
 
-            System.out.println("Spawning vein of " + this + " at " + x + " " + y + " " + z);
+            LogHelper.info(String.format("Spawning an ore Patch of %s ore, at the coords [%s, %s, %s]", this.name().toLowerCase(), x, y, z));
             for (int l = 0; l <= this.veinSize; ++l)
             {
                 double d6 = d0 + (d1 - d0) * (double) l / (double) this.veinSize;
                 double d7 = d4 + (d5 - d4) * (double) l / (double) this.veinSize;
                 double d8 = d2 + (d3 - d2) * (double) l / (double) this.veinSize;
                 double d9 = random.nextDouble() * (double) this.veinSize / 16.0D;
-                double d10 = (double) (MathHelper.sin((float) l * (float) Math.PI / (float) this.veinSize) + 1.0F) * d9 + 1.0D;
+                double d10 = (double) (MathHelper.sin((float) l * (float) Math.PI / (float) this.veinSize) + 10.0F) * d9 + 1.0D;
                 double d11 = (double) (MathHelper.sin((float) l * (float) Math.PI / (float) this.veinSize) + 1.0F) * d9 + 1.0D;
                 int i1 = MathHelper.floor_double(d6 - d10 / 2.0D);
                 int j1 = MathHelper.floor_double(d7 - d11 / 2.0D);
@@ -166,4 +165,29 @@ public enum EnumOreGenProperties
         }
         return false;
     }
+
+    /*
+    this.ironGen = new WorldGenMinable(Blocks.iron_ore, 8);
+
+    if (TerrainGen.generateOre(currentWorld, randomGenerator, ironGen, chunk_X, chunk_Z, IRON))
+        this.genStandardOre1(20, this.ironGen, 0, 64);
+
+    public static boolean generateOre(World world, Random rand, WorldGenerator generator, int worldX, int worldZ, GenerateMinable.EventType type)
+    {
+        GenerateMinable event = new GenerateMinable(world, rand, generator, worldX, worldZ, type);
+        MinecraftForge.ORE_GEN_BUS.post(event);
+        return event.getResult() != Result.DENY;
+    }
+
+    protected void genStandardOre1(int p_76795_1_, WorldGenerator p_76795_2_, int p_76795_3_, int p_76795_4_)
+    {
+        for (int l = 0; l < p_76795_1_; ++l)
+        {
+            int i1 = this.chunk_X + this.randomGenerator.nextInt(16);
+            int j1 = this.randomGenerator.nextInt(p_76795_4_ - p_76795_3_) + p_76795_3_;
+            int k1 = this.chunk_Z + this.randomGenerator.nextInt(16);
+            p_76795_2_.generate(this.currentWorld, this.randomGenerator, i1, j1, k1);
+        }
+    }
+     */
 }

@@ -12,6 +12,7 @@ import java.io.File;
  */
 public class ConfigHandler {
     public static Configuration configuration;
+    public static boolean doOreGen;
 
     public static void init(File configFile) {
         // Create the configuration object from the given configuration file
@@ -22,6 +23,7 @@ public class ConfigHandler {
     }
 
     private static void loadConfiguration() {
+        doOreGen = configuration.getBoolean("doOreGen", Configuration.CATEGORY_GENERAL, true, "true = do spawn ores, false = dont spawn ores");
         if (configuration.hasChanged()) {
             configuration.save();
         }

@@ -6,10 +6,13 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modtech.blocks.BlockHandler;
+import net.blep.modtech.core.config.ConfigHandler;
 import net.blep.modtech.core.proxy.Proxy;
 import net.blep.modtech.core.reference.ModInfo;
+import net.blep.modtech.core.util.LogHelper;
 import net.blep.modtech.core.worldgen.WorldGeneratorModtech;
 import net.blep.modtech.items.ItemHandler;
+import org.apache.commons.logging.Log;
 
 /**
  * Created by Kelan on 24/01/2016.
@@ -21,6 +24,7 @@ public final class ModTech
     public void preInit(FMLPreInitializationEvent event)
     {
         System.out.println("Preinit");
+        ConfigHandler.init(event.getSuggestedConfigurationFile());
         BlockHandler.registerBlocks();
         ItemHandler.registerItems();
         Proxy.get().preInit(event);
