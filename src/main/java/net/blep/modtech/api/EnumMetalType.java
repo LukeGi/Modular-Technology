@@ -1,4 +1,6 @@
-package net.blep.modtech.core.util;
+package net.blep.modtech.api;
+
+import net.blep.modtech.core.util.Names;
 
 /**
  * Created by Kelan on 03/02/2016.

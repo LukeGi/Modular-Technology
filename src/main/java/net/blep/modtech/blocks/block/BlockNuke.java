@@ -1,6 +1,6 @@
 package net.blep.modtech.blocks.block;
 
-import net.blep.modtech.core.util.BlockProperties;
+import net.blep.modtech.api.BlockProperties;
 import net.blep.modtech.blocks.ModTileBlock;
 import net.blep.modtech.blocks.tileentity.TileEntityNuke;
 import net.minecraft.tileentity.TileEntity;

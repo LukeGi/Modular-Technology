@@ -2,13 +2,17 @@ package net.blep.modtech.core.util;
 
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Created by Blue <boo122333@gmail.com>
  */
-public class HelpfulMethods {
+public class HelpfulMethods
+{
+    public static final ForgeDirection[] DEFAULT_DIRECTIONS = new ForgeDirection[] {ForgeDirection.NORTH, ForgeDirection.SOUTH, ForgeDirection.EAST, ForgeDirection.WEST};
 
-    public static void removeBlockSafely(World world, int x, int y, int z, boolean dropItem) {
+    public static void removeBlockSafely(World world, int x, int y, int z, boolean dropItem)
+    {
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
         if (dropItem)

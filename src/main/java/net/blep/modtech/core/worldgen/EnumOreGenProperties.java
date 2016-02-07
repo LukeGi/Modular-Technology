@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 
 import java.util.Random;
 
@@ -91,7 +90,7 @@ public enum EnumOreGenProperties
         return dimensions;
     }
 
-//    public void generate(Block block, int meta, World world, Random random, int blockXPos, int blockZPos)
+    //    public void generate(Block block, int meta, World world, Random random, int blockXPos, int blockZPos)
 //    {
 //        int maxVeinSize = this.veinSize + random.nextInt(this.weight);
 //        for (int i = 0; i < this.chancePerChunk; i++) {
@@ -103,8 +102,10 @@ public enum EnumOreGenProperties
 //        }
 //    }
     //  /cofh clearblocks <YourIGN> 100 200 100 stone dirt water lava gravel sand
+
     public boolean generate(World world, Random random, int chunkX, int chunkZ)
     {
+        boolean flag = false;
         if (random.nextFloat() <= chancePerChunk && random.nextFloat() <= weight)
         {
             int x = random.nextInt(16) * chunkX;
@@ -112,49 +113,48 @@ public enum EnumOreGenProperties
             int z = random.nextInt(16) * chunkZ;
 
             float f = random.nextFloat() * (float) Math.PI;
-            double d0 = (double) ((float) (x + 8) + MathHelper.sin(f) * (float) this.veinSize / 8.0F);
-            double d1 = (double) ((float) (x + 8) - MathHelper.cos(f) * (float) this.veinSize / 8.0F);
-            double d2 = (double) ((float) (z + 8) + MathHelper.cos(f) * (float) this.veinSize / 8.0F);
-            double d3 = (double) ((float) (z + 8) - MathHelper.sin(f) * (float) this.veinSize / 8.0F);
-            double d4 = (double) (y + random.nextInt(3) - 2);
-            double d5 = (double) (y + random.nextInt(3) - 2);
+            double d0 = (double)((float)(x + 8) + MathHelper.sin(f) * (float)this.veinSize / 8.0F);
+            double d1 = (double)((float)(x + 8) - MathHelper.sin(f) * (float)this.veinSize / 8.0F);
+            double d2 = (double)((float)(z + 8) + MathHelper.cos(f) * (float)this.veinSize / 8.0F);
+            double d3 = (double)((float)(z + 8) - MathHelper.cos(f) * (float)this.veinSize / 8.0F);
+            double d4 = (double)(y + random.nextInt(3) - 2);
+            double d5 = (double)(y + random.nextInt(3) - 2);
 
-            LogHelper.info(String.format("Spawning an ore Patch of %s ore, at the coords [%s, %s, %s]", this.name().toLowerCase(), x, y, z));
             for (int l = 0; l <= this.veinSize; ++l)
             {
                 double d6 = d0 + (d1 - d0) * (double) l / (double) this.veinSize;
                 double d7 = d4 + (d5 - d4) * (double) l / (double) this.veinSize;
                 double d8 = d2 + (d3 - d2) * (double) l / (double) this.veinSize;
                 double d9 = random.nextDouble() * (double) this.veinSize / 16.0D;
-                double d10 = (double) (MathHelper.sin((float) l * (float) Math.PI / (float) this.veinSize) + 10.0F) * d9 + 1.0D;
+                double d10 = (double) (MathHelper.sin((float) l * (float) Math.PI / (float) this.veinSize) + 1.0F) * d9 + 1.0D;
                 double d11 = (double) (MathHelper.sin((float) l * (float) Math.PI / (float) this.veinSize) + 1.0F) * d9 + 1.0D;
-                int i1 = MathHelper.floor_double(d6 - d10 / 2.0D);
-                int j1 = MathHelper.floor_double(d7 - d11 / 2.0D);
-                int k1 = MathHelper.floor_double(d8 - d10 / 2.0D);
-                int l1 = MathHelper.floor_double(d6 + d10 / 2.0D);
-                int i2 = MathHelper.floor_double(d7 + d11 / 2.0D);
-                int j2 = MathHelper.floor_double(d8 + d10 / 2.0D);
+                int xStartRand = MathHelper.floor_double(d6 - d10 / 2.0D);
+                int yStartRand = MathHelper.floor_double(d7 - d11 / 2.0D);
+                int zStartRand = MathHelper.floor_double(d8 - d10 / 2.0D);
+                int xEndRand = MathHelper.floor_double(d6 + d10 / 2.0D);
+                int yEndRand = MathHelper.floor_double(d7 + d11 / 2.0D);
+                int zEndRand = MathHelper.floor_double(d8 + d10 / 2.0D);
 
-                for (int k2 = i1; k2 <= l1; ++k2)
+                for (int x0 = xStartRand; x0 <= xEndRand; ++x0)
                 {
-                    double d12 = ((double) k2 + 0.5D - d6) / (d10 / 2.0D);
+                    double d12 = ((double) x0 + 0.5D - d6) / (d10 / 2.0D);
 
                     if (d12 * d12 < 1.0D)
                     {
-                        for (int l2 = j1; l2 <= i2; ++l2)
+                        for (int y0 = yStartRand; y0 <= yEndRand; ++y0)
                         {
-                            double d13 = ((double) l2 + 0.5D - d7) / (d11 / 2.0D);
+                            double d13 = ((double) y0 + 0.5D - d7) / (d11 / 2.0D);
 
                             if (d12 * d12 + d13 * d13 < 1.0D)
                             {
-                                for (int i3 = k1; i3 <= j2; ++i3)
+                                for (int z0 = zStartRand; z0 <= zEndRand; ++z0)
                                 {
-                                    double d14 = ((double) i3 + 0.5D - d8) / (d10 / 2.0D);
+                                    double d14 = ((double) z0 + 0.5D - d8) / (d10 / 2.0D);
 
-                                    if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlock(k2, l2, i3).isReplaceableOreGen(world, k2, l2, i3, spawnAround))
+                                    if (d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && world.getBlock(x0, y0, z0).isReplaceableOreGen(world, x0, y0, z0, spawnAround))
                                     {
-                                        world.setBlock(k2, l2, i3, BlockHandler.BLOCK_METAL_ORE, ordinal(), 2);
-                                        return true;
+                                        world.setBlock(x0, y0, z0, BlockHandler.BLOCK_METAL_ORE, ordinal(), 2);
+                                        flag = true;
                                     }
                                 }
                             }
@@ -163,7 +163,7 @@ public enum EnumOreGenProperties
                 }
             }
         }
-        return false;
+        return flag;
     }
 
     /*

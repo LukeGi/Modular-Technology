@@ -1,15 +1,9 @@
 package net.blep.modtech.core.worldgen;
 
 import cpw.mods.fml.common.IWorldGenerator;
-import net.blep.modtech.blocks.BlockHandler;
 import net.blep.modtech.core.config.ConfigHandler;
-import net.blep.modtech.core.util.EnumMetalMaterial;
-import net.blep.modtech.items.itemblock.ItemBlockOre;
-import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.feature.WorldGenMinable;
 
 import java.util.Random;
 

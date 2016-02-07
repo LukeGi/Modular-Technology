@@ -2,9 +2,9 @@ package net.blep.modtech.blocks.block;
 
 import net.blep.modtech.blocks.ModBlock;
 import net.blep.modtech.core.proxy.Proxy;
-import net.blep.modtech.core.util.BlockProperties;
-import net.blep.modtech.core.util.BlockTexture;
-import net.blep.modtech.core.util.EnumMetalMaterial;
+import net.blep.modtech.api.BlockProperties;
+import net.blep.modtech.api.BlockTexture;
+import net.blep.modtech.api.EnumMetalMaterial;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -23,7 +23,7 @@ public class BlockMetal extends ModBlock
     public BlockMetal()
     {
         super(Material.rock);
-        setTextureConfiguration(new BlockTexture(null, "blockMetalBase"));
+        setTextureConfiguration(new BlockTexture(new String[EnumMetalMaterial.values().length][0], "blockMetalBase"));
         setCreativeTab(CreativeTabs.tabBlock);
         setBlockName("block");
     }

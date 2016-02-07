@@ -1,7 +1,7 @@
 package net.blep.modtech.items.item;
 
-import net.blep.modtech.core.util.EnumMetalMaterial;
-import net.blep.modtech.core.util.EnumMetalType;
+import net.blep.modtech.api.EnumMetalMaterial;
+import net.blep.modtech.api.EnumMetalType;
 import net.blep.modtech.core.util.ItemTexture;
 import net.blep.modtech.items.ModItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -12,8 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import org.lwjgl.util.vector.Vector3f;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

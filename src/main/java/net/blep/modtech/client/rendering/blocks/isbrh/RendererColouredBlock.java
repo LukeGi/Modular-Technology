@@ -17,22 +17,24 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Created by Kelan on 03/02/2016.
  */
-public class ColouredBlockRenderer implements ISimpleBlockRenderingHandler
+public class RendererColouredBlock implements ISimpleBlockRenderingHandler
 {
-    public ColouredBlockRenderer()
+    public RendererColouredBlock()
     {
     }
 
     @Override
     public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
     {
+        Block dimensionBlock = Blocks.stone;
+
         Tessellator tessellator = Tessellator.instance;
 
         IIcon[] blockTextures = new IIcon[6];
 
         for (int i = 0; i < 6; i++)
         {
-            blockTextures[i] = block.getBlockTextureFromSide(i) != null ? block.getBlockTextureFromSide(i) : Blocks.stone.getBlockTextureFromSide(i);
+            blockTextures[i] = block.getBlockTextureFromSide(i) != null ? block.getBlockTextureFromSide(i) : dimensionBlock.getBlockTextureFromSide(i);
         }
 
         block.setBlockBoundsForItemRender();
@@ -60,7 +62,7 @@ public class ColouredBlockRenderer implements ISimpleBlockRenderingHandler
         tessellator.startDrawingQuads();
         tessellator.setColorRGBA(255, 255, 255, 255);
         tessellator.setNormal(0.0F, 1.0F, 0.0F);
-        renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, Blocks.stone.getBlockTextureFromSide(1));
+        renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, dimensionBlock.getBlockTextureFromSide(1));
         tessellator.draw();
         tessellator.startDrawingQuads();
         tessellator.setColorRGBA(r, g, b, 255);
@@ -72,7 +74,7 @@ public class ColouredBlockRenderer implements ISimpleBlockRenderingHandler
         tessellator.setColorRGBA(255, 255, 255, 255);
         tessellator.setNormal(0.0F, 0.0F, -1F);
         tessellator.setTranslation(0.0F, 0.0F, f2);
-        renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, Blocks.stone.getBlockTextureFromSide(2));
+        renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, dimensionBlock.getBlockTextureFromSide(2));
         tessellator.setTranslation(0.0F, 0.0F, -f2);
         tessellator.draw();
         tessellator.startDrawingQuads();
@@ -87,7 +89,7 @@ public class ColouredBlockRenderer implements ISimpleBlockRenderingHandler
         tessellator.setColorRGBA(255, 255, 255, 255);
         tessellator.setNormal(0.0F, 0.0F, 1.0F);
         tessellator.setTranslation(0.0F, 0.0F, -f2);
-        renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, Blocks.stone.getBlockTextureFromSide(3));
+        renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, dimensionBlock.getBlockTextureFromSide(3));
         tessellator.setTranslation(0.0F, 0.0F, f2);
         tessellator.draw();
         tessellator.startDrawingQuads();
@@ -102,7 +104,7 @@ public class ColouredBlockRenderer implements ISimpleBlockRenderingHandler
         tessellator.setColorRGBA(255, 255, 255, 255);
         tessellator.setNormal(-1F, 0.0F, 0.0F);
         tessellator.setTranslation(f2, 0.0F, 0.0F);
-        renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, Blocks.stone.getBlockTextureFromSide(4));
+        renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, dimensionBlock.getBlockTextureFromSide(4));
         tessellator.setTranslation(-f2, 0.0F, 0.0F);
         tessellator.draw();
         tessellator.startDrawingQuads();
@@ -117,7 +119,7 @@ public class ColouredBlockRenderer implements ISimpleBlockRenderingHandler
         tessellator.setColorRGBA(255, 255, 255, 255);
         tessellator.setNormal(1.0F, 0.0F, 0.0F);
         tessellator.setTranslation(-f2, 0.0F, 0.0F);
-        renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, Blocks.stone.getBlockTextureFromSide(5));
+        renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, dimensionBlock.getBlockTextureFromSide(5));
         tessellator.setTranslation(f2, 0.0F, 0.0F);
         tessellator.draw();
         tessellator.startDrawingQuads();
@@ -135,15 +137,16 @@ public class ColouredBlockRenderer implements ISimpleBlockRenderingHandler
         if (block instanceof BlockOre)
         {
             GL11.glScalef(99F / 100F, 99F / 100F, 99F / 100F);
-            renderer.renderBlockAsItem(Blocks.stone, 1, 1);
+            renderer.renderBlockAsItem(dimensionBlock, 1, 1);
         }
     }
 
     @Override
     public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
     {
+        Block dimensionBlock = Blocks.stone;
         if (block instanceof BlockOre)
-            renderer.renderStandardBlock(Blocks.stone, x, y, z);
+            renderer.renderStandardBlock(dimensionBlock, x, y, z);
 
         renderer.renderStandardBlock(block, x, y, z);
         return true;

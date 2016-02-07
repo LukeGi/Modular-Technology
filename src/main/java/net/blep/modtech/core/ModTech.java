@@ -1,6 +1,7 @@
 package net.blep.modtech.core;
 
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -20,6 +21,12 @@ import org.apache.commons.logging.Log;
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, dependencies = ModInfo.DEPENDENCIES)
 public final class ModTech
 {
+    @Mod.Instance
+    public static ModTech instance;
+
+    @SidedProxy(clientSide = ModInfo.CLIENT_PROXY_CLASS, serverSide = ModInfo.SERVER_PROXY_CLASS)
+    public static Proxy PROXY;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {

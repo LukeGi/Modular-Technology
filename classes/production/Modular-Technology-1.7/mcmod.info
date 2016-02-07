@@ -3,7 +3,7 @@
   "modid": "modtech",
   "name": "Modular Technology",
   "description": "This is a mod that adds modular machines and magic to minecraft.",
-  "version": "1.0",
+  "version": "0.0.0.1",
   "mcversion": "1.7.10",
   "url": "",
   "updateUrl": "",

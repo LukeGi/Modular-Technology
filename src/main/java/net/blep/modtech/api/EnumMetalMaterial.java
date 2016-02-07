@@ -1,5 +1,6 @@
-package net.blep.modtech.core.util;
+package net.blep.modtech.api;
 
+import net.blep.modtech.core.util.Names;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.util.EnumHelper;
 import org.lwjgl.util.vector.Vector3f;

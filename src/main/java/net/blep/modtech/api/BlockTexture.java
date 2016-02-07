@@ -1,5 +1,6 @@
-package net.blep.modtech.core.util;
+package net.blep.modtech.api;
 
+import net.blep.modtech.core.util.HelpfulMethods;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -16,8 +17,8 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class BlockTexture
 {
-    private IIcon[] icons = new IIcon[6];
-    private String[] files = new String[6];
+    private IIcon[][] metaIcons;
+    private String[][] metaFiles;
     private ForgeDirection facing = ForgeDirection.UNKNOWN;
     private int down = 0, up = 1, front = 2, back = 3, left = 4, right = 5;
 
@@ -30,33 +31,44 @@ public class BlockTexture
             {down, up, right, left, back, front}
     };
 
-    public BlockTexture(String[] files, String defaultFile)
+    public BlockTexture(String[][] metaFiles, String defaultTexture)
     {
-        for (int i = 0; i < this.files.length; i++)
+        int metadata = metaFiles != null && metaFiles.length > 0 ? metaFiles.length : 1;
+        this.metaFiles = new String[metadata][6];
+        this.metaIcons = new IIcon[metadata][6];
+
+        if (metaFiles != null && metaFiles.length > 0)
         {
-            if (files != null && i >= 0 && i < files.length)
+            for (int i = 0; i < this.metaFiles.length; i++)
             {
-                this.files[i] = files[i];
-            } else if (defaultFile != null)
+                for (int j = 0; j < 6; j++)
+                {
+                    String file;
+
+                    if (i < metaFiles.length && j < metaFiles[0].length && metaFiles[i][j] != null && metaFiles[i][j].length() > 0)
+                        file = metaFiles[i][j];
+                    else
+                        file = defaultTexture;
+
+                    this.metaFiles[i][j] = file;
+                }
+            }
+        } else
+        {
+            for (int i = 0; i < 6; i++)
             {
-                this.files[i] = defaultFile;
-            } else
-            {
-                this.files[i] = "";
+                this.metaFiles[0][i] = defaultTexture;
             }
         }
     }
 
-    public BlockTexture(String... files)
-    {
-        this(files, null);
-    }
-
     public IIcon getIcon(int side, int meta)
     {
+        int rotationMeta = meta % HelpfulMethods.DEFAULT_DIRECTIONS.length;
+
         if (!facing.equals(ForgeDirection.UNKNOWN))
-            return icons[rotationMatrix[meta][side]];
-        return icons[side];
+            return metaIcons[meta][rotationMatrix[rotationMeta][side]];
+        return metaIcons[meta][side];
     }
 
     public void setFacing(ForgeDirection direction)
@@ -71,9 +83,12 @@ public class BlockTexture
 
     public void setupIcons(IIconRegister iconRegister)
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < metaFiles.length; i++)
         {
-            icons[i] = iconRegister.registerIcon("modtech:" + files[i]);
+            for (int j = 0; j < 6; j++)
+            {
+                metaIcons[i][j] = iconRegister.registerIcon("modtech:" + metaFiles[i][j]);
+            }
         }
     }
 

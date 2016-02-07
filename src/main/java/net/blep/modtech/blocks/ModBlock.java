@@ -1,7 +1,7 @@
 package net.blep.modtech.blocks;
 
-import net.blep.modtech.core.util.BlockProperties;
-import net.blep.modtech.core.util.BlockTexture;
+import net.blep.modtech.api.BlockProperties;
+import net.blep.modtech.api.BlockTexture;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -29,13 +29,19 @@ public abstract class ModBlock extends Block
     @Override
     public IIcon getIcon(int side, int meta)
     {
-        return textureConfiguration.getIcon(side, meta);
+        if (textureConfiguration != null)
+            return textureConfiguration.getIcon(side, meta);
+        else
+            return super.getIcon(side, meta);
     }
 
     @Override
     public void registerBlockIcons(IIconRegister iconRegister)
     {
-        textureConfiguration.setupIcons(iconRegister);
+        if (textureConfiguration != null)
+            textureConfiguration.setupIcons(iconRegister);
+        else
+            super.registerBlockIcons(iconRegister);
     }
 
     public Block setTextureConfiguration(BlockTexture texture)
@@ -44,7 +50,9 @@ public abstract class ModBlock extends Block
         return this;
     }
 
-    public void makeFront(int side, World world, int x, int y, int z) {
-        this.textureConfiguration.setFront(side, world, x, y, z);
+    public void makeFront(int side, World world, int x, int y, int z)
+    {
+        if (textureConfiguration != null)
+            this.textureConfiguration.setFront(side, world, x, y, z);
     }
 }

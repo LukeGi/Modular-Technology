@@ -2,11 +2,10 @@ package net.blep.modtech.items.itemblock;
 
 import net.blep.modtech.blocks.block.BlockMetal;
 import net.blep.modtech.blocks.block.BlockOre;
-import net.blep.modtech.core.util.EnumMetalMaterial;
+import net.blep.modtech.api.EnumMetalMaterial;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 
 import java.util.List;
@@ -27,12 +26,14 @@ public class ItemBlockMetalBlock extends ItemBlock
     {
         EnumMetalMaterial material = null;
 
-        if (field_150939_a instanceof BlockOre) material = ((BlockOre) field_150939_a).getMaterial(stack.getItemDamage());
-        if (field_150939_a instanceof BlockMetal) material = ((BlockMetal) field_150939_a).getMaterial(stack.getItemDamage());
+        if (field_150939_a instanceof BlockOre)
+            material = ((BlockOre) field_150939_a).getMaterial(stack.getItemDamage());
+        if (field_150939_a instanceof BlockMetal)
+            material = ((BlockMetal) field_150939_a).getMaterial(stack.getItemDamage());
 
         if (material == null)
             return super.getUnlocalizedName(stack) + ".error";
-        return super.getUnlocalizedName(stack) + material.getName();
+        return super.getUnlocalizedName(stack) + material.getName().toLowerCase();
     }
 
     @Override
