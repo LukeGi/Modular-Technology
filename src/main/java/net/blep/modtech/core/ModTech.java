@@ -1,19 +1,20 @@
 package net.blep.modtech.core;
 
+import com.google.common.base.Stopwatch;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
-import net.blep.modtech.blocks.BlockHandler;
-import net.blep.modtech.core.config.ConfigHandler;
 import net.blep.modtech.core.proxy.Proxy;
 import net.blep.modtech.core.reference.ModInfo;
 import net.blep.modtech.core.util.LogHelper;
-import net.blep.modtech.core.worldgen.WorldGeneratorModtech;
-import net.blep.modtech.items.ItemHandler;
-import org.apache.commons.logging.Log;
+import net.minecraft.util.MathHelper;
+import org.apache.commons.lang3.time.StopWatch;
+
+import java.text.DecimalFormat;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Kelan on 24/01/2016.
@@ -21,6 +22,8 @@ import org.apache.commons.logging.Log;
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.MOD_VERSION, dependencies = ModInfo.DEPENDENCIES)
 public final class ModTech
 {
+    private Stopwatch timer;
+
     @Mod.Instance
     public static ModTech instance;
 
@@ -30,25 +33,29 @@ public final class ModTech
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-        System.out.println("Preinit");
-        ConfigHandler.init(event.getSuggestedConfigurationFile());
-        BlockHandler.registerBlocks();
-        ItemHandler.registerItems();
+        timer = Stopwatch.createStarted();
+        LogHelper.info("Starting ModTech!");
         Proxy.get().preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-        System.out.println("Init");
-        GameRegistry.registerWorldGenerator(new WorldGeneratorModtech(), 0);
         Proxy.get().init(event);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        System.out.println("Postinit");
         Proxy.get().postInit(event);
+        long e = timer.elapsed(TimeUnit.MILLISECONDS);
+
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(e);
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(e) % 60;
+        long mills = e % 1000;
+
+        DecimalFormat minsecFmt = new DecimalFormat("00");
+        DecimalFormat millsFmt = new DecimalFormat("0000");
+        LogHelper.info("Successfully loaded ModTech; took " + minsecFmt.format(minutes) + ":" + minsecFmt.format(seconds) + ":" + millsFmt.format(mills) + " (" + + e + " milliseconds)");
     }
 }

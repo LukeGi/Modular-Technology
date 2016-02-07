@@ -1,5 +1,6 @@
 package net.blep.modtech.client.rendering.blocks.tesr;
 
+import net.blep.modtech.blocks.BlockHandler;
 import net.blep.modtech.blocks.tileentity.TileEntityMachine;
 import net.blep.modtech.blocks.tileentity.machines.*;
 import net.minecraft.block.Block;
@@ -20,32 +21,56 @@ public class RendererMachine extends TESRModtechBase
     @Override
     public void renderTileEntityAt(TileEntity tile, double x, double y, double z, float f)
     {
+        glPushMatrix();
+        glTranslated(x, y, z);
         RenderBlocks renderBlocks = new RenderBlocks(tile.getWorldObj());
         if (tile instanceof TileEntityFurnace)
+        {
             doRenderFurnace((TileEntityFurnace) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityCrusher)
+        {
             doRenderCrusher((TileEntityCrusher) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityCompressor)
+        {
             doRenderCompressor((TileEntityCompressor) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityCentrifuge)
+        {
             doRenderCentrifuge((TileEntityCentrifuge) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityElectrolyser)
+        {
             doRenderElecrtolyyser((TileEntityElectrolyser) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityPurifier)
+        {
             doRenderPurifier((TileEntityPurifier) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityEnricher)
+        {
             doRenderEnricher((TileEntityEnricher) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityChemicalReactor)
+        {
             doRenderChemicalReactor((TileEntityChemicalReactor) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntityMetalBender)
+        {
             doRenderMetalBender((TileEntityMetalBender) tile, x, y, z, f, renderBlocks);
+        }
         else if (tile instanceof TileEntitySlagFurnace)
+        {
             doRenderSlagFurnace((TileEntitySlagFurnace) tile, x, y, z, f, renderBlocks);
+        }
+        glTranslated(-x, -y, -z);
+        glPopMatrix();
     }
 
     private void doRenderFurnace(TileEntityFurnace tile, double x, double y, double z, float f, RenderBlocks renderBlocks)
     {
-        renderStandardBlock(Blocks.stone, x, y, z, tile.xCoord, tile.yCoord, tile.zCoord, renderBlocks);
+        renderStandardBlock(tile.blockType, tile.xCoord, tile.yCoord, tile.zCoord, tile.getBlockMetadata(), 1.0F);
     }
 
     private void doRenderCrusher(TileEntityCrusher tile, double x, double y, double z, float f, RenderBlocks renderBlocks)

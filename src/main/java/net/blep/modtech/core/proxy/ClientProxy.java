@@ -4,6 +4,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.blep.modtech.client.rendering.RenderingHandler;
+import net.blep.modtech.core.util.LogHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -16,60 +17,60 @@ import net.minecraft.world.World;
  */
 public class ClientProxy extends Proxy
 {
-    private static RenderingHandler renderers;
+    private RenderingHandler renderers;
 
-    public RenderingHandler getRenderers()
+    public ClientProxy()
     {
-        return renderers;
+        LogHelper.info("We are on the client!");
     }
 
     @Override
+    public RenderingHandler getRenderers()
+    {
+        if (renderers == null)
+            renderers = new RenderingHandler();
+        return renderers;
+    }
+
     public World getWorld()
     {
         return Minecraft.getMinecraft().theWorld;
     }
 
-    @Override
     public EntityPlayerSP getPlayerSP()
     {
         return Minecraft.getMinecraft().thePlayer;
     }
 
-    @Override
     public EntityPlayerMP getPlayerMP()
     {
         throw new RuntimeException("Cannot access server-side player instance from client");
     }
 
-    @Override
     public Minecraft getMinecraftClient()
     {
         return Minecraft.getMinecraft();
     }
 
-    @Override
     public MinecraftServer getMinecraftServer()
     {
         return MinecraftServer.getServer();
     }
 
-    @Override
     public void preInit(FMLPreInitializationEvent event)
     {
-        System.out.println("ClientProxy preInit");
+        super.preInit(event);
         renderers = new RenderingHandler();
     }
 
-    @Override
     public void init(FMLInitializationEvent event)
     {
-        System.out.println("ClientProxy init");
+        super.init(event);
         renderers.registerRenderers();
     }
 
-    @Override
     public void postInit(FMLPostInitializationEvent event)
     {
-        System.out.println("ClientProxy postInit");
+        super.postInit(event);
     }
 }

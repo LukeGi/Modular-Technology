@@ -10,7 +10,7 @@ import java.util.Random;
 /**
  * Created by Kelan on 05/02/2016.
  */
-public class WorldGeneratorModtech implements IWorldGenerator {
+public class WorldGeneratorModtechOres implements IWorldGenerator {
     public static final int DIMENSION_OVERWORLD = 0;
     public static final int DIMENSION_NETHER = -1;
     public static final int DIMENSION_END = 1;
