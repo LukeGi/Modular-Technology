@@ -10,9 +10,13 @@ public class EntityFXBubble extends EntityFX {
     public EntityFXBubble(World world, double x, double y, double z, double xMotion, double yMotion, double zMotion) {
         super(world, x, y, z, xMotion, yMotion, zMotion);
         this.setParticleTextureIndex(0);
-        this.setRBGColorF(0.5F,0.5F,0.5F); //makes them grey... so if i do this see =D
+        this.setRBGColorF(0.5F,0.5F,0.5F);
         this.particleGravity = 0.123F;
         this.particleMaxAge = 15;
+    }
+
+    public EntityFXBubble(World world, double x, double y, double z) {
+        this(world, x, y, z, 0,0,0);
     }
 
     @Override
@@ -21,15 +25,21 @@ public class EntityFXBubble extends EntityFX {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge) {
+        if (this.particleAge++ >= this.particleMaxAge)
+        {
             this.setDead();
         }
-        this.setParticleTextureIndex(7 - this.particleAge * 8 / this.particleMaxAge);
-        this.motionY = (1 - rand.nextFloat() * 2) / 10;
-        this.motionZ = (1 - rand.nextFloat() * 2) / 10;
-        this.motionX = (1 - rand.nextFloat() * 2) / 10;
-//        this.setRBGColorF((float) motionX * rand.nextFloat() * 5,(float) motionY * rand.nextFloat() * 10,(float) motionZ * rand.nextFloat() * 15);
+
+        this.motionY -= 0.04D * (double)this.particleGravity;
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
-        this.particleScale = particleMaxAge/particleAge;
+        this.motionX *= 0.9800000190734863D;
+        this.motionY *= 0.9800000190734863D;
+        this.motionZ *= 0.9800000190734863D;
+
+        if (this.onGround)
+        {
+            this.motionX *= 0.699999988079071D;
+            this.motionZ *= 0.699999988079071D;
+        }
     }
 }

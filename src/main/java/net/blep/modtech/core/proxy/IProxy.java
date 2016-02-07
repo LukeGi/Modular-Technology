@@ -1,5 +1,7 @@
 package net.blep.modtech.core.proxy;
 
+import net.minecraft.client.particle.EntityFX;
+
 import java.io.File;
 
 /**
@@ -20,4 +22,6 @@ public interface IProxy
     void registerRecipes();
 
     void registerWorldGenerators();
+
+    void spawnParticle(EntityFX particle);
 }
