@@ -21,8 +21,7 @@ public class ItemSpawnParticle extends ModItem {
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             ForgeDirection d = ForgeDirection.getOrientation(side);
-            NetworkManagerModtech.networkManager.sendToAllAround(new MessageSpawnParticle(1, x + d.offsetX + 0.5, y + d.offsetY + 0.5, z + d.offsetZ + 0.5, 100), new NetworkRegistry.TargetPoint(world.provider.dimensionId, x, y, z, 64));
-//                Minecraft.getMinecraft().effectRenderer.addEffect(new EntityFXBubble(world, x + d.offsetX + 0.5, y + d.offsetY + 0.5, z + d.offsetZ + 0.5, 0, 1, 0));
+            NetworkManagerModtech.networkManager.sendToAllAround(new MessageSpawnParticle(1, x + d.offsetX + 0.5, y + d.offsetY + 0.5, z + d.offsetZ + 0.5, 1), new NetworkRegistry.TargetPoint(world.provider.dimensionId, x, y, z, 64));
         }
         return super.onItemUse(stack, player, world, x, y, z, side, hitX, hitY, hitZ);
     }
