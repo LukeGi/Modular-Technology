@@ -16,12 +16,11 @@ public class MessageSpawnParticle extends PacketModtechBase<MessageSpawnParticle
     public MessageSpawnParticle() {
     }
 
-    int particleId;
+    int particleId, amount;
     double x, y, z;
-    int amount;
 
-    public MessageSpawnParticle(int particleId, double x, double y, double z, int amount) {
-        this.particleId = particleId;
+    public MessageSpawnParticle(ParticleTypes particleId, double x, double y, double z, int amount) {
+        this.particleId = particleId.ordinal();
         this.x = x;
         this.y = y;
         this.z = z;
@@ -30,7 +29,7 @@ public class MessageSpawnParticle extends PacketModtechBase<MessageSpawnParticle
 
     public EntityFX getParticleFromId(World world, double x, double y, double z, int particleId) {
         switch (particleId) {
-            case 1:
+            case 0:
                 return new EntityFXBubble(world, x, y, z);
         }
 
@@ -64,5 +63,9 @@ public class MessageSpawnParticle extends PacketModtechBase<MessageSpawnParticle
     public void handleClient(MessageSpawnParticle message, EntityPlayer player) {
         for (int i = 0; i < message.amount; i++)
             Proxy.get().spawnParticle(message.getParticleFromId(player.worldObj, message.x, message.y, message.z, message.particleId));
+    }
+
+    public enum ParticleTypes {
+        SHINYLIGHTNING;
     }
 }
