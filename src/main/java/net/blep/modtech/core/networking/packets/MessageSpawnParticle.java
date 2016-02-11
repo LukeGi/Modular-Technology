@@ -1,10 +1,9 @@
 package net.blep.modtech.core.networking.packets;
 
 import io.netty.buffer.ByteBuf;
-import net.blep.modtech.client.particle.EntityFXBubble;
+import net.blep.modtech.client.particle.EntityBubbleLightningFX;
 import net.blep.modtech.core.networking.PacketModtechBase;
 import net.blep.modtech.core.proxy.Proxy;
-import net.blep.modtech.core.util.LogHelper;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -30,7 +29,7 @@ public class MessageSpawnParticle extends PacketModtechBase<MessageSpawnParticle
     public EntityFX getParticleFromId(World world, double x, double y, double z, int particleId) {
         switch (particleId) {
             case 0:
-                return new EntityFXBubble(world, x, y, z);
+                return new EntityBubbleLightningFX(world, x, y, z);
         }
 
         return null;
