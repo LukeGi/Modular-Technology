@@ -1,10 +1,7 @@
 package net.blep.modtech.blocks;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.blep.modtech.blocks.block.BlockMachine;
-import net.blep.modtech.blocks.block.BlockMetal;
-import net.blep.modtech.blocks.block.BlockOre;
-import net.blep.modtech.blocks.block.BlockTest;
+import net.blep.modtech.blocks.block.*;
 import net.blep.modtech.blocks.tileentity.TileEntityMachine;
 import net.blep.modtech.blocks.tileentity.machines.TileEntityFurnace;
 import net.blep.modtech.core.ModTech;
@@ -23,6 +20,7 @@ public class BlockHandler
     public static final Block BLOCK_METAL_BLOCK = new BlockMetal();
     public static final Block BLOCK_MACHINE = new BlockMachine();
     public static final Block BLOCK_TEST_SIDES = new BlockTest();
+    public static final Block TEST = new BlockMadness();
 
     public static void registerBlocks()
     {
@@ -33,6 +31,8 @@ public class BlockHandler
         GameRegistry.registerBlock(BLOCK_METAL_BLOCK, ItemBlockMetalBlock.class, BLOCK_PREFIX + "metal");
         GameRegistry.registerBlock(BLOCK_MACHINE, ItemBlockMachine.class, BLOCK_PREFIX + "machine");
         GameRegistry.registerBlock(BLOCK_TEST_SIDES, BLOCK_PREFIX + "test");
+        GameRegistry.registerBlock(TEST, "blockTest");
+        GameRegistry.registerTileEntity(BlockMadness.TileEntityParticleGenerator.class, ModInfo.RESOURCE_PREFIX + "particleGenerator");
 
         for (int i = 0; i < EnumMachineProperties.values().length; i++)
         {

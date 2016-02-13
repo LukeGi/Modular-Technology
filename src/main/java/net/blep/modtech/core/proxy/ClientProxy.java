@@ -7,6 +7,7 @@ import net.blep.modtech.client.rendering.RenderingHandler;
 import net.blep.modtech.core.util.LogHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -54,6 +55,11 @@ public class ClientProxy extends ModHandler
     public MinecraftServer getMinecraftServer()
     {
         return MinecraftServer.getServer();
+    }
+
+    public void spawnParticle(EntityFX particle)
+    {
+        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
 
     public void preInit(FMLPreInitializationEvent event)

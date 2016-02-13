@@ -7,6 +7,7 @@ import net.blep.modtech.client.rendering.RenderingHandler;
 import net.blep.modtech.core.util.LogHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -73,5 +74,11 @@ public class ServerProxy extends ModHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         super.postInit(event);
+    }
+
+    @Override
+    public void spawnParticle(EntityFX particle)
+    {
+        // NOOP
     }
 }
