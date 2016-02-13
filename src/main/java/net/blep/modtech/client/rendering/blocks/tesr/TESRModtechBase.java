@@ -1,20 +1,13 @@
 package net.blep.modtech.client.rendering.blocks.tesr;
 
-import net.blep.modtech.core.proxy.Proxy;
-import net.blep.modtech.core.reference.ModInfo;
+import net.blep.modtech.core.proxy.ModHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.lwjgl.opengl.GL13;
-
-import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Created by Kelan on 06/02/2016.
@@ -28,7 +21,7 @@ public abstract class TESRModtechBase extends TileEntitySpecialRenderer
         Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.locationBlocksTexture);
         IIcon icon;
         Tessellator tessellator = Tessellator.instance;
-        int l = block.getMixedBrightnessForBlock(Proxy.get().getWorld(), x, y, z);
+        int l = block.getMixedBrightnessForBlock(ModHandler.get().getWorld(), x, y, z);
 
         //bottom
         tessellator.startDrawingQuads();

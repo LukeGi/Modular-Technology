@@ -6,14 +6,11 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import net.blep.modtech.core.proxy.Proxy;
+import net.blep.modtech.core.proxy.ModHandler;
 import net.blep.modtech.core.reference.ModInfo;
 import net.blep.modtech.core.util.LogHelper;
-import net.minecraft.util.MathHelper;
-import org.apache.commons.lang3.time.StopWatch;
 
 import java.text.DecimalFormat;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,26 +25,26 @@ public final class ModTech
     public static ModTech instance;
 
     @SidedProxy(clientSide = ModInfo.CLIENT_PROXY_CLASS, serverSide = ModInfo.SERVER_PROXY_CLASS)
-    public static Proxy PROXY;
+    public static ModHandler PROXY;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         timer = Stopwatch.createStarted();
         LogHelper.info("Starting ModTech!");
-        Proxy.get().preInit(event);
+        ModHandler.get().preInit(event);
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-        Proxy.get().init(event);
+        ModHandler.get().init(event);
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
-        Proxy.get().postInit(event);
+        ModHandler.get().postInit(event);
         long e = timer.elapsed(TimeUnit.MILLISECONDS);
 
         long minutes = TimeUnit.MILLISECONDS.toMinutes(e);

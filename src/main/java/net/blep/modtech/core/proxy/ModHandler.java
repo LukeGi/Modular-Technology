@@ -3,6 +3,8 @@ package net.blep.modtech.core.proxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.blep.modtech.blocks.BlockHandler;
 import net.blep.modtech.client.rendering.RenderingHandler;
@@ -11,9 +13,11 @@ import net.blep.modtech.core.config.ConfigHandler;
 import net.blep.modtech.core.networking.NetworkManagerModtech;
 import net.blep.modtech.core.util.LogHelper;
 import net.blep.modtech.core.worldgen.WorldGeneratorModtechOres;
+import net.blep.modtech.gui.GuiHandlerModtech;
 import net.blep.modtech.items.ItemHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -23,11 +27,11 @@ import java.io.File;
 /**
  * Created by Kelan on 03/02/2016.
  */
-public abstract class Proxy implements IProxy
+public abstract class ModHandler implements IProxy
 {
     private NetworkManagerModtech networkManagerModtech;
 
-    public static final Proxy get()
+    public static final ModHandler get()
     {
         if (ModTech.PROXY == null)
             throw new RuntimeException("Failed to load proxy for ModTech; it was null or didn't have a side");
@@ -46,6 +50,7 @@ public abstract class Proxy implements IProxy
     {
         LogHelper.info("Initializing ModTech");
         registerNetwork();
+        registerGuiHandler();
         registerWorldGenerators();
     }
 
@@ -81,6 +86,12 @@ public abstract class Proxy implements IProxy
     {
         LogHelper.info("Setting up network manager");
         getNetworkManager().registerPackets();
+    }
+
+    @Override
+    public void registerGuiHandler()
+    {
+        NetworkRegistry.INSTANCE.registerGuiHandler(ModTech.instance, new GuiHandlerModtech());
     }
 
     @Override

@@ -9,7 +9,7 @@ public class TileEntityFurnace extends TileEntityMachine
 {
     public TileEntityFurnace()
     {
-        System.out.println("CREATING TILEENTITY FOR FURNACE");
+
     }
 
     @Override

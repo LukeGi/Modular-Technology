@@ -1,7 +1,7 @@
 package net.blep.modtech.blocks.block;
 
 import net.blep.modtech.blocks.ModBlock;
-import net.blep.modtech.core.proxy.Proxy;
+import net.blep.modtech.core.proxy.ModHandler;
 import net.blep.modtech.api.BlockProperties;
 import net.blep.modtech.api.BlockTexture;
 import net.blep.modtech.api.EnumMetalMaterial;
@@ -69,7 +69,7 @@ public class BlockMetal extends ModBlock
 
     public int getRenderType()
     {
-        return Proxy.get().getRenderers().RENDERER_COLOURED_BLOCK;
+        return ModHandler.get().getRenderers().RENDERER_COLOURED_BLOCK;
     }
 
     public int colorMultiplier(IBlockAccess world, int x, int y, int z)

@@ -3,8 +3,7 @@ package net.blep.modtech.client.rendering.blocks.isbrh;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 import net.blep.modtech.blocks.block.BlockMetal;
 import net.blep.modtech.blocks.block.BlockOre;
-import net.blep.modtech.core.proxy.ClientProxy;
-import net.blep.modtech.core.proxy.Proxy;
+import net.blep.modtech.core.proxy.ModHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -12,7 +11,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Created by Kelan on 03/02/2016.
@@ -161,6 +159,6 @@ public class RendererColouredBlock implements ISimpleBlockRenderingHandler
     @Override
     public int getRenderId()
     {
-        return Proxy.get().getRenderers().RENDERER_COLOURED_BLOCK;
+        return ModHandler.get().getRenderers().RENDERER_COLOURED_BLOCK;
     }
 }

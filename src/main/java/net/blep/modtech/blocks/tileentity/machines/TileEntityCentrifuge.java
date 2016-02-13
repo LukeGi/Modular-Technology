@@ -7,4 +7,5 @@ import net.blep.modtech.blocks.tileentity.TileEntityMachine;
  */
 public class TileEntityCentrifuge extends TileEntityMachine
 {
+
 }

@@ -3,13 +3,13 @@ package net.blep.modtech.blocks.block;
 import net.blep.modtech.api.BlockProperties;
 import net.blep.modtech.api.BlockTexture;
 import net.blep.modtech.blocks.ModTileBlock;
+import net.blep.modtech.core.ModTech;
 import net.blep.modtech.core.networking.NetworkManagerModtech;
 import net.blep.modtech.core.networking.packets.PacketTest;
-import net.blep.modtech.core.proxy.Proxy;
 import net.blep.modtech.core.util.EnumMachineProperties;
+import net.blep.modtech.gui.GuiHandlerModtech;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -60,10 +60,11 @@ public class BlockMachine extends ModTileBlock
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
     {
         if (!world.isRemote)
-            NetworkManagerModtech.sendTo(null, new PacketTest(player.getDisplayName() + " opened this " + EnumMachineProperties.values()[world.getBlockMetadata(x, y, z)].getName().toLowerCase()));
+        {
+            player.openGui(ModTech.instance, GuiHandlerModtech.ID_FURNACE, world, x, y, z);
+        }
 
-        return super.onBlockActivated(world, x, y, z, player, side, hitX, hitY, hitZ);
-
+        return true;
     }
 
     @Override

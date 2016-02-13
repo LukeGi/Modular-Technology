@@ -7,7 +7,6 @@ import net.blep.modtech.client.rendering.RenderingHandler;
 import net.blep.modtech.core.util.LogHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -15,7 +14,7 @@ import net.minecraft.world.World;
 /**
  * Created by Kelan on 03/02/2016.
  */
-public class ServerProxy extends Proxy
+public class ServerProxy extends ModHandler
 {
     public ServerProxy()
     {

@@ -13,6 +13,8 @@ public interface IProxy
 
     void registerNetwork();
 
+    void registerGuiHandler();
+
     void registerRenderers();
 
     void registerConfigs(File file);
