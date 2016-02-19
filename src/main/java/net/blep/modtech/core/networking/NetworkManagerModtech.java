@@ -4,6 +4,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.relauncher.Side;
+import net.blep.modtech.core.networking.packets.MessageBreakBlock;
 import net.blep.modtech.core.networking.packets.MessageSpawnEntity;
 import net.blep.modtech.core.networking.packets.MessageSpawnParticle;
 import net.blep.modtech.core.networking.packets.PacketTest;
@@ -24,6 +25,7 @@ public class NetworkManagerModtech
         networkManager.registerMessage(MessageSpawnParticle.class, MessageSpawnParticle.class, getDescr(), Side.CLIENT);
         networkManager.registerMessage(MessageSpawnEntity.class, MessageSpawnEntity.class, getDescr(), Side.SERVER);
         networkManager.registerMessage(MessageSpawnEntity.class, MessageSpawnEntity.class, getDescr(), Side.CLIENT);
+        networkManager.registerMessage(MessageBreakBlock.class, MessageBreakBlock.class, getDescr(), Side.SERVER);
     }
 
     private int getDescr()
