@@ -1,18 +1,21 @@
 package net.blep.modtech.blocks.tileentity;
 
-import net.blep.modtech.core.networking.NetworkManagerModtech;
-import net.blep.modtech.core.networking.packets.MessageBreakBlock;
 import net.blep.modtech.core.proxy.ModHandler;
 import net.blep.modtech.core.util.LogHelper;
 import net.blep.modtech.core.util.Vector3i;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.particle.EntityBlockDustFX;
+import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.EntityFlameFX;
 import net.minecraft.client.particle.EntitySmokeFX;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.network.NetworkManager;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -22,7 +25,7 @@ import java.util.PriorityQueue;
 public class TileEntityTreeFarm extends ModTileEntity {
     public int scanx = 0, scany = 1, scanz = 0, radius = 4;
 
-    public ArrayList<Vector3i> cutList = new ArrayList<Vector3i>();
+    public PriorityQueue<Vector3i> cutQ = new PriorityQueue<>();
 
     @Override
     public void updateEntity() {
@@ -30,16 +33,35 @@ public class TileEntityTreeFarm extends ModTileEntity {
         if (!worldObj.isRemote) {
             //check if inventory full
             //scan world for trees
-            if (worldObj.getTotalWorldTime() % 10 == 1)
+            if (worldObj.getTotalWorldTime() % 10 == 0)
                 scanTrees();
             //chop a block
-            if (!cutList.isEmpty()) {
-                Vector3i p = cutList.get(0);
-                cutList.remove(0);
-                worldObj.setBlockToAir(p.x, p.y, p.z);
-            }//TODO: Make the treefarm put items in it's inventory.
+            if (worldObj.getTotalWorldTime() % 10 == 1)
+                cutTree(2);
+            //TODO: Make the treefarm put items in it's inventory.
             //place sapling
         }
+    }
+
+    public void cutTree(int times) {
+        if (cutQ.isEmpty()) return;
+        ArrayList<EntityFX> particles = new ArrayList<>();
+        ArrayList<EntityItem> items = new ArrayList<>();
+
+        for (int i = 0; i < times; i++) {
+            Vector3i blockPosition = cutQ.poll();
+            Block block = worldObj.getBlock(blockPosition.x, blockPosition.y, blockPosition.z);
+            int metadata = worldObj.getBlockMetadata(blockPosition.x, blockPosition.y, blockPosition.z);
+            ArrayList<ItemStack> ISIS = block.getDrops(worldObj, blockPosition.x, blockPosition.y, blockPosition.z, metadata, 0);
+            worldObj.setBlockToAir(blockPosition.x, blockPosition.y, blockPosition.z);
+            worldObj.playSoundEffect(blockPosition.getX() + 0.5F, blockPosition.getY() + 0.5F, blockPosition.getZ() + 0.5F, block.stepSound.getBreakSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
+            for (ItemStack stack : ISIS)
+                items.add(new EntityItem(worldObj, xCoord, yCoord + 1, zCoord, stack));
+            for (int j = 0; j < 20 / times; j++)
+                particles.add(new EntityBlockDustFX(worldObj, blockPosition.x, blockPosition.y, blockPosition.z, 0, 1, 0, block, metadata));
+        }
+        particles.forEach(particle -> ModHandler.get().spawnParticle(particle));
+        items.forEach(item -> worldObj.spawnEntityInWorld(item));
     }
 
     public void scanTrees() {
@@ -58,36 +80,34 @@ public class TileEntityTreeFarm extends ModTileEntity {
         LogHelper.info(String.format("Scanning at %s,%s,%s", posX + 0.5D, posY + 0.5D, posZ + 0.5D));
 
         Block scanned = worldObj.getBlock(posX, posY, posZ);
+        if (worldObj.isAirBlock(posX, posY, posZ))
+            ModHandler.get().spawnParticle(new EntityFlameFX(worldObj, posX + 0.5D, posY + 0.5D, posZ + 0.5D, 0, 0, 0));
         if (scanned.getMaterial().equals(Material.wood) && scanned.getUnlocalizedName().contains("log"))
-            chopTree(posX, posY, posZ);
-    }
+            if (checkIfTree(posX, posY, posZ)) {
+                PriorityQueue<Vector3i> q = new PriorityQueue<Vector3i>();
+                Vector3i start = new Vector3i(posX, posY, posZ);
+                q.add(start);
 
-    private void chopTree(int x, int y, int z) {
-        if (checkIfTree(x, y, z)) {
-            PriorityQueue<Vector3i> q = new PriorityQueue<Vector3i>();
-            Vector3i start = new Vector3i(x, y, z);
-            q.add(start);
+                ArrayList<Vector3i> visited = new ArrayList<Vector3i>();
 
-            ArrayList<Vector3i> visited = new ArrayList<Vector3i>();
-
-            while (!q.isEmpty()) {
-                Vector3i element = q.poll();
-                for (int j = -1; j <= 1; j++)
-                    for (int k = -1; k <= 1; k++)
-                        for (int i = -1; i <= 1; i++) {
-                            Vector3i target = new Vector3i(element.getX() + i, element.getY() + j, element.getZ() + k);
-                            if (!visited.contains(target)) {
-                                visited.add(target);
-                                Block block = worldObj.getBlock(target.getX(), target.getY(), target.getZ());
-                                if (isWood(block) || isLeaf(block))
-                                    if (!cutList.contains(target)) {
-                                        q.add(target);
-                                        cutList.add(target);
-                                    }
+                while (!q.isEmpty()) {
+                    Vector3i element = q.poll();
+                    for (int j = -1; j <= 1; j++)
+                        for (int k = -1; k <= 1; k++)
+                            for (int i = -1; i <= 1; i++) {
+                                Vector3i target = new Vector3i(element.getX() + i, element.getY() + j, element.getZ() + k);
+                                if (!visited.contains(target)) {
+                                    visited.add(target);
+                                    Block block = worldObj.getBlock(target.getX(), target.getY(), target.getZ());
+                                    if (isWood(block) || isLeaf(block))
+                                        if (!cutQ.contains(target)) {
+                                            q.add(target);
+                                            cutQ.add(target);
+                                        }
+                                }
                             }
-                        }
+                }
             }
-        }
     }
 
     private boolean checkIfTree(int x, int y, int z) {

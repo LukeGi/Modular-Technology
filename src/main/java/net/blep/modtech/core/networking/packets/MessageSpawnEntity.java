@@ -62,6 +62,6 @@ public class MessageSpawnEntity extends PacketModtechBase<MessageSpawnEntity> {
     }
 
     public enum EntityType {
-        LIGHTNING;
+        LIGHTNING
     }
 }

@@ -65,6 +65,6 @@ public class MessageSpawnParticle extends PacketModtechBase<MessageSpawnParticle
     }
 
     public enum ParticleTypes {
-        SHINYLIGHTNING;
+        SHINYLIGHTNING
     }
 }

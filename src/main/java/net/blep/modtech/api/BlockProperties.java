@@ -41,7 +41,7 @@ public enum BlockProperties
     public static final BlockProperties[] ORES = new BlockProperties[]{METAL_COPPER, METAL_TIN, METAL_LEAD, METAL_SILVER, METAL_PLATINUM, METAL_CHROMIUM, METAL_ZINC, METAL_MAGNESIUM, METAL_MANGANESE, METAL_YTTRIUM, METAL_ZIRCONIUM, METAL_ALUMINIUM, METAL_MOLYBDENUM, METAL_TITANIUM};
     public static final BlockProperties[] ALLOYS = new BlockProperties[]{METAL_STEEL, METAL_BRONZE, METAL_ZHYCONITE};
 
-    private BlockProperties(Material material, CreativeTabs creativeTab, SoundType stepSound, String harvestTool, int harvestLevel, float hardness, float resistance)
+    BlockProperties(Material material, CreativeTabs creativeTab, SoundType stepSound, String harvestTool, int harvestLevel, float hardness, float resistance)
     {
         this.material = material;
         this.creativeTab = creativeTab;
