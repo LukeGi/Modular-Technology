@@ -1,9 +1,12 @@
 package net.blep.modtech.blocks.tileentity;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Queues;
 import net.blep.modtech.core.networking.NetworkManagerModtech;
 import net.blep.modtech.core.networking.packets.MessageSpawnParticle;
 import net.blep.modtech.core.proxy.ModHandler;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.Material;
@@ -12,6 +15,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 /**
@@ -20,62 +24,53 @@ import java.util.PriorityQueue;
 public class TileEntityTreeFarm extends ModTileEntity {
     public int scanx = 0, scany = 1, scanz = 0, radius = 4;
 
-    public PriorityQueue<WorldPosition> cutQ = new PriorityQueue<>();
+    public ArrayList<Tree> trees = Lists.newArrayList();
 
     @Override
     public void updateEntity() {
         super.updateEntity();
         if (!worldObj.isRemote) {
-            if (worldObj.getTotalWorldTime() % 10 == 0)
-                scanForTrees();
-            if (worldObj.getTotalWorldTime() % 10 > 8)
-                chopTree(0);
+            breakBlock(new WorldPosition(xCoord, yCoord + 3, zCoord, 0));
+            for (int i = 0; i < radius * 2; i++) scanForTrees();
+            if (worldObj.getTotalWorldTime() % 5 == 0)
+                cutTrees();
+            if (worldObj.getTotalWorldTime() % 5 == 1)
+                cleanForest();
         }
     }
 
-    private ArrayList<EntityItem> chopTree(int recursiveIndex) {
-        if (cutQ.isEmpty()) return null;
-        ArrayList<EntityItem> items = new ArrayList<>();
-        WorldPosition blockPosition = cutQ.poll();
-        Block block = worldObj.getBlock(blockPosition.x, blockPosition.y, blockPosition.z);
-        int metadata = worldObj.getBlockMetadata(blockPosition.x, blockPosition.y, blockPosition.z);
-        ArrayList<ItemStack> ISIS = block.getDrops(worldObj, blockPosition.x, blockPosition.y, blockPosition.z, metadata, 0);
-        worldObj.setBlockToAir(blockPosition.x, blockPosition.y, blockPosition.z);
-        worldObj.playSoundEffect(blockPosition.getX() + 0.5F, blockPosition.getY() + 0.5F, blockPosition.getZ() + 0.5F, block.stepSound.getBreakSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
-        for (ItemStack stack : ISIS)
-            items.add(new EntityItem(worldObj, xCoord + 0.5f, yCoord + 3.5f, zCoord + 0.5f, stack));
-        NetworkManagerModtech.networkManager.sendToDimension(new MessageSpawnParticle(MessageSpawnParticle.ParticleTypes.BLOCKBREAK, blockPosition.x + 0.5f, blockPosition.y + 0.5f, blockPosition.z + 0.5f, 16, Block.getIdFromBlock(block)), worldObj.provider.dimensionId);
-        for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
-                for (int k = -1; k <= 1; k++)
-                    if (Math.abs(i) + Math.abs(j) + Math.abs(k) != 3) {
-                        WorldPosition target = new WorldPosition(blockPosition.x + i, blockPosition.y + j, blockPosition.z + k, 0);
-                        Block nblock = worldObj.getBlock(target.x, target.y, target.z);
-                        if (!cutQ.contains(target)) {
-                            if (isWood(nblock)) {
-                                target.setDistance(target.y);
-                                cutQ.add(target);
-                            }
-                            if (isLeaf(nblock)) {
-                                target.setDistance(-1 * target.y);
-                                cutQ.add(target);
-                            }
-                        }
-                    }
-        if (isLeaf(block)) {
-            ArrayList<EntityItem> nitems = chopTree(recursiveIndex + 1);
-            if (nitems != null)
-                for (EntityItem item : nitems)
-                    items.add(item);
+    private void cleanForest() {
+        for (int i = 0; i < trees.size(); i++) {
+            if (trees.get(i).leaves.isEmpty() && trees.get(i).wood.isEmpty()) trees.remove(i);
         }
-        if (recursiveIndex == 0) {
-            for (EntityItem item : items) {
-                item.setVelocity(0, 0, 0);
-                worldObj.spawnEntityInWorld(item);
+    }
+
+    private void cutTrees() {
+        ArrayList<WorldPosition> toBreak = Lists.newArrayList();
+        for (Tree tree : trees) {
+            for (int i = 0; i < tree.leaves.size(); i++) toBreak.add(tree.leaves.poll());
+            toBreak.add(tree.wood.poll());
+        }
+        for (WorldPosition p : toBreak)
+            try {
+                breakBlock(p);
+            } catch (Throwable ignore) {
             }
-            return null;
-        } else
-            return items;
+    }
+
+    private void breakBlock(WorldPosition p) {
+        Block block = worldObj.getBlock(p.x, p.y, p.z);
+        if (block instanceof BlockAir) return;
+        int metadata = worldObj.getBlockMetadata(p.x, p.y, p.z);
+        ArrayList<ItemStack> drops = block.getDrops(worldObj, p.x, p.y, p.z, metadata, 0);
+        worldObj.setBlockToAir(p.x, p.y, p.z);
+        worldObj.playSoundEffect(p.getX() + 0.5F, p.getY() + 0.5F, p.getZ() + 0.5F, block.stepSound.getBreakSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getPitch() * 0.8F);
+        NetworkManagerModtech.networkManager.sendToDimension(new MessageSpawnParticle(MessageSpawnParticle.ParticleTypes.BLOCKBREAK, p.x + 0.5f, p.y + 0.5f, p.z + 0.5f, 16, Block.getIdFromBlock(block)), worldObj.provider.dimensionId);
+        for (ItemStack stack : drops) {
+            EntityItem drop = new EntityItem(worldObj, xCoord + 0.5f, yCoord + 3.5f, zCoord + 0.5f, stack);
+            drop.setVelocity(0, 0, 0);
+            worldObj.spawnEntityInWorld(drop);
+        }
     }
 
     public void scanForTrees() {
@@ -95,7 +90,41 @@ public class TileEntityTreeFarm extends ModTileEntity {
             ModHandler.get().spawnParticle(new EntityFlameFX(worldObj, posX + 0.5D, posY + 0.5D, posZ + 0.5D, 0, 0, 0));
         if (scanned.getMaterial().equals(Material.wood) && scanned.getUnlocalizedName().contains("log"))
             if (checkIfTree(posX, posY, posZ))
-                cutQ.add(new WorldPosition(posX, posY, posZ, 0));
+                scanTree(new WorldPosition(posX, posY, posZ, 0));
+    }
+
+    public void scanTree(WorldPosition pos) {
+        Tree tree = new Tree();
+        PriorityQueue<WorldPosition> toScan = Queues.newPriorityQueue();
+        ArrayList<WorldPosition> scanned = Lists.newArrayList();
+        toScan.add(pos);
+        while (!toScan.isEmpty()) {
+            WorldPosition center = toScan.poll();
+            for (int i = -1; i <= 1; i++) {
+                for (int k = -1; k <= 1; k++) {
+                    out:
+                    for (int j = -1; j <= 1; j++) {
+                        WorldPosition target = new WorldPosition(center.x + i, center.y + j, center.z + k, center.distance + 1);
+                        if (!scanned.contains(target)) {
+                            scanned.add(target);
+                            for (Tree t : trees) {
+                                if (t.leaves.contains(target) || t.wood.contains(target)) break out;
+                            }
+                            Block block = worldObj.getBlock(target.x, target.y, target.z);
+                            if (isWood(block)) {
+                                toScan.add(target);
+                                tree.addWood(target);
+                            }
+                            if (isLeaf(block)) {
+                                toScan.add(target);
+                                tree.addLeaves(target);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        trees.add(tree);
     }
 
     private boolean checkIfTree(int x, int y, int z) {
@@ -181,6 +210,22 @@ public class TileEntityTreeFarm extends ModTileEntity {
 
         public void setDistance(int distance) {
             this.distance = distance;
+        }
+    }
+
+    private class Tree {
+        public PriorityQueue<WorldPosition> wood = Queues.newPriorityQueue();
+        public PriorityQueue<WorldPosition> leaves = Queues.newPriorityQueue();
+
+        public Tree() {
+        }
+
+        public void addWood(WorldPosition p) {
+            wood.add(p);
+        }
+
+        public void addLeaves(WorldPosition p) {
+            leaves.add(p);
         }
     }
 }
