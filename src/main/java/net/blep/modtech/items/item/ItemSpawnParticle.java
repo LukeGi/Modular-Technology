@@ -1,8 +1,6 @@
 package net.blep.modtech.items.item;
 
-import cpw.mods.fml.common.network.NetworkRegistry;
 import net.blep.modtech.client.particle.ParticleManager;
-import net.blep.modtech.core.networking.NetworkManagerModtech;
 import net.blep.modtech.core.networking.packets.MessageSpawnParticle;
 import net.blep.modtech.core.util.Vector3d;
 import net.blep.modtech.items.ModItem;
