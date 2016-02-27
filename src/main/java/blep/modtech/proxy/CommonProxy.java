@@ -1,5 +1,9 @@
 package blep.modtech.proxy;
 
+import blep.modtech.config.ConfigHandler;
+
+import java.io.File;
+
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
@@ -15,5 +19,11 @@ public abstract class CommonProxy implements IProxy
     public void registerItems()
     {
 
+    }
+
+    @Override
+    public void registerConfigs(File configFile)
+    {
+        ConfigHandler.init(configFile);
     }
 }

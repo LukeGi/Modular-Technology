@@ -23,6 +23,7 @@ public class ModTech
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        proxy.registerConfigs(event.getSuggestedConfigurationFile());
         proxy.registerBlocks();
         proxy.registerItems();
     }
