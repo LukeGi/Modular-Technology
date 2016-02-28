@@ -17,7 +17,6 @@ public class ConfigHandler
 
     public static void init(File configFile)
     {
-        // Create the config object from the given config file
         if (configuration == null)
         {
             configuration = new Configuration(configFile);

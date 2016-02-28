@@ -1,6 +1,5 @@
 package blep.modtech.block;
 
-import blep.modtech.creativetab.ModTechCreativeTabs;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
@@ -9,11 +8,9 @@ import net.minecraft.block.material.Material;
  */
 public class BlockMod extends Block
 {
-    public BlockMod(Material material, String name)
+    public BlockMod(Material material)
     {
         //TODO: Checkout the this.blockParticleGravity stuffs
         super(material);
-        this.setUnlocalizedName(name);
-        this.setCreativeTab(ModTechCreativeTabs.getInstance());
     }
 }

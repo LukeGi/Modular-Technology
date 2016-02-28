@@ -1,5 +1,6 @@
 package blep.modtech.proxy;
 
+import blep.modtech.block.ModtechBlocks;
 import blep.modtech.config.ConfigHandler;
 
 import java.io.File;
@@ -12,7 +13,7 @@ public abstract class CommonProxy implements IProxy
     @Override
     public void registerBlocks()
     {
-
+        ModtechBlocks.initAllBlocks();
     }
 
     @Override
