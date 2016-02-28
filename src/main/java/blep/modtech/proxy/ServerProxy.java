@@ -1,27 +1,19 @@
 package blep.modtech.proxy;
 
-import java.io.File;
-
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
 public class ServerProxy extends CommonProxy
 {
     @Override
-    public void registerBlocks()
+    public void registerBlockRenders()
     {
-        super.registerBlocks();
+        /* no-op */
     }
 
     @Override
-    public void registerItems()
+    public void registerItemRenders()
     {
-        super.registerItems();
-    }
-
-    @Override
-    public void registerConfigs(File configFile)
-    {
-
+        /* no-op */
     }
 }

@@ -1,6 +1,7 @@
 package blep.modtech.proxy;
 
-import java.io.File;
+import blep.modtech.block.ModtechBlocks;
+import blep.modtech.item.ModtechItems;
 
 /**
  * Created by Blue <boo122333@gmail.com>.
@@ -8,20 +9,14 @@ import java.io.File;
 public class ClientProxy extends CommonProxy
 {
     @Override
-    public void registerBlocks()
+    public void registerBlockRenders()
     {
-        super.registerBlocks();
+        ModtechBlocks.registerAllBlockRenders();
     }
 
     @Override
-    public void registerItems()
+    public void registerItemRenders()
     {
-        super.registerItems();
-    }
-
-    @Override
-    public void registerConfigs(File configFile)
-    {
-
+        ModtechItems.registerAllItemRenders();
     }
 }

@@ -8,6 +8,11 @@ import java.io.File;
 public interface IProxy
 {
     /**
+     * Register Configs
+     */
+    void registerConfigs(File configFile);
+
+    /**
      * Registers Blocks
      */
     void registerBlocks();
@@ -18,7 +23,12 @@ public interface IProxy
     void registerItems();
 
     /**
-     * Register Configs
+     * Register Block Renders
      */
-    void registerConfigs(File configFile);
+    void registerBlockRenders();
+
+    /**
+     * Register Item Renders
+     */
+    void registerItemRenders();
 }

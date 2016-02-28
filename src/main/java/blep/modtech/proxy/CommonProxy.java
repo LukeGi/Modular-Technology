@@ -14,7 +14,7 @@ public abstract class CommonProxy implements IProxy
     @Override
     public void registerBlocks()
     {
-        ModtechBlocks.initAllBlocks();
+        ModtechBlocks.regsiterAllBlocks();
     }
 
     @Override
