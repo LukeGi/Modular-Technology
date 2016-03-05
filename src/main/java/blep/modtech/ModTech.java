@@ -26,13 +26,14 @@ public class ModTech
         proxy.registerConfigs(event.getSuggestedConfigurationFile());
         proxy.registerBlocks();
         proxy.registerItems();
+        proxy.registerCreativeTab();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-        proxy.registerBlockRenders();
-        proxy.registerItemRenders();
+        proxy.registerEntityFXStuff();
+        proxy.registerNetwork();
     }
 
     @Mod.EventHandler

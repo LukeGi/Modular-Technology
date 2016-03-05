@@ -1,14 +1,15 @@
 package blep.modtech.block;
 
-import blep.modtech.creativetab.ModTechCreativeTabs;
+import blep.modtech.block.farms.BlockTreeFarm;
+import blep.modtech.block.metal.BlockOre;
+import blep.modtech.item.metal.ItemBlockOre;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.util.IHasTileEntity;
+import blep.modtech.util.LogHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -16,50 +17,75 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public enum ModtechBlocks
 {
-    TREE_FARM("treefarm", new BlockTreeFarm(), ModTechCreativeTabs.getInstance()),
-    ;
+    TREE_FARM("treefarm", new BlockTreeFarm()),
+    METAL_ORE("ore", new BlockOre(), ItemBlockOre.class),;
 
-    private String name;
-    private Block block;
-    private ItemBlock itemBlock;
+    private static boolean registeredBlock = false;
+    public final Block block;
+    private final String internalName;
+    private final Class<? extends ItemBlock> itemBlockClass;
+    private final CreativeTabs creativeTabs;
 
-    ModtechBlocks(String name, Block block, ItemBlock itemBlock, CreativeTabs tab)
+    ModtechBlocks(String internalName, Block block)
     {
-        this.name = name;
+        this(internalName, block, ItemBlock.class, null);
+    }
+
+    ModtechBlocks(String internalName, Block block, CreativeTabs creativeTabs)
+    {
+        this(internalName, block, ItemBlock.class, creativeTabs);
+    }
+
+    ModtechBlocks(String internalName, Block block, Class<? extends ItemBlock> itemBlockClass)
+    {
+        this(internalName, block, itemBlockClass, null);
+    }
+
+    ModtechBlocks(String internalName, Block block, Class<? extends ItemBlock> itemBlockClass, CreativeTabs creativeTabs)
+    {
+        this.internalName = internalName;
         this.block = block;
-        this.itemBlock = itemBlock;
-        block.setUnlocalizedName(name);
-        block.setCreativeTab(tab);
+        this.itemBlockClass = itemBlockClass;
+        this.creativeTabs = creativeTabs;
     }
 
-    ModtechBlocks(String name, Block block, CreativeTabs tab)
+    public static void registerAll()
     {
-        this(name, block, new ItemBlock(block), tab);
+        LogHelper.info("Registering things");
+        if (!registeredBlock)
+        {
+            for (ModtechBlocks b : ModtechBlocks.values())
+            {
+                b.registerBlock();
+                if (b.block instanceof IHasTileEntity)
+                    b.registerTileEntity();
+            }
+            registeredBlock = true;
+        }
     }
 
-
-    public static void regsiterAllBlocks()
+    private void registerTileEntity()
     {
-        for (ModtechBlocks block : ModtechBlocks.values())
-            block.registerBlock();
+        GameRegistry.registerTileEntity(((IHasTileEntity) block).getTileClass(), ModInfo.MOD_ID + ":" + internalName);
+
+        LogHelper.info("Registered Tile Entity: " + internalName);
     }
 
-    public static void registerAllBlockRenders()
+    public String getInternalName()
     {
-        for (ModtechBlocks block : ModtechBlocks.values())
-            block.registerRenderer();
+        return internalName;
+    }
+
+    public String getStatName()
+    {
+        return StatCollector.translateToLocal(block.getUnlocalizedName().replace("tileentity.", "block."));
     }
 
     private void registerBlock()
     {
-        GameRegistry.registerBlock(block, itemBlock.getClass(), name);
-        if (block instanceof IHasTileEntity)
-            GameRegistry.registerTileEntity(((IHasTileEntity) block).getTileClass(), ModInfo.MOD_ID + name);
-    }
+        GameRegistry.registerBlock(block.setCreativeTab(creativeTabs).setUnlocalizedName(ModInfo.MOD_ID + "." + internalName),
+                itemBlockClass, internalName);
 
-    private void registerRenderer()
-    {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), 0, new ModelResourceLocation(ModInfo.MOD_ID + ":" + name, "inventory"));
+        LogHelper.info("Registered Block: " + internalName);
     }
-
 }

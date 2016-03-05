@@ -5,15 +5,4 @@ package blep.modtech.proxy;
  */
 public class ServerProxy extends CommonProxy
 {
-    @Override
-    public void registerBlockRenders()
-    {
-        /* no-op */
-    }
-
-    @Override
-    public void registerItemRenders()
-    {
-        /* no-op */
-    }
 }

@@ -1,11 +1,12 @@
 package blep.modtech.item;
 
-import blep.modtech.creativetab.ModTechCreativeTabs;
+import blep.modtech.item.tools.ItemÜberHoe;
 import blep.modtech.reference.ModInfo;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import blep.modtech.util.LogHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -13,38 +14,55 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public enum ModtechItems
 {
-    TEST_ITEM("testitem", new ItemMod(), ModTechCreativeTabs.getInstance()),;
+    TEST_ITEM("testitem", new ItemMod()),
+    ÜBER_HOE_1000("überhoe", new ItemÜberHoe()),;
 
-    private String name;
-    private Item item;
-    private CreativeTabs tab;
+    private static boolean registeredItem = false;
+    public final Item item;
+    private final String internalName;
+    private final CreativeTabs creativeTabs;
 
-    ModtechItems(String name, Item item, CreativeTabs tab)
+    ModtechItems(String internalName, Item item)
     {
-        this.name = name;
+        this(internalName, item, null);
+    }
+
+    ModtechItems(String internalName, Item item, CreativeTabs creativeTabs)
+    {
+        this.internalName = internalName;
         this.item = item;
-        this.tab = tab;
+        item.setUnlocalizedName(ModInfo.MOD_ID + "." + internalName);
+        this.creativeTabs = creativeTabs;
     }
 
-    public static void registerAllItems()
+    public static void registerAll()
     {
-        for (ModtechItems item : ModtechItems.values())
-            item.registerItem();
+        if (registeredItem)
+            return;
+        for (ModtechItems i : ModtechItems.values())
+            i.registerItem();
+        registeredItem = true;
     }
 
-    public static void registerAllItemRenders()
+    public String getInternalName()
     {
-        for (ModtechItems item : ModtechItems.values())
-            item.registerItemRender();
+        return internalName;
+    }
+
+    public String getStatName()
+    {
+        return StatCollector.translateToLocal(item.getUnlocalizedName());
     }
 
     private void registerItem()
     {
-        GameRegistry.registerItem(item.setUnlocalizedName(name).setCreativeTab(tab), name);
+        GameRegistry.registerItem(item, internalName);
+
+        LogHelper.info("Registered Item: " + internalName);
     }
 
-    private void registerItemRender()
+    public ItemStack getStack(int damage, int size)
     {
-        Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":" + name, "inventory"));
+        return new ItemStack(item, size, damage);
     }
 }

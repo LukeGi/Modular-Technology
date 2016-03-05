@@ -1,5 +1,6 @@
-package blep.modtech.block;
+package blep.modtech.block.farms;
 
+import blep.modtech.block.BlockMod;
 import blep.modtech.tileentity.TileEntityTreeFarm;
 import blep.modtech.util.IHasTileEntity;
 import net.minecraft.block.ITileEntityProvider;
@@ -14,7 +15,7 @@ import net.minecraft.world.World;
  */
 public class BlockTreeFarm extends BlockMod implements ITileEntityProvider, IHasTileEntity
 {
-    protected BlockTreeFarm()
+    public BlockTreeFarm()
     {
         super(Material.iron);
     }

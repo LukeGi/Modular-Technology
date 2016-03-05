@@ -13,6 +13,11 @@ public interface IProxy
     void registerConfigs(File configFile);
 
     /**
+     * Register Network
+     */
+    void registerNetwork();
+
+    /**
      * Registers Blocks
      */
     void registerBlocks();
@@ -23,12 +28,12 @@ public interface IProxy
     void registerItems();
 
     /**
-     * Register Block Renders
+     * Register Creative Tab
      */
-    void registerBlockRenders();
+    void registerCreativeTab();
 
     /**
-     * Register Item Renders
+     * Register what is needed for entity FX
      */
-    void registerItemRenders();
+    void registerEntityFXStuff();
 }
