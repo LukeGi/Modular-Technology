@@ -1,3 +1,3 @@
-# Modular-Technology-1.7
+# Modular-Technology
 
-Modular Technology is a technology-magic-combo where progression is the key. There is a science side of the mod, a magical side of the mod, and an unexplored idea where the two collide to create a completely new catagory.
+Modular Technology is a mod that adds machines that are modular... oh yeah, there is more... Modular technology has a small twist... but to find out what that is you will have to download it and see.
