@@ -5,7 +5,9 @@ import blep.modtech.network.ModteckPacketHandler;
 import blep.modtech.network.message.MessageSpawnParticle;
 import blep.modtech.proxy.ClientProxy;
 import com.google.common.collect.Lists;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockAir;
+import net.minecraft.block.BlockSapling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
@@ -20,6 +22,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -177,10 +180,8 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
             ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(bpos.getX() + 0.5D, bpos.getY() + 0.5D, bpos.getZ() + 0.5D, 0, 0, 0, EnumParticleTypes.FLAME, new int[0]), worldObj.provider.getDimensionId());
             plantSapling(bpos);
         } else if (worldObj.isAirBlock(bpos.add(0, 1, 0)))
-        { //TODO: Make it so that the particle goes to a place
-            Vec3 dest = new Vec3(pos.getX() + 0.5, pos.getY() + 3.5, pos.getZ() + 0.5).subtract(new Vec3(bpos.getX(), bpos.getY(), bpos.getZ()).normalize());
-            ClientProxy.spawnEntityFX(new EntityBlueFlameFX(worldObj, bpos.getX() + 0.5D, bpos.getY() + 1.5D, bpos.getZ() + 0.5D, 0.05 * dest.xCoord, 0.05 * dest.yCoord, 0.05 * dest.zCoord));
-//            ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(bpos.getX() + 0.5D, bpos.getY() + 1.5D, bpos.getZ() + 0.5D, 0, 0, 0, EnumParticleTypes.FLAME, new int[0]), worldObj.provider.getDimensionId());
+        {
+            ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(bpos.getX() + 0.5D, bpos.getY() + 1.5D, bpos.getZ() + 0.5D, 0, 0.1, 0, EnumParticleTypes.FLAME, new int[0]), worldObj.provider.getDimensionId());
         } else
             for (int[] plus : around)
                 for (int i = -radius; i <= radius; i++)
@@ -240,13 +241,12 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
                             {
                                 if (t.leaves.contains(target) || t.wood.contains(target)) break out;
                             }
-                            Block block = worldObj.getBlockState(target).getBlock();
-                            if (isWood(block))
+                            if (isWood(worldObj, target))
                             {
                                 toScan.add(target);
                                 tree.addWood(target);
                             }
-                            if (isLeaf(block))
+                            if (isLeaf(worldObj, target))
                             {
                                 toScan.add(target);
                                 tree.addLeaves(target);
@@ -277,10 +277,9 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
                         if (!visited.contains(target))
                         {
                             visited.add(target);
-                            Block block = worldObj.getBlockState(target).getBlock();
-                            if (isWood(block))
+                            if (isWood(worldObj, target))
                                 q.add(target);
-                            if (isLeaf(block))
+                            if (isLeaf(worldObj, target))
                                 return true;
                         }
                     }
@@ -288,14 +287,14 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
         return false;
     }
 
-    private boolean isLeaf(Block block)
+    private boolean isLeaf(World world, BlockPos pos)
     {
-        return block.getMaterial().equals(Material.leaves) && block instanceof BlockLeavesBase;
+        return world.getBlockState(pos).getBlock().isLeaves(world, pos);
     }
 
-    private boolean isWood(Block block)
+    private boolean isWood(World world, BlockPos pos)
     {
-        return block.getMaterial().equals(Material.wood) && block instanceof BlockRotatedPillar;
+        return world.getBlockState(pos).getBlock().isWood(world, pos);
     }
 
     @Override

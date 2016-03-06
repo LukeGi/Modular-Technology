@@ -1,1 +1,1 @@
-gradlew.bat setupdecompworkspace idea --refresh-dependencies
+gradlew setupDecompWorkspace --refresh-dependencies
