@@ -20,8 +20,7 @@ public enum ModtechBlocks
 {
     TREE_FARM("treefarm", new BlockTreeFarm()),
     METAL_ORE("ore", new BlockOre(), ItemBlockOre.class),
-    MODULAR_STORAGE("modularStorage", new BlockModularStorage()),
-;
+    MODULAR_STORAGE("modularStorage", new BlockModularStorage()),;
 
     private static boolean registeredBlock = false;
     public final Block block;
@@ -69,7 +68,7 @@ public enum ModtechBlocks
 
     private void registerTileEntity()
     {
-        GameRegistry.registerTileEntity(((ITileEntityProvider)block).createNewTileEntity(new DummyWorld(), 0).getClass(), ModInfo.MOD_ID + ":" + internalName);
+        GameRegistry.registerTileEntity(((ITileEntityProvider) block).createNewTileEntity(new DummyWorld(), 0).getClass(), ModInfo.MOD_ID + ":" + internalName);
 
         LogHelper.info("Registered Tile Entity: " + internalName);
     }

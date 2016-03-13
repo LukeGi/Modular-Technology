@@ -1,5 +1,6 @@
 package blep.modtech.item;
 
+import blep.modtech.item.tools.ItemMultiblockBuilder;
 import blep.modtech.item.tools.ItemÜberHoe;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.util.LogHelper;
@@ -15,7 +16,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public enum ModtechItems
 {
     TEST_ITEM("testitem", new ItemMod()),
-    ÜBER_HOE_1000("überhoe", new ItemÜberHoe()),;
+    ÜBER_HOE_1000("überhoe", new ItemÜberHoe()),
+    MULTIBLOCK_CREATOR("multiblockCreator", new ItemMultiblockBuilder()),
+    ;
 
     private static boolean registeredItem = false;
     public final Item item;
