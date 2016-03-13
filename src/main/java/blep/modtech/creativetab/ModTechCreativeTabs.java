@@ -3,7 +3,7 @@ package blep.modtech.creativetab;
 import blep.modtech.block.BlockMod;
 import blep.modtech.block.metal.BlockOre;
 import blep.modtech.reference.ModInfo;
-import blep.modtech.util.IModtechObject;
+import blep.modtech.util.IModtechTabGrapple;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -34,7 +34,7 @@ public class ModTechCreativeTabs extends CreativeTabs
         for (Object itemObject : Item.itemRegistry)
         {
             Item item = (Item) itemObject;
-            if ((item != null) && (item instanceof IModtechObject))
+            if ((item != null) && (item instanceof IModtechTabGrapple))
                 item.getSubItems(item, this, itemsShownOnTab);
         }
 

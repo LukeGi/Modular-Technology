@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.VERSION_BUILD, dependencies = ModInfo.DEPENDENCIES)
+@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.VERSION_BUILD, dependencies = ModInfo.DEPENDENCIES/* TODO: , updateJSON = ModInfo.UPDATE_JSON*/)
 public class ModTech
 {
     @Mod.Instance

@@ -1,12 +1,13 @@
 package blep.modtech.block;
 
+import blep.modtech.DummyWorld;
 import blep.modtech.block.farms.BlockTreeFarm;
 import blep.modtech.block.metal.BlockOre;
 import blep.modtech.item.metal.ItemBlockOre;
 import blep.modtech.reference.ModInfo;
-import blep.modtech.util.IHasTileEntity;
 import blep.modtech.util.LogHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.StatCollector;
@@ -18,7 +19,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public enum ModtechBlocks
 {
     TREE_FARM("treefarm", new BlockTreeFarm()),
-    METAL_ORE("ore", new BlockOre(), ItemBlockOre.class),;
+    METAL_ORE("ore", new BlockOre(), ItemBlockOre.class),
+    MODULAR_STORAGE("modularStorage", new BlockModularStorage()),
+;
 
     private static boolean registeredBlock = false;
     public final Block block;
@@ -57,7 +60,7 @@ public enum ModtechBlocks
             for (ModtechBlocks b : ModtechBlocks.values())
             {
                 b.registerBlock();
-                if (b.block instanceof IHasTileEntity)
+                if (b.block instanceof ITileEntityProvider)
                     b.registerTileEntity();
             }
             registeredBlock = true;
@@ -66,7 +69,7 @@ public enum ModtechBlocks
 
     private void registerTileEntity()
     {
-        GameRegistry.registerTileEntity(((IHasTileEntity) block).getTileClass(), ModInfo.MOD_ID + ":" + internalName);
+        GameRegistry.registerTileEntity(((ITileEntityProvider)block).createNewTileEntity(new DummyWorld(), 0).getClass(), ModInfo.MOD_ID + ":" + internalName);
 
         LogHelper.info("Registered Tile Entity: " + internalName);
     }

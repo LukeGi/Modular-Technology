@@ -1,16 +1,12 @@
 package blep.modtech.tileentity;
 
-import blep.modtech.entity.fx.EntityBlueFlameFX;
 import blep.modtech.network.ModteckPacketHandler;
 import blep.modtech.network.message.MessageSpawnParticle;
-import blep.modtech.proxy.ClientProxy;
-import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -21,20 +17,22 @@ import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.items.ItemStackHandler;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 import java.util.Stack;
 
 /**
  * Created by Blue <boo122333@gmail.com>
  */
-public class TileEntityTreeFarm extends TileEntity implements ITickable
+public class TileEntityTreeFarm extends TileEntity implements ITickable//, IInventory, IItemHandler
 {
     public int scanx = 0, scany = 1, scanz = 0, radius = 4;
 
-    public ArrayList<Tree> trees = Lists.newArrayList();
+    public PriorityQueue<BlockPos> leaves = new PriorityQueue<BlockPos>();
+    public PriorityQueue<BlockPos> wood = new PriorityQueue<BlockPos>();
 
     private int[][] around = {
             {0, 0, 1},
@@ -45,12 +43,14 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
             {1, 1, 0},
             {1, 1, 1}
     };
+    private ItemStackHandler internalInventory = new ItemStackHandler(36);
 
     @Override
     public void update()
     {
         if (!worldObj.isRemote)
         {
+            this.markDirty();
             if (treefarmShouldFunction())
                 if (worldObj.getTotalWorldTime() % 2 == 0)
                 {
@@ -58,20 +58,20 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
                     speedUpHopper();
                 }
             if (worldObj.getTotalWorldTime() % 2 == 1)
-            {
-                cleanForest();
                 scanForTrees();
-            }
         }
     }
 
     private boolean treefarmShouldFunction()
     {
+        boolean isRoomInInvFlag = false;
+        boolean doesChestExistFlag = false;
+        boolean doesHopperExistFlag = false;
         TileEntity genericTileEntity = worldObj.getTileEntity(pos.add(0, 1, 0));
         if (genericTileEntity instanceof TileEntityChest)
         {
             TileEntityChest chest = (TileEntityChest) genericTileEntity;
-            boolean isRoomInInvFlag = false;
+            doesChestExistFlag = true;
             for (int i = 0; i < chest.getSizeInventory(); i++)
             {
                 if (!isRoomInInvFlag)
@@ -80,9 +80,11 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
                     isRoomInInvFlag = isRoomInInvFlag || stack == null;
                 }
             }
-            return isRoomInInvFlag;
         }
-        return false;
+        genericTileEntity = worldObj.getTileEntity(pos.add(0, 2, 0));
+        if (genericTileEntity instanceof TileEntityHopper)
+            doesHopperExistFlag = true;
+        return isRoomInInvFlag && doesChestExistFlag && doesHopperExistFlag;
     }
 
     private void speedUpHopper()
@@ -92,10 +94,6 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
         TileEntityHopper hopper = (TileEntityHopper) tileEntity;
         for (int i = 0; i < 8; i++)
             hopper.update();
-    }
-
-    private void plantSaplings()
-    {
     }
 
     private void plantSapling(BlockPos p)
@@ -120,22 +118,13 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
             }
     }
 
-    private void cleanForest()
-    {
-        for (int i = 0; i < trees.size(); i++)
-            if (trees.get(i).leaves.isEmpty() && trees.get(i).wood.isEmpty())
-                trees.remove(i);
-    }
-
     private void cutTrees()
     {
         breakBlock(pos.add(0, 3, 0));
-        for (Tree tree : trees)
-        {
-            if (!breakBlock(tree.getNextLeaf()))
-                breakBlock(tree.getNextLog());
-        }
-        cleanForest();
+        if (!leaves.isEmpty())
+            breakBlock(leaves.poll());
+        else if (!wood.isEmpty())
+            breakBlock(wood.poll());
     }
 
     private boolean breakBlock(BlockPos p)
@@ -145,19 +134,13 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
         Block block = worldObj.getBlockState(p).getBlock();
         if (block instanceof BlockAir) return true;
         IBlockState blockState = worldObj.getBlockState(p);
-        ArrayList<ItemStack> drops = (ArrayList<ItemStack>) block.getDrops(worldObj, p, blockState, 0);
+        block.dropBlockAsItem(worldObj, new BlockPos(pos.add(0.5, 3.5, 0.5)), blockState, 0);
         worldObj.setBlockToAir(p);
-        worldObj.playSoundEffect(p.getX() + 0.5F, p.getY() + 0.5F, p.getZ() + 0.5F, block.stepSound.getBreakSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getFrequency() * 0.8F);
-        for (int i = 0; i < 4; i++)
-            for (int j = 0; j < 4; j++)
-                for (int k = 0; k < 4; k++)
-                    ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(p.getX() + 1F / i, p.getY() + 1F / j, p.getZ() + 1F / k, 1 - 2 * worldObj.rand.nextDouble(), 0, 1 - 2 * worldObj.rand.nextDouble(), EnumParticleTypes.BLOCK_DUST, new int[]{Block.getStateId(blockState)}), worldObj.provider.getDimensionId());
-        for (ItemStack stack : drops)
-        {
-            EntityItem drop = new EntityItem(worldObj, pos.getX() + 0.5f, pos.getY() + 3.5f, pos.getZ() + 0.5f, stack);
-            drop.setVelocity(0, 0, 0);
-            worldObj.spawnEntityInWorld(drop);
-        }
+        worldObj.playAuxSFX(2001, pos, Block.getIdFromBlock(block));
+        if (worldObj.rand.nextBoolean())
+            worldObj.playSoundEffect(p.getX() + 0.5F, p.getY() + 0.5F, p.getZ() + 0.5F, block.stepSound.getBreakSound(), (block.stepSound.getVolume() + 1.0F) / 2.0F, block.stepSound.getFrequency() * 0.8F);
+        for (int i = 0; i < 8; i++)
+            ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(p.getX() + 0.5F, p.getY() + 0.5F, p.getZ() + 0.5F, 1 - 2 * worldObj.rand.nextDouble(), 0, 1 - 2 * worldObj.rand.nextDouble(), EnumParticleTypes.BLOCK_DUST, new int[]{Block.getStateId(blockState)}), worldObj.provider.getDimensionId());
         return true;
     }
 
@@ -177,11 +160,11 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
 
         if (worldObj.isAirBlock(bpos))
         {
-            ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(bpos.getX() + 0.5D, bpos.getY() + 0.5D, bpos.getZ() + 0.5D, 0, 0, 0, EnumParticleTypes.FLAME, new int[0]), worldObj.provider.getDimensionId());
+            ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(bpos.getX() + 0.5D, bpos.getY() + 0.5D, bpos.getZ() + 0.5D, 0, 0, 0, EnumParticleTypes.SMOKE_LARGE, new int[0]), worldObj.provider.getDimensionId());
             plantSapling(bpos);
         } else if (worldObj.isAirBlock(bpos.add(0, 1, 0)))
         {
-            ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(bpos.getX() + 0.5D, bpos.getY() + 1.5D, bpos.getZ() + 0.5D, 0, 0.1, 0, EnumParticleTypes.FLAME, new int[0]), worldObj.provider.getDimensionId());
+            ModteckPacketHandler.INSTANCE.sendToDimension(new MessageSpawnParticle(bpos.getX() + 0.5D, bpos.getY() + 0.5D, bpos.getZ() + 0.5D, 0, 0.1, 0, EnumParticleTypes.WATER_WAKE, new int[0]), worldObj.provider.getDimensionId());
         } else
             for (int[] plus : around)
                 for (int i = -radius; i <= radius; i++)
@@ -197,21 +180,21 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
         boolean isInFlag = false;
         out:
         if (!isInFlag)
-            for (Tree tree : trees)
-            {
-                for (BlockPos leafPos : tree.leaves)
-                    if (leafPos.equals(bpos))
-                    {
-                        isInFlag = true;
-                        break out;
-                    }
-                for (BlockPos woodPos : tree.wood)
-                    if (woodPos.equals(bpos))
-                    {
-                        isInFlag = true;
-                        break out;
-                    }
-            }
+        {
+            for (BlockPos leafPos : leaves)
+                if (leafPos.equals(bpos))
+                {
+                    isInFlag = true;
+                    break out;
+                }
+            for (BlockPos woodPos : wood)
+                if (woodPos.equals(bpos))
+                {
+                    isInFlag = true;
+                    break out;
+                }
+        }
+
         if (!isInFlag && scanned.getMaterial().equals(Material.wood) && scanned.getUnlocalizedName().toLowerCase().contains("log"))
             if (checkIfTree(bpos))
                 scanTree(new BlockPos(bpos));
@@ -219,7 +202,6 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
 
     public void scanTree(BlockPos pos)
     {
-        Tree tree = new Tree();
         Stack<BlockPos> toScan = new Stack<BlockPos>();
         ArrayList<BlockPos> scanned = new ArrayList<BlockPos>();
         toScan.add(pos);
@@ -227,36 +209,26 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
         {
             BlockPos center = toScan.pop();
             for (int i = -1; i <= 1; i++)
-            {
                 for (int k = -1; k <= 1; k++)
-                {
-                    out:
                     for (int j = -1; j <= 1; j++)
                     {
                         BlockPos target = center.add(i, j, k);
                         if (!scanned.contains(target))
                         {
                             scanned.add(target);
-                            for (Tree t : trees)
-                            {
-                                if (t.leaves.contains(target) || t.wood.contains(target)) break out;
-                            }
+                            if (leaves.contains(target) || wood.contains(target)) break;
                             if (isWood(worldObj, target))
                             {
                                 toScan.add(target);
-                                tree.addWood(target);
-                            }
-                            if (isLeaf(worldObj, target))
+                                wood.add(target);
+                            } else if (isLeaf(worldObj, target))
                             {
                                 toScan.add(target);
-                                tree.addLeaves(target);
+                                leaves.add(target);
                             }
                         }
                     }
-                }
-            }
         }
-        trees.add(tree);
     }
 
     private boolean checkIfTree(BlockPos start)
@@ -304,9 +276,26 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
         nbt.setInteger("ScanX", scanx);
         nbt.setInteger("ScanY", scany);
         nbt.setInteger("ScanZ", scanz);
-        nbt.setInteger("TreeListSize", trees.size());
-        for (int i = 0; i < trees.size(); i++)
-            trees.get(i).writeToNBT(nbt, i);
+        nbt.setInteger("leavesSize", leaves.size());
+        NBTTagCompound leavesnbt = new NBTTagCompound();
+        for (int i = 0; i < leaves.size(); i++)
+        {
+            BlockPos pos = leaves.poll();
+            leavesnbt.setInteger("x:" + i, pos.getX());
+            leavesnbt.setInteger("y:" + i, pos.getY());
+            leavesnbt.setInteger("z:" + i, pos.getZ());
+        }
+        nbt.setTag("Leaves", leavesnbt);
+        nbt.setInteger("woodSize", wood.size());
+        NBTTagCompound woodnbt = new NBTTagCompound();
+        for (int i = 0; i < wood.size(); i++)
+        {
+            BlockPos pos = wood.poll();
+            woodnbt.setInteger("x:" + i, pos.getX());
+            woodnbt.setInteger("y:" + i, pos.getY());
+            woodnbt.setInteger("z:" + i, pos.getZ());
+        }
+        nbt.setTag("Wood", woodnbt);
     }
 
     @Override
@@ -316,73 +305,174 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable
         scanx = nbt.getInteger("ScanX");
         scany = nbt.getInteger("ScanY");
         scanz = nbt.getInteger("ScanZ");
-        int treesToGet = nbt.getInteger("TreeListSize");
-        for (int i = 0; i < treesToGet; i++)
-            trees.add(new Tree().readFromNBT(nbt, i));
+        int leavesSize = nbt.getInteger("leavesSize");
+        NBTTagCompound leavesnbt = nbt.getCompoundTag("Leaves");
+        for (int i = 0; i < leavesSize; i++)
+            leaves.add(new BlockPos(leavesnbt.getInteger("x:" + i), leavesnbt.getInteger("y:" + i), leavesnbt.getInteger("y:" + i)));
+        int woodSize = nbt.getInteger("woodSize");
+        NBTTagCompound woodnbt = nbt.getCompoundTag("Wood");
+        for (int i = 0; i < woodSize; i++)
+            wood.add(new BlockPos(woodnbt.getInteger("x:" + i), woodnbt.getInteger("y:" + i), woodnbt.getInteger("y:" + i)));
     }
-
-    private class Tree
-    {
-        public Stack<BlockPos> wood = new Stack<BlockPos>();
-        public Stack<BlockPos> leaves = new Stack<BlockPos>();
-
-        public Tree()
-        {
-        }
-
-        public void addWood(BlockPos p)
-        {
-            wood.push(p);
-        }
-
-        public void addLeaves(BlockPos p)
-        {
-            leaves.push(p);
-        }
-
-        public BlockPos getNextLeaf()
-        {
-            return leaves.size() == 0 ? null : leaves.pop();
-        }
-
-        public BlockPos getNextLog()
-        {
-            return wood.size() == 0 ? null : wood.pop();
-        }
-
-        public void writeToNBT(NBTTagCompound compound, int i)
-        {
-            NBTTagCompound compoundTree = new NBTTagCompound();
-            compoundTree.setInteger("WoodListSize", wood.size());
-            for (int j = 0; j < wood.size(); j++)
-            {
-                BlockPos pos = wood.pop();
-                compoundTree.setDouble("Wood:" + j + ":X", pos.getX());
-                compoundTree.setDouble("Wood:" + j + ":Y", pos.getY());
-                compoundTree.setDouble("Wood:" + j + ":Z", pos.getZ());
-            }
-            compoundTree.setInteger("LeavesListSize", leaves.size());
-            for (int j = 0; j < leaves.size(); j++)
-            {
-                BlockPos pos = leaves.pop();
-                compoundTree.setDouble("Leaves:" + j + ":X", pos.getX());
-                compoundTree.setDouble("Leaves:" + j + ":Y", pos.getY());
-                compoundTree.setDouble("Leaves:" + j + ":Z", pos.getZ());
-            }
-            compound.setTag("Tree:" + i, compoundTree);
-        }
-
-        public Tree readFromNBT(NBTTagCompound nbt, int i)
-        {
-            NBTTagCompound compoundTree = (NBTTagCompound) nbt.getTag("Tree:" + i);
-            int WoodListSize = compoundTree.getInteger("WoodListSize");
-            int LeavesListSize = compoundTree.getInteger("LeavesListSize");
-            for (int j = 0; j < WoodListSize; j++)
-                wood.add(new BlockPos(compoundTree.getDouble("Wood:" + j + ":X"), compoundTree.getDouble("Wood:" + j + ":Y"), compoundTree.getDouble("Wood:" + j + ":Z")));
-            for (int j = 0; j < LeavesListSize; j++)
-                wood.add(new BlockPos(compoundTree.getDouble("Leaves:" + j + ":X"), compoundTree.getDouble("Leaves:" + j + ":Y"), compoundTree.getDouble("Leaves:" + j + ":Z")));
-            return this;
-        }
-    }
+//    Inventory Stuff
+//    @Override
+//    public int getSlots()
+//    {
+//        return internalInventory.getSlots();
+//    }
+//
+//    @Override
+//    public int getSizeInventory()
+//    {
+//        return internalInventory.getSlots();
+//    }
+//
+//    @Override
+//    public ItemStack getStackInSlot(int slot)
+//    {
+//        return internalInventory.getStackInSlot(slot);
+//    }
+//
+//    @Override
+//    public ItemStack decrStackSize(int index, int count)
+//    {
+//        if (internalInventory.getStackInSlot(index) != null)
+//        {
+//            if (internalInventory.getStackInSlot(index).stackSize <= count)
+//            {
+//                ItemStack itemstack1 = internalInventory.getStackInSlot(index);
+//                internalInventory.setStackInSlot(index, null);
+//                this.markDirty();
+//                return itemstack1;
+//            }
+//            else
+//            {
+//                ItemStack itemstack = internalInventory.getStackInSlot(index).splitStack(count);
+//
+//                if (internalInventory.getStackInSlot(index).stackSize == 0)
+//                {
+//                    internalInventory.setStackInSlot(index,null);
+//                }
+//
+//                this.markDirty();
+//                return itemstack;
+//            }
+//        }
+//        else
+//        {
+//            return null;
+//        }
+//    }
+//
+//    @Override
+//    public ItemStack removeStackFromSlot(int index)
+//    {
+//        if (internalInventory.getStackInSlot(index) != null)
+//        {
+//            ItemStack itemstack = internalInventory.getStackInSlot(index);
+//            internalInventory.setStackInSlot(index, null);
+//            return itemstack;
+//        }
+//        else
+//        {
+//            return null;
+//        }
+//    }
+//
+//    @Override
+//    public void setInventorySlotContents(int index, ItemStack stack)
+//    {
+//        internalInventory.setStackInSlot(index, stack);
+//
+//        if (stack != null && stack.stackSize > this.getInventoryStackLimit())
+//        {
+//            stack.stackSize = this.getInventoryStackLimit();
+//        }
+//
+//        this.markDirty();
+//    }
+//
+//    @Override
+//    public int getInventoryStackLimit()
+//    {
+//        return 64;
+//    }
+//
+//    @Override
+//    public boolean isUseableByPlayer(EntityPlayer player)
+//    {
+//        return true;
+//    }
+//
+//    @Override
+//    public void openInventory(EntityPlayer player)
+//    {
+//
+//    }
+//
+//    @Override
+//    public void closeInventory(EntityPlayer player)
+//    {
+//
+//    }
+//
+//    @Override
+//    public boolean isItemValidForSlot(int index, ItemStack stack)
+//    {
+//        return true;
+//    }
+//
+//    @Override
+//    public int getField(int id)
+//    {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void setField(int id, int value)
+//    {
+//
+//    }
+//
+//    @Override
+//    public int getFieldCount()
+//    {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void clear()
+//    {
+//        internalInventory = new ItemStackHandler(36);
+//    }
+//
+//    @Override
+//    public ItemStack insertItem(int slot, ItemStack stack, boolean simulate)
+//    {
+//        return internalInventory.insertItem(slot, stack, simulate);
+//    }
+//
+//    @Override
+//    public ItemStack extractItem(int slot, int amount, boolean simulate)
+//    {
+//        return internalInventory.extractItem(slot, amount, simulate);
+//    }
+//
+//    @Override
+//    public String getName()
+//    {
+//        return "Tree Farm";
+//    }
+//
+//    @Override
+//    public boolean hasCustomName()
+//    {
+//        return false;
+//    }
+//
+//    @Override
+//    public IChatComponent getDisplayName()
+//    {
+//        return new ChatComponentText("Tree Farm");
+//    }
 }
-

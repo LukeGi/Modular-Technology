@@ -1,1 +1,3 @@
-gradlew setupDecompWorkspace --refresh-dependencies
+@echo off 
+gradlew setupDecompWorkspace idea genIntellijRuns --refresh-dependencies
+pause
