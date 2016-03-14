@@ -1,6 +1,7 @@
 package blep.modtech.block;
 
 import blep.modtech.DummyWorld;
+import blep.modtech.block.farms.BlockCobbleFarm;
 import blep.modtech.block.farms.BlockTreeFarm;
 import blep.modtech.block.metal.BlockOre;
 import blep.modtech.item.metal.ItemBlockOre;
@@ -20,7 +21,8 @@ public enum ModtechBlocks
 {
     TREE_FARM("treefarm", new BlockTreeFarm()),
     METAL_ORE("ore", new BlockOre(), ItemBlockOre.class),
-    MODULAR_STORAGE("modularStorage", new BlockModularStorage()),;
+    MODULAR_STORAGE("modularStorage", new BlockModularStorage()),
+    COBBLE_GENERATOR("cobblegen", new BlockCobbleFarm());
 
     private static boolean registeredBlock = false;
     public final Block block;
