@@ -50,13 +50,17 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable//, IInve
         {
             this.markDirty();
             if (treefarmShouldFunction())
-                if (worldObj.getTotalWorldTime() % 2 == 0)
-                {
-                    cutTrees();
-                    speedUpHopper();
-                }
-            if (worldObj.getTotalWorldTime() % 2 == 1)
-                scanForTrees();
+            {
+                int size = queue.size();
+                if (worldObj.getTotalWorldTime() % (size == 0 ? 1 : size)  == 0)
+                    for (int i = 0; i < size; i++)
+                    {
+                        cutTrees();
+                        speedUpHopper();
+                    }
+                if (worldObj.getTotalWorldTime() % 2 == 1)
+                    scanForTrees();
+            }
         }
     }
 
