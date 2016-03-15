@@ -9,6 +9,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +23,25 @@ public class MultiblockPattern
             .addToLibrary(Blocks.chest, new BlockPos(0, 1, 0))
             .addToLibrary(Blocks.hopper, new BlockPos(0, 2, 0));
 
+    public static final MultiblockPattern cobblegen = new MultiblockPattern("cobblegen")
+            .addToLibrary(ModtechBlocks.COBBLE_GENERATOR.block, getListFromArray(new BlockPos[]{new BlockPos(-2, -1, -1), new BlockPos(-1, -1, -1), new BlockPos(0, -1, -1), new BlockPos(1, -1, -1), new BlockPos(2, -1, -1), new BlockPos(-2, -1, 0), new BlockPos(-1, -1, 0), new BlockPos(0, -1, 0), new BlockPos(1, -1, 0), new BlockPos(2, -1, 0), new BlockPos(-2, -1, 1), new BlockPos(-1, -1, 1), new BlockPos(0, -1, 1), new BlockPos(1, -1, 1), new BlockPos(2, -1, 1), new BlockPos(-2, 0, -1), new BlockPos(-1, 0, -1), new BlockPos(0, 0, -1), new BlockPos(1, 0, -1), new BlockPos(2, 0, -1), new BlockPos(-2, 0, 0), new BlockPos(0, 0, 0), new BlockPos(2, 0, 0), new BlockPos(-2, 0, 1), new BlockPos(-1, 0, 1), new BlockPos(0, 0, 1), new BlockPos(1, 0, 1), new BlockPos(2, 0, 1), new BlockPos(-2, 1, -1), new BlockPos(-1, 1, -1), new BlockPos(0, 1, -1), new BlockPos(1, 1, -1), new BlockPos(2, 1, -1), new BlockPos(-2, 1, 0), new BlockPos(-1, 1, 0), new BlockPos(0, 1, 0), new BlockPos(1, 1, 0), new BlockPos(2, 1, 0), new BlockPos(-2, 1, 1), new BlockPos(-1, 1, 1), new BlockPos(0, 1, 1), new BlockPos(1, 1, 1), new BlockPos(2, 1, 1),}))
+            .addToLibrary(Blocks.water, new BlockPos(-1, 0, 0))
+            .addToLibrary(Blocks.lava, new BlockPos(1, 0, 0))
+            .addToLibrary(Blocks.chest, new BlockPos(0, 0, 2));
+
     protected Map<List<Block>, List<BlockPos>> library = Maps.newHashMap();
     private String name;
 
     public MultiblockPattern(String name)
     {
         this.name = name;
+    }
+
+    private static List<BlockPos> getListFromArray(BlockPos[] blockPoses)
+    {
+        List<BlockPos> pList = new ArrayList<BlockPos>(blockPoses.length);
+        Collections.addAll(pList, blockPoses);
+        return pList;
     }
 
     public MultiblockPattern addToLibrary(Block b, List<BlockPos> pList)
