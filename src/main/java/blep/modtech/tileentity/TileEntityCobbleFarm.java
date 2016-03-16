@@ -1,25 +1,68 @@
 package blep.modtech.tileentity;
 
-import net.minecraft.block.Block;
+import blep.modtech.multiblock.MuPCobbleGen;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraftforge.items.IItemHandler;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
 public class TileEntityCobbleFarm extends TileEntity implements ITickable
 {
-    Block[] blocksAround;
-
+    public TileEntityCobbleFarm master = null;
     boolean firstTime = true;
     boolean shouldWork = false;
+    boolean isMaster = false;
+
+    public boolean isMaster()
+    {
+        return isMaster;
+    }
+
+    public TileEntityCobbleFarm getMaster()
+    {
+        return master;
+    }
+
+    private void setMaster(TileEntityCobbleFarm master)
+    {
+        this.master = master;
+        isMaster = master == this;
+        if (isMaster)
+        {
+            Stack<TileEntityCobbleFarm> q = new Stack<TileEntityCobbleFarm>();
+            List<TileEntityCobbleFarm> visited = new ArrayList<TileEntityCobbleFarm>();
+            q.add(this);
+            while (!q.isEmpty())
+            {
+                TileEntityCobbleFarm current = q.pop();
+                visited.add(current);
+                for (EnumFacing d : EnumFacing.VALUES)
+                {
+                    TileEntity tile = worldObj.getTileEntity(new BlockPos(pos).add(d.getDirectionVec()));
+                    if (tile instanceof TileEntityCobbleFarm && !visited.contains(tile))
+                    {
+                        q.add((TileEntityCobbleFarm) tile);
+                    }
+                }
+            }
+//            for (TileEntityCobbleFarm f : visited)
+//                f.setMaster(master);
+        }
+    }
 
     @Override
     public void update()
@@ -27,13 +70,9 @@ public class TileEntityCobbleFarm extends TileEntity implements ITickable
         // Do firstTime checks
         if (firstTime)
         {
-            blocksAround = new Block[6];
-            observeSurroundingBlocks();
             checkIfShouldWork();
         }
-        // every few ticks check surrounding blocks
-        if (worldObj.getTotalWorldTime() % 20 == 0)
-            observeSurroundingBlocks();
+
         // tick after check if still should work
         if (worldObj.getTotalWorldTime() % 20 == 1)
             checkIfShouldWork();
@@ -47,19 +86,28 @@ public class TileEntityCobbleFarm extends TileEntity implements ITickable
     private void work()
     {
         if (worldObj.isRemote) return;
-        EntityItem toSpawn = new EntityItem(worldObj, pos.getX() + 0.5d, pos.getY() + 1, pos.getZ() + 0.5d, new ItemStack(Blocks.cobblestone, 1));
-        toSpawn.setVelocity(0, 0, 0);
-        worldObj.spawnEntityInWorld(toSpawn);
+        TileEntity tile = worldObj.getTileEntity(new BlockPos(MuPCobbleGen.cobblegen.getChest()).add(pos));
+        if (tile == null) return;
+        ItemStack stack = new ItemStack(Blocks.cobblestone, 1);
+        if (tile instanceof TileEntityChest)
+        {
+            TileEntityHopper.putStackInInventoryAllSlots((IInventory) tile, stack, EnumFacing.UP);
+        } else if (tile instanceof IItemHandler)
+        {
+            IItemHandler farm = (IItemHandler) tile;
+            for (int i = 0; i < farm.getSlots(); i++)
+                stack = ((IItemHandler) tile).insertItem(i, stack, false);
+        }
+        if (stack != null && stack.stackSize != 0)
+        {
+            this.shouldWork = false;
+        }
     }
 
     private void checkIfShouldWork()
     {
-        shouldWork = Arrays.asList(blocksAround).contains(Blocks.water) && Arrays.asList(blocksAround).contains(Blocks.lava);
-    }
-
-    private void observeSurroundingBlocks()
-    {
-        for (EnumFacing d : EnumFacing.VALUES)
-            blocksAround[d.ordinal()] = worldObj.getBlockState(new BlockPos(pos).add(d.getDirectionVec())).getBlock();
+        shouldWork = MuPCobbleGen.cobblegen.isFormed(worldObj, pos);
+        if (shouldWork)
+            setMaster(this);
     }
 }

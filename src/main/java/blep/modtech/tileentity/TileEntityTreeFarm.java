@@ -7,7 +7,6 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -29,6 +28,7 @@ import java.util.Queue;
 public class TileEntityTreeFarm extends TileEntity implements ITickable//, IInventory, IItemHandler
 {
     public int scanx = 0, scany = 1, scanz = 0, radius = 4;
+    public long lastWork = 0;
 
     public Queue<BlockPos> queue = new PriorityQueue<BlockPos>();
 
@@ -48,16 +48,14 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable//, IInve
     {
         if (!worldObj.isRemote)
         {
+            if (lastWork == 0)
+                lastWork = worldObj.getTotalWorldTime();
             this.markDirty();
             if (treefarmShouldFunction())
             {
                 int size = queue.size();
-                if (worldObj.getTotalWorldTime() % (size == 0 ? 1 : size)  == 0)
-                    for (int i = 0; i < size; i++)
-                    {
-                        cutTrees();
-                        speedUpHopper();
-                    }
+                if (lastWork + size <= worldObj.getTotalWorldTime())
+                    cutTrees(size);
                 if (worldObj.getTotalWorldTime() % 2 == 1)
                     scanForTrees();
             }
@@ -127,20 +125,18 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable//, IInve
             }
     }
 
-    private void cutTrees()
+    private void cutTrees(int size)
     {
         breakBlock(pos.add(0, 3, 0));
-        if (!queue.isEmpty())
-        {
-            while (true)
+        Queue<BlockPos> q = queue;
+        for (int i = 0; i < size; i++)
+            if (!queue.isEmpty())
             {
-                if (queue.isEmpty()) return;
-                if (!worldObj.getBlockState(queue.peek()).equals(Blocks.air.getDefaultState())) break;
-                queue.poll();
+                scanAround(q.peek());
+                breakBlock(q.poll());
+                speedUpHopper();
             }
-            scanAround(queue.peek());
-            breakBlock(queue.poll());
-        }
+        lastWork = worldObj.getTotalWorldTime();
     }
 
     private void breakBlock(BlockPos p)
@@ -163,10 +159,11 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable//, IInve
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <= 1; j++)
                 for (int k = -1; k <= 1; k++)
-                {
-                    BlockPos np = new BlockPos(p).add(i, j, k);
-                    if (!queue.contains(np) && (isWood(worldObj, np) || isLeaves(worldObj, np))) queue.add(np);
-                }
+                    if (Math.abs(i) + Math.abs(j) + Math.abs(k) != 3)
+                    {
+                        BlockPos np = new BlockPos(p).add(i, j, k);
+                        if (!queue.contains(np) && (isWood(worldObj, np) || isLeaves(worldObj, np))) queue.add(np);
+                    }
     }
 
     public void scanForTrees()

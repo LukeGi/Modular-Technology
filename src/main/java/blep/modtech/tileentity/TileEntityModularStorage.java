@@ -33,7 +33,6 @@ public class TileEntityModularStorage extends TileEntity implements ITickable, I
 
     public boolean isMaster()
     {
-        this.markDirty();
         return isMaster;
     }
 

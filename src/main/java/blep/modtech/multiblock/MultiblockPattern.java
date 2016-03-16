@@ -23,12 +23,6 @@ public class MultiblockPattern
             .addToLibrary(Blocks.chest, new BlockPos(0, 1, 0))
             .addToLibrary(Blocks.hopper, new BlockPos(0, 2, 0));
 
-    public static final MultiblockPattern cobblegen = new MultiblockPattern("cobblegen")
-            .addToLibrary(ModtechBlocks.COBBLE_GENERATOR.block, getListFromArray(new BlockPos[]{new BlockPos(-2, -1, -1), new BlockPos(-1, -1, -1), new BlockPos(0, -1, -1), new BlockPos(1, -1, -1), new BlockPos(2, -1, -1), new BlockPos(-2, -1, 0), new BlockPos(-1, -1, 0), new BlockPos(0, -1, 0), new BlockPos(1, -1, 0), new BlockPos(2, -1, 0), new BlockPos(-2, -1, 1), new BlockPos(-1, -1, 1), new BlockPos(0, -1, 1), new BlockPos(1, -1, 1), new BlockPos(2, -1, 1), new BlockPos(-2, 0, -1), new BlockPos(-1, 0, -1), new BlockPos(0, 0, -1), new BlockPos(1, 0, -1), new BlockPos(2, 0, -1), new BlockPos(-2, 0, 0), new BlockPos(0, 0, 0), new BlockPos(2, 0, 0), new BlockPos(-2, 0, 1), new BlockPos(-1, 0, 1), new BlockPos(0, 0, 1), new BlockPos(1, 0, 1), new BlockPos(2, 0, 1), new BlockPos(-2, 1, -1), new BlockPos(-1, 1, -1), new BlockPos(0, 1, -1), new BlockPos(1, 1, -1), new BlockPos(2, 1, -1), new BlockPos(-2, 1, 0), new BlockPos(-1, 1, 0), new BlockPos(0, 1, 0), new BlockPos(1, 1, 0), new BlockPos(2, 1, 0), new BlockPos(-2, 1, 1), new BlockPos(-1, 1, 1), new BlockPos(0, 1, 1), new BlockPos(1, 1, 1), new BlockPos(2, 1, 1),}))
-            .addToLibrary(Blocks.water, new BlockPos(-1, 0, 0))
-            .addToLibrary(Blocks.lava, new BlockPos(1, 0, 0))
-            .addToLibrary(Blocks.chest, new BlockPos(0, 0, 2));
-
     protected Map<List<Block>, List<BlockPos>> library = Maps.newHashMap();
     private String name;
 
@@ -37,7 +31,7 @@ public class MultiblockPattern
         this.name = name;
     }
 
-    private static List<BlockPos> getListFromArray(BlockPos[] blockPoses)
+    protected static List<BlockPos> getListFromArray(BlockPos[] blockPoses)
     {
         List<BlockPos> pList = new ArrayList<BlockPos>(blockPoses.length);
         Collections.addAll(pList, blockPoses);
@@ -194,14 +188,28 @@ public class MultiblockPattern
         return name;
     }
 
-    //TODO: add CheckIfFormed Method.
-
     public boolean isSpace(World world, BlockPos pos)
     {
         boolean flag = true;
         for (List<BlockPos> pList : getLibrary().values())
             for (BlockPos p : pList)
                 flag &= world.isAirBlock(new BlockPos(pos).add(p));
+        return flag;
+    }
+
+    //TODO: Check this method
+    public boolean isFormed(World worldObj, BlockPos pos)
+    {
+        boolean flag = true;
+        for (List<Block> bList : library.keySet()){
+            boolean flag1 = false;
+            for (Block b : bList){
+                List<BlockPos> pList = library.get(bList);
+                for (BlockPos p : pList)
+                    flag1 |= worldObj.getBlockState(new BlockPos(pos).add(p)).getBlock().equals(b);
+            }
+            flag &= flag1;
+        }
         return flag;
     }
 }
