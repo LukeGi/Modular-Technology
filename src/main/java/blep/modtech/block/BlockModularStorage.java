@@ -1,6 +1,7 @@
 package blep.modtech.block;
 
 import blep.modtech.tileentity.TileEntityModularStorage;
+import blep.modtech.util.IModTechTileBlock;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
@@ -9,7 +10,7 @@ import net.minecraft.world.World;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class BlockModularStorage extends BlockMod implements ITileEntityProvider
+public class BlockModularStorage extends BlockMod implements ITileEntityProvider, IModTechTileBlock
 {
     public BlockModularStorage()
     {
@@ -21,4 +22,9 @@ public class BlockModularStorage extends BlockMod implements ITileEntityProvider
     {
         return new TileEntityModularStorage();
     }
+
+	@Override
+	public Class<? extends TileEntity> getTileEntityClass() {
+		return TileEntityModularStorage.class;
+	}
 }

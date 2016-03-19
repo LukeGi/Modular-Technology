@@ -33,16 +33,6 @@ public class BlockTreeFarm extends BlockMod implements ITileEntityProvider, IMod
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ)
     {
-//        if (!worldIn.isRemote)
-//        {
-//            TileEntityTreeFarm tile = (TileEntityTreeFarm) worldIn.getTileEntity(pos);
-//
-//            for (int i = 0; i < tile.getSlots(); i++)
-//            {
-//                if (tile.getStackInSlot(i) != null)
-//                    LogHelper.info(tile.getStackInSlot(i).toString());
-//            }
-//        }
         return super.onBlockActivated(worldIn, pos, state, playerIn, hand, heldItem, side, hitX, hitY, hitZ);
     }
 
@@ -50,7 +40,6 @@ public class BlockTreeFarm extends BlockMod implements ITileEntityProvider, IMod
     public void breakBlock(World world, BlockPos pos, IBlockState state)
     {
         super.breakBlock(world, pos, state);
-//        InventoryHelper.dropInventoryItems(world, new BlockPos(pos).add(0, 0.5, 0), (TileEntityTreeFarm) world.getTileEntity(pos));
         world.removeTileEntity(pos);
     }
 
