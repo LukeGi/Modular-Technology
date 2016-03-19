@@ -2,7 +2,7 @@ package blep.modtech.multiblock;
 
 import blep.modtech.block.ModtechBlocks;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Created by Blue <boo122333@gmail.com>.

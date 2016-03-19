@@ -1,13 +1,13 @@
 package blep.modtech.item;
 
 import blep.modtech.item.tools.ItemMultiblockBuilder;
-import blep.modtech.item.tools.Item√úberHoe;
+import blep.modtech.item.tools.Item‹berHoe;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.util.LogHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public enum ModtechItems
 {
     TEST_ITEM("testitem", new ItemMod()),
-    √úBER_HOE_1000("√ºberhoe", new Item√úberHoe()),
+    ‹BER_HOE_1000("√ºberhoe", new Item‹berHoe()),
     MULTIBLOCK_CREATOR("multiblockCreator", new ItemMultiblockBuilder()),
     ;
 
@@ -54,7 +54,7 @@ public enum ModtechItems
 
     public String getStatName()
     {
-        return StatCollector.translateToLocal(item.getUnlocalizedName());
+        return I18n.translateToLocal(item.getUnlocalizedName());
     }
 
     private void registerItem()

@@ -1,7 +1,8 @@
 package blep.modtech.creativetab;
 
+import java.util.List;
+
 import blep.modtech.block.BlockMod;
-import blep.modtech.block.metal.BlockOre;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.util.IModtechTabGrapple;
 import net.minecraft.block.Block;
@@ -9,8 +10,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
-import java.util.List;
 
 /**
  * Created by Blue <boo122333@gmail.com>.
@@ -29,7 +28,7 @@ public class ModTechCreativeTabs extends CreativeTabs
     }
 
     @Override
-    public void displayAllReleventItems(List<ItemStack> itemsShownOnTab)
+    public void displayAllRelevantItems(List<ItemStack> itemsShownOnTab)
     {
         for (Object itemObject : Item.itemRegistry)
         {
@@ -47,14 +46,7 @@ public class ModTechCreativeTabs extends CreativeTabs
                 if (blockClass.getSuperclass().equals(BlockMod.class))
                 {
                     BlockMod modBlock = (BlockMod) block;
-                    if (blockClass.equals(BlockOre.class))
-                    {
-                        BlockOre oreBlock = (BlockOre) modBlock;
-                        oreBlock.getSubBlocks(Item.getItemFromBlock(oreBlock), this, itemsShownOnTab);
-                    } else
-                    {
                         modBlock.getSubBlocks(Item.getItemFromBlock(modBlock), this, itemsShownOnTab);
-                    }
                 }
             }
         }

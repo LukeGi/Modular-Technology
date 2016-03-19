@@ -2,7 +2,7 @@ package blep.modtech.entity.fx;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EntityFX;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -38,14 +38,14 @@ public class EntityBlueFlameFX extends EntityFX
         // and the particle won't be transparent.
 
         //the vanilla EntityFX constructor added random variation to our starting velocity.  Undo it!
-        motionX = velocityX;
-        motionY = velocityY;
-        motionZ = velocityZ;
+        xSpeed = velocityX;
+        ySpeed = velocityY;
+        zSpeed = velocityZ;
 
         // set the texture to the flame texture, which we have previously added using TextureStitchEvent
         //   (see TextureStitcherBreathFX)
         TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(flameRL.toString());
-        setParticleIcon(sprite);  // initialise the icon to our custom texture
+        setParticleTexture(sprite);  // initialise the icon to our custom texture
     }
 
     /**
@@ -79,17 +79,6 @@ public class EntityBlueFlameFX extends EntityFX
         //    return this.worldObj.isBlockLoaded(blockpos) ? this.worldObj.getCombinedLight(blockpos, 0) : 0;
     }
 
-    // this function is used by EffectRenderer.addEffect() to determine whether depthmask writing should be on or not.
-    // by default, vanilla turns off depthmask writing for entityFX with alphavalue less than 1.0
-    // FlameBreathFX uses alphablending (i.e. the FX is partially transparent) but we want depthmask writing on,
-    //   otherwise translucent objects (such as water) render over the top of our breath, even if the breath is in front
-    //  of the water and not behind
-    @Override
-    public float getAlpha()
-    {
-        return 1.0F;
-    }
-
     /**
      * call once per tick to update the EntityFX position, calculate collisions, remove when max lifetime is reached, etc
      */
@@ -100,7 +89,7 @@ public class EntityBlueFlameFX extends EntityFX
         prevPosY = posY;
         prevPosZ = posZ;
 
-        moveEntity(motionX, motionY, motionZ);  // simple linear motion.  You can change speed by changing motionX, motionY,
+        moveEntity(xSpeed, ySpeed, zSpeed);  // simple linear motion.  You can change speed by changing motionX, motionY,
         // motionZ every tick.  For example - you can make the particle accelerate downwards due to gravity by
         // final double GRAVITY_ACCELERATION_PER_TICK = -0.02;
         // motionY += GRAVITY_ACCELERATION_PER_TICK;
@@ -108,12 +97,12 @@ public class EntityBlueFlameFX extends EntityFX
         // collision with a block makes the ball disappear.  But does not collide with entities
         if (isCollided)
         {
-            this.setDead();
+            this.setExpired();
         }
 
         if (this.particleMaxAge-- <= 0)
         {
-            this.setDead();
+        	this.setExpired();
         }
     }
 
@@ -148,14 +137,14 @@ public class EntityBlueFlameFX extends EntityFX
      * @param edgeUDdirectionZ edgeUDdirection[XYZ] is the vector direction pointing up-down on the player's screen
      */
     @Override
-    public void renderParticle(WorldRenderer worldRenderer, Entity entity, float partialTick,
+    public void renderParticle(VertexBuffer worldRenderer, Entity entity, float partialTick,
                                float edgeLRdirectionX, float edgeUDdirectionY, float edgeLRdirectionZ,
                                float edgeUDdirectionX, float edgeUDdirectionZ)
     {
-        double minU = this.particleIcon.getMinU();
-        double maxU = this.particleIcon.getMaxU();
-        double minV = this.particleIcon.getMinV();
-        double maxV = this.particleIcon.getMaxV();
+        double minU = this.particleTexture.getMinU();
+        double maxU = this.particleTexture.getMaxU();
+        double minV = this.particleTexture.getMinV();
+        double maxV = this.particleTexture.getMaxV();
 
         double scale = 0.1F * this.particleScale;  // vanilla scaling factor
         final double scaleLR = scale;

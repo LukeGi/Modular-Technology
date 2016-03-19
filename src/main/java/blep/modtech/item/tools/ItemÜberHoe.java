@@ -7,16 +7,18 @@ import net.minecraft.block.BlockGrass;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class ItemÜberHoe extends ItemMod
+public class Item�berHoe extends ItemMod
 {
-    public ItemÜberHoe()
+    public Item�berHoe()
     {
         super();
         this.setMaxStackSize(1);
@@ -24,7 +26,7 @@ public class ItemÜberHoe extends ItemMod
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
+    public EnumActionResult onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
         boolean flagDidAnything = false;
         if (!worldIn.isRemote)
@@ -43,7 +45,7 @@ public class ItemÜberHoe extends ItemMod
                 stack.damageItem(1, playerIn);
             }
         }
-        return flagDidAnything;
+        return flagDidAnything ? EnumActionResult.SUCCESS : EnumActionResult.FAIL;
     }
 
     private boolean hoeIsValid(World world, BlockPos pos)
