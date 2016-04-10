@@ -1,7 +1,8 @@
 package blep.modtech.block;
 
-import blep.modtech.block.farms.BlockCobbleFarm;
+import blep.modtech.machine.farm.cobblestone.BlockCobbleFarm;
 import blep.modtech.machine.farm.treefarm.BlockTreeFarm;
+import blep.modtech.machine.generator.BlockGenerator;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.util.IModTechTileBlock;
 import blep.modtech.util.LogHelper;
@@ -18,7 +19,8 @@ public enum ModtechBlocks
 {
     TREE_FARM("treefarm", new BlockTreeFarm()),
     MODULAR_STORAGE("modularStorage", new BlockModularStorage()),
-    COBBLE_GENERATOR("cobblegen", new BlockCobbleFarm());
+    COBBLE_GENERATOR("cobblegen", new BlockCobbleFarm()),
+    GENERATOR("generator", new BlockGenerator());
 
     private static boolean registeredBlock = false;
     public final Block block;

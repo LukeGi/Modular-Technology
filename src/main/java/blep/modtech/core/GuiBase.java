@@ -1,0 +1,45 @@
+package blep.modtech.core;
+
+import blep.modtech.reference.ModInfo;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+/**
+ * Created by Blue <boo122333@gmail.com>.
+ */
+@SideOnly(Side.CLIENT)
+public class GuiBase<T extends TileEntityBaseGui> extends GuiContainer
+{
+    public T tile;
+    public ResourceLocation texture;
+
+    public GuiBase(InventoryPlayer inventory, T tile, int xSize, int ySize, String fileName, int rows, int columns, ContainerBase<T> container)
+    {
+        super(container);
+        this.xSize = xSize;
+        this.ySize = ySize;
+        this.tile = tile;
+        texture = new ResourceLocation(ModInfo.MOD_ID, "textures/gui/gui" + fileName + ".png");
+    }
+
+    @Override
+    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
+    {
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        this.mc.getTextureManager().bindTexture(texture);
+        int i = (this.width - this.xSize) / 2;
+        int j = (this.height - this.ySize) / 2;
+        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+    {
+        String s = this.tile.getDisplayName().getUnformattedText();
+        this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+    }
+}

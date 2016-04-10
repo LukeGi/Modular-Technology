@@ -1,5 +1,6 @@
 package blep.modtech.machine.farm.treefarm;
 
+import blep.modtech.core.TileEntityBaseGui;
 import blep.modtech.util.LogHelper;
 import blep.modtech.util.Methods;
 import cofh.api.energy.EnergyStorage;
@@ -31,7 +32,7 @@ import java.util.Stack;
 /**
  * Created by Blue <boo122333@gmail.com>
  */
-public class TileEntityTreeFarm extends TileEntity implements ITickable, IInventory, IEnergyReceiver
+public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, IEnergyReceiver
 {
     final int radius;
     boolean shouldWork = true;
@@ -71,9 +72,8 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable, IInvent
     {
         if (worldObj.getTotalWorldTime() % 2 == 0)
             scan();
-        if (worldObj.getTotalWorldTime() % 2 == 1)
-            cut(1);
-        this.energy.receiveEnergy(50, false);
+        if (worldObj.getTotalWorldTime() % 8 == 3)
+            cut(30);
         markDirty();
     }
 
@@ -81,19 +81,21 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable, IInvent
     {
         if (shouldWork)
         {
-            for (int j = 0; j < i; j++)
+            while (!queue.isEmpty() && i > 0)
             {
+                i--;
                 if (queue.isEmpty()) return;
                 BlockPos currentPos = queue.pop();
                 float hardness = worldObj.getBlockState(currentPos).getBlock().getBlockHardness(null, null, null);
                 if (energy.getEnergyStored() < 100 * (0 + hardness))
                 {
                     queue.push(currentPos);
-                    return;
+                    break;
                 }
                 energy.extractEnergy((int) (100 * (1 + hardness)), false);
                 scanAround(currentPos);
                 Methods.breakBlock(worldObj, currentPos).forEach(p -> Methods.spawnItemStillInWorld(worldObj, new BlockPos(pos).add(0, 2, 0), ItemHandlerHelper.insertItem(this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN), p, false)));
+                worldObj.spawnParticle(EnumParticleTypes.DRAGON_BREATH, currentPos.getX() + worldObj.rand.nextFloat(), currentPos.getY() + worldObj.rand.nextFloat(), currentPos.getZ() + worldObj.rand.nextFloat(), worldObj.rand.nextGaussian() / 10, worldObj.rand.nextGaussian() / 10, worldObj.rand.nextGaussian() / 10, new int[0]);
             }
         }
     }
@@ -111,14 +113,25 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable, IInvent
         BlockPos offsetPosition = pos.add(scanx, 1, scanz);
         if (shouldWork)
         {
-            Vec3d dir = Methods.calcDir(new Vec3d(pos).add(new Vec3d(0.5, 2.5, 0.5)), new Vec3d(pos).add(new Vec3d(scanx, 1.5, scanz))).scale(0.09F);
+            Vec3d dir;
+            dir = Methods.calcDir(new Vec3d(pos).add(new Vec3d(0.5, 2.5, 0.5)), new Vec3d(pos).add(new Vec3d(scanx, 1.5, scanz))).scale(0.09F);
             worldObj.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + scanx, pos.getY() + 1.5, pos.getZ() + scanz, dir.xCoord, dir.yCoord, dir.zCoord, new int[0]);
             if (!queue.contains(offsetPosition) && isValidBlock(offsetPosition))
-            {
                 queue.push(offsetPosition);
-            } else if (worldObj.isAirBlock(offsetPosition)) plantSapling(offsetPosition);
+            if (worldObj.getBlockState(offsetPosition).getBlock().isReplaceable(worldObj, offsetPosition))
+                worldObj.setBlockToAir(offsetPosition);
+            if (worldObj.isAirBlock(offsetPosition))
+                plantSapling(offsetPosition);
         }
+        shouldWork = shouldWork();
+    }
 
+    private boolean shouldWork()
+    {
+        boolean isRoom = false;
+        for (int i = 0; i < inventory.getSlots() && !isRoom; i++)
+            isRoom |= inventory.getStackInSlot(i) == null;
+        return isRoom;
     }
 
     private void plantSapling(BlockPos p)
@@ -138,6 +151,7 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable, IInvent
                     {
                         worldObj.setBlockState(p, block.getStateFromMeta(stack.getItemDamage()), 3);
                         output.decrStackSize(i, 1);
+                        break;
                     }
                 }
             }
@@ -155,8 +169,6 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable, IInvent
     @Override
     public int receiveEnergy(EnumFacing from, int maxReceive, boolean simulate)
     {
-        this.notifyAll();
-        this.markDirty();
         return energy.receiveEnergy(maxReceive, simulate);
     }
 
@@ -181,7 +193,7 @@ public class TileEntityTreeFarm extends TileEntity implements ITickable, IInvent
     @Override
     public int getSizeInventory()
     {
-        return 9 * 3;
+        return inventory.getSlots();
     }
 
     @Override

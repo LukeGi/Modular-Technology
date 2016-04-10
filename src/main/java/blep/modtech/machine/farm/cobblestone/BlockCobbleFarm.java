@@ -1,8 +1,9 @@
-package blep.modtech.machine.farm.treefarm;
+package blep.modtech.machine.farm.cobblestone;
 
 import blep.modtech.ModTech;
 import blep.modtech.block.BlockMod;
 import blep.modtech.machine.farm.GuiHandlerModTechFarm;
+import blep.modtech.machine.farm.cobblestone.TileEntityCobbleFarm;
 import blep.modtech.util.IModTechTileBlock;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -18,32 +19,29 @@ import net.minecraft.world.World;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class BlockTreeFarm extends BlockMod implements IModTechTileBlock, ITileEntityProvider
+public class BlockCobbleFarm extends BlockMod implements ITileEntityProvider, IModTechTileBlock
 {
-    public BlockTreeFarm()
+    public BlockCobbleFarm()
     {
-        super(Material.iron);
-        this.setHardness(10);
-        this.setResistance(10);
+        super(Material.rock);
     }
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (worldIn.isRemote) return true;
 
-        playerIn.openGui(ModTech.INSTANCE, GuiHandlerModTechFarm.GUIID_TREEFARM, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        playerIn.openGui(ModTech.INSTANCE, GuiHandlerModTechFarm.GUIID_COBBLEFARM, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
-    }
-
-    @Override
-    public Class<? extends TileEntity> getTileEntityClass()
-    {
-        return TileEntityTreeFarm.class;
     }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        return new TileEntityTreeFarm(4);
+        return new TileEntityCobbleFarm();
     }
+
+	@Override
+	public Class<? extends TileEntity> getTileEntityClass() {
+		return TileEntityCobbleFarm.class;
+	}
 }

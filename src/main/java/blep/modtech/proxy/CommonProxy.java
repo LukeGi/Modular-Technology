@@ -4,7 +4,7 @@ import blep.modtech.ModTech;
 import blep.modtech.block.ModtechBlocks;
 import blep.modtech.config.ConfigHandler;
 import blep.modtech.creativetab.ModTechCreativeTabs;
-import blep.modtech.machine.farm.treefarm.GuiHandler;
+import blep.modtech.machine.farm.GuiHandlerModTechFarm;
 import blep.modtech.item.ModtechItems;
 import blep.modtech.network.ModteckPacketHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -49,7 +49,7 @@ public abstract class CommonProxy implements IProxy
     @Override
     public void registerGuiHandler()
     {
-        NetworkRegistry.INSTANCE.registerGuiHandler(ModTech.INSTANCE, GuiHandler.getInstance());
+        NetworkRegistry.INSTANCE.registerGuiHandler(ModTech.INSTANCE, GuiHandlerModTechFarm.getInstance());
     }
 
     @Override
