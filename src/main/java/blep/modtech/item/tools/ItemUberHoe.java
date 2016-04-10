@@ -16,9 +16,9 @@ import net.minecraft.world.World;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class Item‹berHoe extends ItemMod
+public class ItemUberHoe extends ItemMod
 {
-    public Item‹berHoe()
+    public ItemUberHoe()
     {
         super();
         this.setMaxStackSize(1);

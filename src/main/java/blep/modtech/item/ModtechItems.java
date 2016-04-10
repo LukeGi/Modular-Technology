@@ -1,7 +1,7 @@
 package blep.modtech.item;
 
 import blep.modtech.item.tools.ItemMultiblockBuilder;
-import blep.modtech.item.tools.Item‹berHoe;
+import blep.modtech.item.tools.ItemUberHoe;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.util.LogHelper;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public enum ModtechItems
 {
     TEST_ITEM("testitem", new ItemMod()),
-    ‹BER_HOE_1000("√ºberhoe", new Item‹berHoe()),
+    UBER_HOE_1000("√ºberhoe", new ItemUberHoe()),
     MULTIBLOCK_CREATOR("multiblockCreator", new ItemMultiblockBuilder()),
     ;
 

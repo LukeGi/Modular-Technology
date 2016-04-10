@@ -27,6 +27,7 @@ public class ModTech
         proxy.registerBlocks();
         proxy.registerItems();
         proxy.registerCreativeTab();
+        proxy.registerGuiHandler();
     }
 
     @Mod.EventHandler

@@ -1,5 +1,9 @@
 package blep.modtech.proxy;
 
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
 import java.io.File;
 
 /**
@@ -36,4 +40,14 @@ public interface IProxy
      * Register what is needed for entity FX
      */
     void registerEntityFXStuff();
+
+    /**
+     * Register Gui Handler
+     */
+    void registerGuiHandler();
+
+    /**
+     * Spawn Particle n stuff
+     */
+    void spawnParticle(EnumParticleTypes type, World world, BlockPos pos, double mx, double my, double mz, int[] extradata);
 }

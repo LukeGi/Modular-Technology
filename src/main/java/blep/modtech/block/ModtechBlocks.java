@@ -1,18 +1,14 @@
 package blep.modtech.block;
 
 import blep.modtech.block.farms.BlockCobbleFarm;
-import blep.modtech.block.farms.BlockTreeFarm;
-import blep.modtech.item.metal.ItemBlockOre;
+import blep.modtech.machine.farm.treefarm.BlockTreeFarm;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.util.IModTechTileBlock;
 import blep.modtech.util.LogHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraft.util.text.translation.LanguageMap;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**

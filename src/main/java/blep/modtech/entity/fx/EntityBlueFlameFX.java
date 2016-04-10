@@ -200,7 +200,7 @@ public class EntityBlueFlameFX extends EntityFX
         public void stitcherEventPre(TextureStitchEvent.Pre event)
         {
             ResourceLocation flameRL = new ResourceLocation("modtech:entity/flame_fx");
-            event.map.registerSprite(flameRL);
+            event.getMap().registerSprite(flameRL);
         }
     }
 }

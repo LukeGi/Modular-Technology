@@ -11,9 +11,9 @@ import net.minecraft.world.World;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class Item‹berAxe extends ItemMod
+public class ItemUberAxe extends ItemMod
 {
-    public Item‹berAxe()
+    public ItemUberAxe()
     {
         setMaxStackSize(1);
         setMaxDamage(5120);
