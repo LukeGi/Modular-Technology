@@ -7,6 +7,7 @@ import blep.modtech.util.LogHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -17,8 +18,7 @@ public enum ModtechItems
 {
     TEST_ITEM("testitem", new ItemMod()),
     UBER_HOE_1000("überhoe", new ItemUberHoe()),
-    MULTIBLOCK_CREATOR("multiblockCreator", new ItemMultiblockBuilder()),
-    ;
+    MULTIBLOCK_CREATOR("multiblockCreator", new ItemMultiblockBuilder()),;
 
     private static boolean registeredItem = false;
     public final Item item;
@@ -59,7 +59,7 @@ public enum ModtechItems
 
     private void registerItem()
     {
-        GameRegistry.registerItem(item, internalName);
+        GameRegistry.register(item.setCreativeTab(creativeTabs), new ResourceLocation(ModInfo.MOD_ID, internalName));
 
         LogHelper.info("Registered Item: " + internalName);
     }

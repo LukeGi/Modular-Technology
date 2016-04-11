@@ -1,7 +1,7 @@
 package blep.modtech.machine.generator;
 
 import blep.modtech.block.BlockMod;
-import blep.modtech.util.IModTechTileBlock;
+import blep.modtech.core.IRegisterTileEntity;
 import blep.modtech.util.LogHelper;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -13,13 +13,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class BlockGenerator extends BlockMod implements IModTechTileBlock, ITileEntityProvider
+public class EntityGenerator extends BlockMod implements IRegisterTileEntity, ITileEntityProvider
 {
-    public BlockGenerator()
+    public EntityGenerator()
     {
         super(Material.iron);
     }
@@ -40,14 +41,14 @@ public class BlockGenerator extends BlockMod implements IModTechTileBlock, ITile
     }
 
     @Override
-    public Class<? extends TileEntity> getTileEntityClass()
-    {
-        return TileEntityGeneratorBase.class;
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
         return new TileEntityGeneratorBase();
+    }
+
+    @Override
+    public void registerTileEntity()
+    {
+        GameRegistry.registerTileEntity(TileEntityGeneratorBase.class, this.getUnlocalizedName());
     }
 }

@@ -5,6 +5,7 @@ import blep.modtech.util.LogHelper;
 import blep.modtech.util.Methods;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
+import com.sun.jmx.remote.internal.ArrayQueue;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSapling;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -40,31 +42,28 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
     EnergyStorage energy = new EnergyStorage(100000);
     ItemStackHandler inventory = new ItemStackHandler(3 * 9);
     private IItemHandler itemHandler = new InvWrapper(this);
-    private Stack<BlockPos> queue;
+    private List<BlockPos> queue;
 
     public TileEntityTreeFarm(int radius)
     {
-        this.queue = new Stack<>();
+        this.queue = new ArrayQueue<>(1000);
         this.radius = radius;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound)
     {
-        if (worldObj.isRemote) return;
+        super.readFromNBT(compound);
         energy.readFromNBT(compound);
         inventory.deserializeNBT(compound.getCompoundTag("Inventory"));
-        super.readFromNBT(compound);
     }
 
     @Override
     public void writeToNBT(NBTTagCompound compound)
     {
-        if (worldObj.isRemote) return;
+        super.writeToNBT(compound);
         energy.writeToNBT(compound);
         compound.setTag("Inventory", inventory.serializeNBT());
-        LogHelper.info("Saved to nbt");
-        super.writeToNBT(compound);
     }
 
     @Override
@@ -85,11 +84,12 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
             {
                 i--;
                 if (queue.isEmpty()) return;
-                BlockPos currentPos = queue.pop();
+                BlockPos currentPos = queue.get(0);
+                queue.remove(0);
                 float hardness = worldObj.getBlockState(currentPos).getBlock().getBlockHardness(null, null, null);
                 if (energy.getEnergyStored() < 100 * (0 + hardness))
                 {
-                    queue.push(currentPos);
+                    queue.add(currentPos);
                     break;
                 }
                 energy.extractEnergy((int) (100 * (1 + hardness)), false);
@@ -117,7 +117,7 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
             dir = Methods.calcDir(new Vec3d(pos).add(new Vec3d(0.5, 2.5, 0.5)), new Vec3d(pos).add(new Vec3d(scanx, 1.5, scanz))).scale(0.09F);
             worldObj.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + scanx, pos.getY() + 1.5, pos.getZ() + scanz, dir.xCoord, dir.yCoord, dir.zCoord, new int[0]);
             if (!queue.contains(offsetPosition) && isValidBlock(offsetPosition))
-                queue.push(offsetPosition);
+                queue.add(offsetPosition);
             if (worldObj.getBlockState(offsetPosition).getBlock().isReplaceable(worldObj, offsetPosition))
                 worldObj.setBlockToAir(offsetPosition);
             if (worldObj.isAirBlock(offsetPosition))
@@ -162,7 +162,7 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
         for (EnumFacing d : EnumFacing.VALUES)
         {
             BlockPos np = new BlockPos(p).add(d.getDirectionVec());
-            if (!queue.contains(np) && isValidBlock(np)) queue.push(np);
+            if (!queue.contains(np) && isValidBlock(np)) queue.add(np);
         }
     }
 

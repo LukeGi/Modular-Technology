@@ -1,6 +1,6 @@
 package blep.modtech.item;
 
-import blep.modtech.util.IModtechTabGrapple;
+import blep.modtech.core.IModtechTabGrapple;
 import net.minecraft.item.Item;
 
 /**

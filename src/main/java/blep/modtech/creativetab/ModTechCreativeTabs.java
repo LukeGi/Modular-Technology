@@ -4,7 +4,7 @@ import java.util.List;
 
 import blep.modtech.block.BlockMod;
 import blep.modtech.reference.ModInfo;
-import blep.modtech.util.IModtechTabGrapple;
+import blep.modtech.core.IModtechTabGrapple;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;

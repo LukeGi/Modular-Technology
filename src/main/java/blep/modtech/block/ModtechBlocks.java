@@ -1,14 +1,17 @@
 package blep.modtech.block;
 
-import blep.modtech.machine.farm.cobblestone.BlockCobbleFarm;
-import blep.modtech.machine.farm.treefarm.BlockTreeFarm;
-import blep.modtech.machine.generator.BlockGenerator;
+import blep.modtech.core.ICustomItemBlock;
+import blep.modtech.core.IRecipeProvider;
+import blep.modtech.core.IRegisterTileEntity;
+import blep.modtech.machine.farm.cobblestone.EntityCobbleFarm;
+import blep.modtech.machine.farm.treefarm.EntityTreeFarm;
+import blep.modtech.machine.generator.EntityGenerator;
 import blep.modtech.reference.ModInfo;
-import blep.modtech.util.IModTechTileBlock;
 import blep.modtech.util.LogHelper;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -17,10 +20,10 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public enum ModtechBlocks
 {
-    TREE_FARM("treefarm", new BlockTreeFarm()),
-    MODULAR_STORAGE("modularStorage", new BlockModularStorage()),
-    COBBLE_GENERATOR("cobblegen", new BlockCobbleFarm()),
-    GENERATOR("generator", new BlockGenerator());
+    TREE_FARM("treefarm", new EntityTreeFarm()),
+    MODULAR_STORAGE("modularStorage", new EntityModularStorage()),
+    COBBLE_GENERATOR("cobblegen", new EntityCobbleFarm()),
+    GENERATOR("generator", new EntityGenerator());
 
     private static boolean registeredBlock = false;
     public final Block block;
@@ -59,18 +62,13 @@ public enum ModtechBlocks
             for (ModtechBlocks b : ModtechBlocks.values())
             {
                 b.registerBlock();
-                if (b.block instanceof IModTechTileBlock)
-                    b.registerTileEntity();
+                if (b.block instanceof IRegisterTileEntity)
+                    ((IRegisterTileEntity)b.block).registerTileEntity();
+                if (b.block instanceof IRecipeProvider)
+                    ((IRecipeProvider)b.block).registerRecipe();
             }
             registeredBlock = true;
         }
-    }
-
-    private void registerTileEntity()
-    {
-        GameRegistry.registerTileEntity(((IModTechTileBlock) block).getTileEntityClass(), ModInfo.MOD_ID + ":" + internalName);
-
-        LogHelper.info("Registered Tile Entity: " + internalName);
     }
 
     public String getInternalName()
@@ -85,8 +83,10 @@ public enum ModtechBlocks
 
     private void registerBlock()
     {
-        GameRegistry.registerBlock(block.setCreativeTab(creativeTabs).setUnlocalizedName(ModInfo.MOD_ID + "." + internalName),
-                itemBlockClass, internalName);
+        GameRegistry.register(block.setCreativeTab(creativeTabs).setUnlocalizedName(ModInfo.MOD_ID + "." + internalName), new ResourceLocation(ModInfo.MOD_ID, internalName));
+        if (block instanceof ICustomItemBlock)
+            GameRegistry.register(((ICustomItemBlock)block).getCustomItemBlock(), new ResourceLocation(ModInfo.MOD_ID, internalName));
+        else GameRegistry.register(new ItemBlock(block), new ResourceLocation(ModInfo.MOD_ID, internalName));
 
         LogHelper.info("Registered Block: " + internalName);
     }

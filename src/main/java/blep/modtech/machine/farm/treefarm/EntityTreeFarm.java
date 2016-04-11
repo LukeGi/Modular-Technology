@@ -3,7 +3,7 @@ package blep.modtech.machine.farm.treefarm;
 import blep.modtech.ModTech;
 import blep.modtech.block.BlockMod;
 import blep.modtech.machine.farm.GuiHandlerModTechFarm;
-import blep.modtech.util.IModTechTileBlock;
+import blep.modtech.core.IRegisterTileEntity;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -14,13 +14,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class BlockTreeFarm extends BlockMod implements IModTechTileBlock, ITileEntityProvider
+public class EntityTreeFarm extends BlockMod implements IRegisterTileEntity, ITileEntityProvider
 {
-    public BlockTreeFarm()
+    public EntityTreeFarm()
     {
         super(Material.iron);
         this.setHardness(10);
@@ -36,14 +37,14 @@ public class BlockTreeFarm extends BlockMod implements IModTechTileBlock, ITileE
     }
 
     @Override
-    public Class<? extends TileEntity> getTileEntityClass()
-    {
-        return TileEntityTreeFarm.class;
-    }
-
-    @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
         return new TileEntityTreeFarm(4);
+    }
+
+    @Override
+    public void registerTileEntity()
+    {
+        GameRegistry.registerTileEntity(TileEntityTreeFarm.class, this.getUnlocalizedName());
     }
 }

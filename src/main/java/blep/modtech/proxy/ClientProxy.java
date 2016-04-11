@@ -32,12 +32,12 @@ public class ClientProxy extends CommonProxy
     public void registerBlocks()
     {
         super.registerBlocks();
-        for (ModtechBlocks b : ModtechBlocks.values())
-        {
-            Item block = Item.getItemFromBlock(b.block);
-            ModelLoader.setCustomModelResourceLocation(block, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":" + b.getInternalName(), "inventory"));
-            LogHelper.info("Registered Block Renderer: " + b.getInternalName());
-        }
+//        for (ModtechBlocks b : ModtechBlocks.values())
+//        {
+//            Item block = Item.getItemFromBlock(b.block);
+//            ModelLoader.setCustomModelResourceLocation(block, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":" + b.getInternalName(), "inventory"));
+//            LogHelper.info("Registered Block Renderer: " + b.getInternalName());
+//        }
 
     }
 
@@ -45,11 +45,11 @@ public class ClientProxy extends CommonProxy
     public void registerItems()
     {
         super.registerItems();
-        for (ModtechItems i : ModtechItems.values())
-        {
-            ModelLoader.setCustomModelResourceLocation(i.item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":" + i.getInternalName(), "inventory"));
-            LogHelper.info("Registered Item Renderer: " + i.getInternalName());
-        }
+//        for (ModtechItems i : ModtechItems.values())
+//        {
+//            ModelLoader.setCustomModelResourceLocation(i.item, 0, new ModelResourceLocation(ModInfo.MOD_ID + ":" + i.getInternalName(), "inventory"));
+//            LogHelper.info("Registered Item Renderer: " + i.getInternalName());
+//        }
 
     }
 

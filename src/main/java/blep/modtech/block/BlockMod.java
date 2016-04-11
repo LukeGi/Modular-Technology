@@ -1,6 +1,6 @@
 package blep.modtech.block;
 
-import blep.modtech.util.IModtechTabGrapple;
+import blep.modtech.core.IModtechTabGrapple;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
