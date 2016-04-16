@@ -6,6 +6,9 @@ import blep.modtech.machine.farm.cobblestone.TileEntityCobbleFarm;
 import blep.modtech.machine.farm.treefarm.ContainerTreeFarm;
 import blep.modtech.machine.farm.treefarm.GuiTreeFarm;
 import blep.modtech.machine.farm.treefarm.TileEntityTreeFarm;
+import blep.modtech.machine.generator.solar.ContainerGeneratorSolar;
+import blep.modtech.machine.generator.solar.GuiGeneratorSolar;
+import blep.modtech.machine.generator.solar.TileEntityGeneratorSolar;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -15,14 +18,17 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class GuiHandlerModTechFarm implements IGuiHandler
+public class GuiHandlerModTech implements IGuiHandler
 {
+    // FARMS RESERVE 0 - 19
     public static final int GUIID_TREEFARM = 0;
     public static final int GUIID_COBBLEFARM = 1;
+    // GENERATORS RESERVE 20 - 39
+    public static final int GUIID_SOLARGEN = 20;
 
-    public static GuiHandlerModTechFarm INSTANCE = new GuiHandlerModTechFarm();
+    public static GuiHandlerModTech INSTANCE = new GuiHandlerModTech();
 
-    public static GuiHandlerModTechFarm getInstance()
+    public static GuiHandlerModTech getInstance()
     {
         return INSTANCE;
     }
@@ -37,15 +43,21 @@ public class GuiHandlerModTechFarm implements IGuiHandler
             case GUIID_TREEFARM:
                 if (tileEntity instanceof TileEntityTreeFarm)
                 {
-                    TileEntityTreeFarm tileEntityTreeFarm = (TileEntityTreeFarm) tileEntity;
-                    return new ContainerTreeFarm(player.inventory, tileEntityTreeFarm);
+                    TileEntityTreeFarm tileEntityNew = (TileEntityTreeFarm) tileEntity;
+                    return new ContainerTreeFarm(player.inventory, tileEntityNew);
                 }
                 return null;
             case GUIID_COBBLEFARM:
                 if (tileEntity instanceof TileEntityCobbleFarm)
                 {
-                    TileEntityCobbleFarm tileEntityCobbleFarm = (TileEntityCobbleFarm) tileEntity;
-                    return new ContainerCobbleFarm(player.inventory, tileEntityCobbleFarm);
+                    TileEntityCobbleFarm tileEntityNew = (TileEntityCobbleFarm) tileEntity;
+                    return new ContainerCobbleFarm(player.inventory, tileEntityNew);
+                }
+            case GUIID_SOLARGEN:
+                if (tileEntity instanceof TileEntityGeneratorSolar)
+                {
+                    TileEntityGeneratorSolar tileEntityNew = (TileEntityGeneratorSolar) tileEntity;
+                    return new ContainerGeneratorSolar(player.inventory, tileEntityNew);
                 }
         }
         return null;
@@ -61,14 +73,20 @@ public class GuiHandlerModTechFarm implements IGuiHandler
             case GUIID_TREEFARM:
                 if (tileEntity instanceof TileEntityTreeFarm)
                 {
-                    TileEntityTreeFarm tileEntityInventoryBasic = (TileEntityTreeFarm) tileEntity;
-                    return new GuiTreeFarm(player.inventory, tileEntityInventoryBasic);
+                    TileEntityTreeFarm tileEntityNew = (TileEntityTreeFarm) tileEntity;
+                    return new GuiTreeFarm(player.inventory, tileEntityNew);
                 }
             case GUIID_COBBLEFARM:
                 if (tileEntity instanceof TileEntityCobbleFarm)
                 {
-                    TileEntityCobbleFarm tileEntityCobbleFarm = (TileEntityCobbleFarm) tileEntity;
-                    return new GuiCobbleFarm(player.inventory, tileEntityCobbleFarm);
+                    TileEntityCobbleFarm tileEntityNew = (TileEntityCobbleFarm) tileEntity;
+                    return new GuiCobbleFarm(player.inventory, tileEntityNew);
+                }
+            case GUIID_SOLARGEN:
+                if (tileEntity instanceof TileEntityGeneratorSolar)
+                {
+                    TileEntityGeneratorSolar tileEntityNew = (TileEntityGeneratorSolar) tileEntity;
+                    return new GuiGeneratorSolar(player.inventory, tileEntityNew);
                 }
         }
         return null;

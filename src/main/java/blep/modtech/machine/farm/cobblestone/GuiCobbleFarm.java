@@ -17,30 +17,28 @@ import java.util.List;
 @SideOnly(Side.CLIENT)
 public class GuiCobbleFarm extends GuiBase<TileEntityCobbleFarm>
 {
-    private static final ResourceLocation texture = new ResourceLocation(ModInfo.MOD_ID, "textures/gui/guiCobbleFarm.png");
-
     public GuiCobbleFarm(InventoryPlayer inventory, TileEntityCobbleFarm tile)
     {
-        super(inventory, tile, 176, 250, "CobbleFarm", 8, 8, new ContainerCobbleFarm(inventory, tile));
+        super(tile, 176, 250, "CobbleFarm", 8, 8, new ContainerCobbleFarm(inventory, tile));
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
-        int energystoredpercentage = (int) (142F * (1F - (float) (tile.getEnergyStored(EnumFacing.DOWN)) / (float) (tile.getMaxEnergyStored(EnumFacing.DOWN))));
-        this.drawTexturedModalRect(guiLeft + 156, guiTop + 19 + energystoredpercentage, 177, 19 + energystoredpercentage, 16, 142 - energystoredpercentage);
+        int energystoredpercentage = (int) (142F * (1F - tile.getEnergyStored(EnumFacing.DOWN) / (float) tile.getMaxEnergyStored(EnumFacing.DOWN)));
+        drawTexturedModalRect(guiLeft + 156, guiTop + 19 + energystoredpercentage, 177, 19 + energystoredpercentage, 16, 142 - energystoredpercentage);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        if (this.isPointInRegion(156, 19, 117, 142, mouseX, mouseY))
+        if (isPointInRegion(156, 19, 117, 142, mouseX, mouseY))
         {
             List<String> textLines = new ArrayList<>();
             textLines.add(tile.getEnergyStored(EnumFacing.DOWN) + "/" + tile.getMaxEnergyStored(EnumFacing.DOWN));
-            this.drawHoveringText(textLines, mouseX - guiLeft, mouseY - guiTop);
+            drawHoveringText(textLines, mouseX - guiLeft, mouseY - guiTop);
         }
     }
 }

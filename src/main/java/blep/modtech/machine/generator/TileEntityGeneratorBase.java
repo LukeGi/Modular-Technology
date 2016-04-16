@@ -10,29 +10,54 @@ import net.minecraft.util.ITickable;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class TileEntityGeneratorBase extends TileEntity implements ITickable, IEnergyProvider
+public abstract class TileEntityGeneratorBase extends TileEntity implements ITickable, IEnergyProvider
 {
-    private EnergyStorage energy = new EnergyStorage(1000000);
+    protected EnergyStorage energy;
+
+    protected TileEntityGeneratorBase(int energy)
+    {
+        this.energy = new EnergyStorage(energy);
+    }
+
+    protected TileEntityGeneratorBase(int energy, int maxTransfer)
+    {
+        this.energy = new EnergyStorage(energy, maxTransfer);
+    }
+
+    protected TileEntityGeneratorBase(int energy, int maxRecieve, int maxExtract)
+    {
+        this.energy = new EnergyStorage(energy, maxRecieve, maxExtract);
+    }
 
     @Override
     public void update()
     {
-        energy.receiveEnergy(500, false);
+        if (shouldGenerate()) generate();
+        if (shouldAttemptPushing()) push();
+    }
+
+    protected abstract boolean shouldAttemptPushing();
+
+    protected void push()
+    {
         TileEntity genericTile;
         IEnergyReceiver rec;
-        for (EnumFacing f : EnumFacing.values())
+        for (EnumFacing facing : EnumFacing.values())
         {
-            genericTile = worldObj.getTileEntity(pos.add(f.getDirectionVec()));
+            genericTile = worldObj.getTileEntity(pos.add(facing.getDirectionVec()));
             if (genericTile instanceof IEnergyReceiver)
             {
                 rec = (IEnergyReceiver) genericTile;
                 int transfer = energy.extractEnergy(energy.getMaxExtract(), false);
-                transfer = transfer - rec.receiveEnergy(EnumFacing.DOWN, transfer, false);
+                transfer -= rec.receiveEnergy(EnumFacing.DOWN, transfer, false);
                 energy.receiveEnergy(transfer, false);
             }
         }
     }
 
+    protected abstract boolean shouldGenerate();
+
+    public abstract void generate();
 
     @Override
     public int extractEnergy(EnumFacing from, int maxExtract, boolean simulate)

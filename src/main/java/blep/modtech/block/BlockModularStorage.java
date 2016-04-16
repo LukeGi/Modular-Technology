@@ -6,7 +6,6 @@ import blep.modtech.tileentity.TileEntityModularStorage;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -15,11 +14,16 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class EntityModularStorage extends BlockMod implements ITileEntityProvider, IRegisterTileEntity, IRecipeProvider
+public class BlockModularStorage extends BlockMod implements ITileEntityProvider, IRegisterTileEntity, IRecipeProvider
 {
-    public EntityModularStorage()
+    private BlockModularStorage()
     {
         super(Material.wood);
+    }
+
+    public static BlockModularStorage create()
+    {
+        return new BlockModularStorage();
     }
 
     @Override

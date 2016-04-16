@@ -1,7 +1,6 @@
 package blep.modtech.machine.farm.treefarm;
 
 import blep.modtech.core.TileEntityBaseGui;
-import blep.modtech.util.LogHelper;
 import blep.modtech.util.Methods;
 import cofh.api.energy.EnergyStorage;
 import cofh.api.energy.IEnergyReceiver;
@@ -29,7 +28,6 @@ import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by Blue <boo122333@gmail.com>
@@ -46,7 +44,7 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
 
     public TileEntityTreeFarm(int radius)
     {
-        this.queue = new ArrayQueue<>(1000);
+        queue = new ArrayQueue<>(1000);
         this.radius = radius;
     }
 
@@ -54,8 +52,9 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
     public void readFromNBT(NBTTagCompound compound)
     {
         super.readFromNBT(compound);
-        energy.readFromNBT(compound);
-        inventory.deserializeNBT(compound.getCompoundTag("Inventory"));
+        energy = energy.readFromNBT(compound);
+        NBTTagCompound tagCompound = compound.getCompoundTag("Inventory");
+        inventory.deserializeNBT(tagCompound);
     }
 
     @Override
@@ -63,7 +62,8 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
     {
         super.writeToNBT(compound);
         energy.writeToNBT(compound);
-        compound.setTag("Inventory", inventory.serializeNBT());
+        NBTTagCompound tagCompound = inventory.serializeNBT();
+        compound.setTag("Inventory", tagCompound);
     }
 
     @Override
@@ -87,15 +87,15 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
                 BlockPos currentPos = queue.get(0);
                 queue.remove(0);
                 float hardness = worldObj.getBlockState(currentPos).getBlock().getBlockHardness(null, null, null);
-                if (energy.getEnergyStored() < 100 * (0 + hardness))
+                if (energy.getEnergyStored() < (hardness < 0 ? hardness : 10))
                 {
                     queue.add(currentPos);
                     break;
                 }
-                energy.extractEnergy((int) (100 * (1 + hardness)), false);
+                energy.extractEnergy((int) (100 * (hardness < 0 ? hardness : 10)), false);
                 scanAround(currentPos);
-                Methods.breakBlock(worldObj, currentPos).forEach(p -> Methods.spawnItemStillInWorld(worldObj, new BlockPos(pos).add(0, 2, 0), ItemHandlerHelper.insertItem(this.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN), p, false)));
-                worldObj.spawnParticle(EnumParticleTypes.DRAGON_BREATH, currentPos.getX() + worldObj.rand.nextFloat(), currentPos.getY() + worldObj.rand.nextFloat(), currentPos.getZ() + worldObj.rand.nextFloat(), worldObj.rand.nextGaussian() / 10, worldObj.rand.nextGaussian() / 10, worldObj.rand.nextGaussian() / 10, new int[0]);
+                Methods.breakBlock(worldObj, currentPos).forEach(p -> Methods.spawnItemStillInWorld(worldObj, pos.add(0, 2, 0), ItemHandlerHelper.insertItem(getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, EnumFacing.DOWN), p, false)));
+                worldObj.spawnParticle(EnumParticleTypes.DRAGON_BREATH, currentPos.getX() + worldObj.rand.nextFloat(), currentPos.getY() + worldObj.rand.nextFloat(), currentPos.getZ() + worldObj.rand.nextFloat(), worldObj.rand.nextGaussian() / 10, worldObj.rand.nextGaussian() / 10, worldObj.rand.nextGaussian() / 10);
             }
         }
     }
@@ -115,7 +115,7 @@ public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, 
         {
             Vec3d dir;
             dir = Methods.calcDir(new Vec3d(pos).add(new Vec3d(0.5, 2.5, 0.5)), new Vec3d(pos).add(new Vec3d(scanx, 1.5, scanz))).scale(0.09F);
-            worldObj.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + scanx, pos.getY() + 1.5, pos.getZ() + scanz, dir.xCoord, dir.yCoord, dir.zCoord, new int[0]);
+            worldObj.spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + scanx, pos.getY() + 1.5, pos.getZ() + scanz, dir.xCoord, dir.yCoord, dir.zCoord);
             if (!queue.contains(offsetPosition) && isValidBlock(offsetPosition))
                 queue.add(offsetPosition);
             if (worldObj.getBlockState(offsetPosition).getBlock().isReplaceable(worldObj, offsetPosition))

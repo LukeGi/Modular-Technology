@@ -17,29 +17,34 @@ public class GuiBase<T extends TileEntityBaseGui> extends GuiContainer
     public T tile;
     public ResourceLocation texture;
 
-    public GuiBase(InventoryPlayer inventory, T tile, int xSize, int ySize, String fileName, int rows, int columns, ContainerBase<T> container)
+    protected GuiBase(T tile, int xSize, int ySize, String fileName, int rows, int columns, ContainerBase<T> container)
     {
         super(container);
         this.xSize = xSize;
         this.ySize = ySize;
         this.tile = tile;
-        texture = new ResourceLocation(ModInfo.MOD_ID, "textures/gui/gui" + fileName + ".png");
+        texture = new ResourceLocation(ModInfo.MOD_ID, String.format("textures/gui/gui%s.png", fileName));
+    }
+
+    public static <T extends TileEntityBaseGui> GuiBase<T> create(InventoryPlayer inventory, T tile, int xSize, int ySize, String fileName, int rows, int columns, ContainerBase<T> container)
+    {
+        return new GuiBase<T>(tile, xSize, ySize, fileName, rows, columns, container);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY)
     {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(texture);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
+        mc.getTextureManager().bindTexture(texture);
+        int i = (width - xSize) / 2;
+        int j = (height - ySize) / 2;
+        drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        String s = this.tile.getDisplayName().getUnformattedText();
-        this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+        String s = tile.getDisplayName().getUnformattedText();
+        fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
     }
 }

@@ -5,7 +5,7 @@ import blep.modtech.block.BlockMod;
 import blep.modtech.block.ModtechBlocks;
 import blep.modtech.core.IRecipeProvider;
 import blep.modtech.core.IRegisterTileEntity;
-import blep.modtech.machine.farm.GuiHandlerModTechFarm;
+import blep.modtech.machine.farm.GuiHandlerModTech;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -22,18 +22,23 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class EntityCobbleFarm extends BlockMod implements ITileEntityProvider, IRegisterTileEntity, IRecipeProvider
+public class BlockCobbleFarm extends BlockMod implements ITileEntityProvider, IRegisterTileEntity, IRecipeProvider
 {
-    public EntityCobbleFarm()
+    private BlockCobbleFarm()
     {
         super(Material.rock);
+    }
+
+    public static BlockCobbleFarm create()
+    {
+        return new BlockCobbleFarm();
     }
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (worldIn.isRemote) return true;
 
-        playerIn.openGui(ModTech.INSTANCE, GuiHandlerModTechFarm.GUIID_COBBLEFARM, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        playerIn.openGui(ModTech.INSTANCE, GuiHandlerModTech.GUIID_COBBLEFARM, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 

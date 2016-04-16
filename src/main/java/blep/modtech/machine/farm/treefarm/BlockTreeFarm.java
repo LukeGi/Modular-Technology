@@ -2,7 +2,7 @@ package blep.modtech.machine.farm.treefarm;
 
 import blep.modtech.ModTech;
 import blep.modtech.block.BlockMod;
-import blep.modtech.machine.farm.GuiHandlerModTechFarm;
+import blep.modtech.machine.farm.GuiHandlerModTech;
 import blep.modtech.core.IRegisterTileEntity;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -19,20 +19,25 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class EntityTreeFarm extends BlockMod implements IRegisterTileEntity, ITileEntityProvider
+public class BlockTreeFarm extends BlockMod implements IRegisterTileEntity, ITileEntityProvider
 {
-    public EntityTreeFarm()
+    private BlockTreeFarm()
     {
         super(Material.iron);
-        this.setHardness(10);
-        this.setResistance(10);
+        setHardness(10);
+        setResistance(10);
+    }
+
+    public static BlockTreeFarm create()
+    {
+        return new BlockTreeFarm();
     }
 
     @Override
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
         if (worldIn.isRemote) return true;
 
-        playerIn.openGui(ModTech.INSTANCE, GuiHandlerModTechFarm.GUIID_TREEFARM, worldIn, pos.getX(), pos.getY(), pos.getZ());
+        playerIn.openGui(ModTech.INSTANCE, GuiHandlerModTech.GUIID_TREEFARM, worldIn, pos.getX(), pos.getY(), pos.getZ());
         return true;
     }
 
@@ -45,6 +50,6 @@ public class EntityTreeFarm extends BlockMod implements IRegisterTileEntity, ITi
     @Override
     public void registerTileEntity()
     {
-        GameRegistry.registerTileEntity(TileEntityTreeFarm.class, this.getUnlocalizedName());
+        GameRegistry.registerTileEntity(TileEntityTreeFarm.class, getUnlocalizedName());
     }
 }
