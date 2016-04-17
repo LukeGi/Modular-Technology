@@ -1,5 +1,9 @@
-package blep.modtech.machine.generator.solar;
+package blep.modtech.machine;
 
+import blep.modtech.machine.generator.solar.ContainerGeneratorSolar;
+import blep.modtech.machine.generator.solar.TileEntityGeneratorSolar;
+import blep.modtech.machine.generator.solarHybrid.ContainerGeneratorSolarLunarHybrid;
+import blep.modtech.machine.generator.solarHybrid.TileEntityGeneratorSolarLunarHybrid;
 import blep.modtech.reference.ModInfo;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,14 +17,13 @@ import java.util.List;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class GuiGeneratorSolar extends GuiContainer
+public class GuiGeneratorSolarLunarHybrid extends GuiContainer
 {
     private final ResourceLocation texture = new ResourceLocation(ModInfo.MOD_ID, "textures/gui/guiSolarGen.png");
-    private final TileEntityGeneratorSolar tile;
-
-    public GuiGeneratorSolar(InventoryPlayer inventory, TileEntityGeneratorSolar tileEntityNew)
+    private final TileEntityGeneratorSolarLunarHybrid tile;
+    public GuiGeneratorSolarLunarHybrid(InventoryPlayer inventory, TileEntityGeneratorSolarLunarHybrid tileEntityNew)
     {
-        super(new ContainerGeneratorSolar(inventory, tileEntityNew));
+        super(new ContainerGeneratorSolarLunarHybrid(inventory, tileEntityNew));
         tile = tileEntityNew;
         xSize = 105;
         ySize = 87;

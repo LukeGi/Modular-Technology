@@ -1,4 +1,4 @@
-package blep.modtech.machine.generator.solar;
+package blep.modtech.machine.generator.lunar;
 
 import blep.modtech.reference.ModInfo;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,14 +13,14 @@ import java.util.List;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class GuiGeneratorSolar extends GuiContainer
+public class GuiGeneratorLunar extends GuiContainer
 {
     private final ResourceLocation texture = new ResourceLocation(ModInfo.MOD_ID, "textures/gui/guiSolarGen.png");
-    private final TileEntityGeneratorSolar tile;
+    private final TileEntityGeneratorLunar tile;
 
-    public GuiGeneratorSolar(InventoryPlayer inventory, TileEntityGeneratorSolar tileEntityNew)
+    public GuiGeneratorLunar(InventoryPlayer inventory, TileEntityGeneratorLunar tileEntityNew)
     {
-        super(new ContainerGeneratorSolar(inventory, tileEntityNew));
+        super(new ContainerGeneratorLunar(inventory, tileEntityNew));
         tile = tileEntityNew;
         xSize = 105;
         ySize = 87;
@@ -36,7 +36,7 @@ public class GuiGeneratorSolar extends GuiContainer
         drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
         int percentage = (int) (52F * (1F - tile.getEnergyStored(EnumFacing.DOWN) / (float) tile.getMaxEnergyStored(EnumFacing.DOWN)));
         drawTexturedModalRect(guiLeft + 68, guiTop + 19 + percentage, 106, 19 + percentage, 16, 52 - percentage);
-        drawTexturedModalRect(guiLeft + 18, guiTop + 18, tile.getGenerateAmount() > 0 ? 105 : 114, 71, 8, 8);
+        drawTexturedModalRect(guiLeft + 18, guiTop + 18, tile.shouldGenerate() ? 105 : 114, 71, 8, 8);
     }
 
     @Override

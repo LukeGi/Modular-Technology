@@ -1,4 +1,4 @@
-package blep.modtech.machine.farm;
+package blep.modtech.machine;
 
 import blep.modtech.machine.farm.cobblestone.ContainerCobbleFarm;
 import blep.modtech.machine.farm.cobblestone.GuiCobbleFarm;
@@ -6,9 +6,14 @@ import blep.modtech.machine.farm.cobblestone.TileEntityCobbleFarm;
 import blep.modtech.machine.farm.treefarm.ContainerTreeFarm;
 import blep.modtech.machine.farm.treefarm.GuiTreeFarm;
 import blep.modtech.machine.farm.treefarm.TileEntityTreeFarm;
+import blep.modtech.machine.generator.lunar.ContainerGeneratorLunar;
+import blep.modtech.machine.generator.lunar.GuiGeneratorLunar;
+import blep.modtech.machine.generator.lunar.TileEntityGeneratorLunar;
 import blep.modtech.machine.generator.solar.ContainerGeneratorSolar;
 import blep.modtech.machine.generator.solar.GuiGeneratorSolar;
 import blep.modtech.machine.generator.solar.TileEntityGeneratorSolar;
+import blep.modtech.machine.generator.solarHybrid.ContainerGeneratorSolarLunarHybrid;
+import blep.modtech.machine.generator.solarHybrid.TileEntityGeneratorSolarLunarHybrid;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +30,8 @@ public class GuiHandlerModTech implements IGuiHandler
     public static final int GUIID_COBBLEFARM = 1;
     // GENERATORS RESERVE 20 - 39
     public static final int GUIID_SOLARGEN = 20;
+    public static final int GUIID_LUNARGEN = 21;
+    public static final int GUIID_SONARGEN = 22;
 
     public static GuiHandlerModTech INSTANCE = new GuiHandlerModTech();
 
@@ -59,6 +66,18 @@ public class GuiHandlerModTech implements IGuiHandler
                     TileEntityGeneratorSolar tileEntityNew = (TileEntityGeneratorSolar) tileEntity;
                     return new ContainerGeneratorSolar(player.inventory, tileEntityNew);
                 }
+            case GUIID_LUNARGEN:
+                if (tileEntity instanceof TileEntityGeneratorLunar)
+                {
+                    TileEntityGeneratorLunar tileEntityNew = (TileEntityGeneratorLunar) tileEntity;
+                    return new ContainerGeneratorLunar(player.inventory, tileEntityNew);
+                }
+            case GUIID_SONARGEN:
+                if (tileEntity instanceof TileEntityGeneratorSolarLunarHybrid)
+                {
+                    TileEntityGeneratorSolarLunarHybrid tileEntityNew = (TileEntityGeneratorSolarLunarHybrid) tileEntity;
+                    return new ContainerGeneratorSolarLunarHybrid(player.inventory, tileEntityNew);
+                }
         }
         return null;
     }
@@ -87,6 +106,18 @@ public class GuiHandlerModTech implements IGuiHandler
                 {
                     TileEntityGeneratorSolar tileEntityNew = (TileEntityGeneratorSolar) tileEntity;
                     return new GuiGeneratorSolar(player.inventory, tileEntityNew);
+                }
+            case GUIID_LUNARGEN:
+                if (tileEntity instanceof TileEntityGeneratorLunar)
+                {
+                    TileEntityGeneratorLunar tileEntityNew = (TileEntityGeneratorLunar) tileEntity;
+                    return new GuiGeneratorLunar(player.inventory, tileEntityNew);
+                }
+            case GUIID_SONARGEN:
+                if (tileEntity instanceof TileEntityGeneratorSolarLunarHybrid)
+                {
+                    TileEntityGeneratorSolarLunarHybrid tileEntityNew = (TileEntityGeneratorSolarLunarHybrid) tileEntity;
+                    return new GuiGeneratorSolarLunarHybrid(player.inventory, tileEntityNew);
                 }
         }
         return null;

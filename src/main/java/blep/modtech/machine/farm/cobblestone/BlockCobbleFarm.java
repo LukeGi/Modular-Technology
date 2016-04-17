@@ -5,7 +5,7 @@ import blep.modtech.block.BlockMod;
 import blep.modtech.block.ModtechBlocks;
 import blep.modtech.core.IRecipeProvider;
 import blep.modtech.core.IRegisterTileEntity;
-import blep.modtech.machine.farm.GuiHandlerModTech;
+import blep.modtech.machine.GuiHandlerModTech;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

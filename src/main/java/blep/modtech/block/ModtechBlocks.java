@@ -6,7 +6,9 @@ import blep.modtech.core.IRegisterTileEntity;
 import blep.modtech.machine.cable.BlockPowerCable;
 import blep.modtech.machine.farm.cobblestone.BlockCobbleFarm;
 import blep.modtech.machine.farm.treefarm.BlockTreeFarm;
+import blep.modtech.machine.generator.lunar.BlockGeneratorLunar;
 import blep.modtech.machine.generator.solar.BlockGeneratorSolar;
+import blep.modtech.machine.generator.solarHybrid.BlockGeneratorSolarLunarHybrid;
 import blep.modtech.reference.ModInfo;
 import blep.modtech.reference.BlockNames;
 import blep.modtech.util.LogHelper;
@@ -25,6 +27,8 @@ public enum ModtechBlocks
     MODULAR_STORAGE(BlockNames.MODULAR_STORAGE, BlockModularStorage.create()),
     COBBLE_GENERATOR(BlockNames.COBBLEGEN, BlockCobbleFarm.create()),
     SOLAR_GENERATOR(BlockNames.GENERATOR_SOLAR, BlockGeneratorSolar.create()),
+    LUNAR_GENERATOR(BlockNames.GENERATOR_LUNAR, new BlockGeneratorLunar()),
+    SL_HYBRID_GENERATOR(BlockNames.GENERATOR_SOLAR_LUNAR_HYBRID, new BlockGeneratorSolarLunarHybrid()),
     POWERCABLE(BlockNames.CABLE, new BlockPowerCable());
 
     private static boolean registeredBlock;

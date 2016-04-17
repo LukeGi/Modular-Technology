@@ -4,7 +4,7 @@ import blep.modtech.ModTech;
 import blep.modtech.block.ModtechBlocks;
 import blep.modtech.config.ConfigHandler;
 import blep.modtech.creativetab.ModTechCreativeTabs;
-import blep.modtech.machine.farm.GuiHandlerModTech;
+import blep.modtech.machine.GuiHandlerModTech;
 import blep.modtech.item.ModtechItems;
 import blep.modtech.network.ModteckPacketHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;

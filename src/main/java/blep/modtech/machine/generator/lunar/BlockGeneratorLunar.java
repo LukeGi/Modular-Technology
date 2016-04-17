@@ -1,4 +1,4 @@
-package blep.modtech.machine.generator.solar;
+package blep.modtech.machine.generator.lunar;
 
 import blep.modtech.ModTech;
 import blep.modtech.machine.GuiHandlerModTech;
@@ -12,32 +12,23 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 /**
  * Created by Blue <boo122333@gmail.com>.
  */
-public class BlockGeneratorSolar extends BlockGenerator
+public class BlockGeneratorLunar extends BlockGenerator
 {
-    private BlockGeneratorSolar()
-    {
-    }
-
     @Override
     protected void openGui(World world, EntityPlayer player, BlockPos pos)
     {
         player.openGui(ModTech.INSTANCE, GuiHandlerModTech.GUIID_SOLARGEN, world, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    public static BlockGeneratorSolar create()
-    {
-        return new BlockGeneratorSolar();
-    }
-
     @Override
     public void registerTileEntity()
     {
-        GameRegistry.registerTileEntity(TileEntityGeneratorSolar.class, getUnlocalizedName());
+        GameRegistry.registerTileEntity(TileEntityGeneratorLunar.class, getUnlocalizedName());
     }
 
     @Override
     public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        return TileEntityGeneratorSolar.create();
+        return new TileEntityGeneratorLunar();
     }
 }

@@ -2,7 +2,7 @@ package blep.modtech.machine.farm.treefarm;
 
 import blep.modtech.ModTech;
 import blep.modtech.block.BlockMod;
-import blep.modtech.machine.farm.GuiHandlerModTech;
+import blep.modtech.machine.GuiHandlerModTech;
 import blep.modtech.core.IRegisterTileEntity;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;

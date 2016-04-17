@@ -6,6 +6,7 @@ import cofh.api.energy.IEnergyReceiver;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.text.ITextComponent;
 
 /**
  * Created by Blue <boo122333@gmail.com>.
@@ -82,4 +83,6 @@ public abstract class TileEntityGeneratorBase extends TileEntity implements ITic
     {
         return true;
     }
+
+    public abstract ITextComponent getDisplayName();
 }
