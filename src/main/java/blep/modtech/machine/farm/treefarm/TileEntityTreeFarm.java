@@ -34,17 +34,17 @@ import java.util.List;
  */
 public class TileEntityTreeFarm extends TileEntityBaseGui implements ITickable, IEnergyReceiver
 {
-    final int radius;
-    boolean shouldWork = true;
-    int scanx, scanz;
-    EnergyStorage energy = new EnergyStorage(100000);
-    ItemStackHandler inventory = new ItemStackHandler(3 * 9);
+    private final int radius;
+    private boolean shouldWork = true;
+    private int scanx, scanz;
+    private EnergyStorage energy = new EnergyStorage(100000);
+    private ItemStackHandler inventory = new ItemStackHandler(3 * 9);
     private IItemHandler itemHandler = new InvWrapper(this);
     private List<BlockPos> queue;
 
     public TileEntityTreeFarm(int radius)
     {
-        queue = new ArrayQueue<>(1000);
+        queue = new ArrayQueue<>(2 << 12);
         this.radius = radius;
     }
 
